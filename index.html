@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YX클랜 게시판</title>
+  <!-- Google AdSense 코드 -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221"
+     crossorigin="anonymous"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+    :root {
+      --primary-color: #00A2FF;
+      --secondary-color: #FF6B6B;
+      --background-color: #1a1a1a;
+      --text-color: #ffffff;
+      --border-color: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --hover-color: #008AE6;
+      --roblox-green: #57FF57;
+      --roblox-red: #FF3B3B;
+      --gradient-blue: linear-gradient(
+        45deg,
+        #00A2FF,
+        #0066FF,
+        #00A2FF
+      );
+      --gradient-rainbow: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff9a00,
+        #d0de21,
+        #4fdc4a,
+        #3fdad8,
+        #2fc9e2,
+        #1c7fee,
+        #5f15f2,
+        #ba0cf8,
+        #fb07d9
+      );
+      --gradient-neon: linear-gradient(
+        135deg,
+        #ff00ff,
+        #00ffff,
+        #ff00ff
+      );
+      --gradient-gold: linear-gradient(
+        45deg,
+        #FFD700,
+        #FFA500,
+        #FF8C00,
+        #FFD700
+      );
+      --gradient-header: linear-gradient(
+        135deg,
+        #0052D4,
+        #4364F7,
+        #00A2FF
+      );
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--gradient-header);
+      background-size: 400% 400%;
+      animation: headerGradient 15s ease infinite;
+      color: rgb(255, 255, 255);
+      padding: 2.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 162, 255, 0.5);
+      margin-bottom: 2rem;
+      border-bottom: 4px solid rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes headerGradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    header h1 {
+      margin: 0;
+      font-weight: 900;
+      font-size: 2.5rem;
+      background: linear-gradient(to right, #ffffff, #E0E0E0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(0, 162, 255, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      animation: glowBlue 2s ease-in-out infinite;
+    }
+
+    @keyframes glowBlue {
+      0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(0, 162, 255, 0.8));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(0, 162, 255, 1));
+      }
+    }
+
+    button {
+      padding: 1rem 1.8rem;
+      margin: 0.7rem 0;
+      border: 4px solid transparent;
+      border-radius: 8px;
+      background: rgb(92, 92, 92);
+      color: rgb(255, 255, 255);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      position: relative;
+      background-clip: padding-box;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      bottom: -4px;
+      left: -4px;
+      z-index: -1;
+      border-radius: 12px;
+      background: var(--gradient-blue);
+      background-size: 200% 200%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    button:hover::before {
+      opacity: 1;
+      animation: blueShift 3s ease infinite;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 162, 255, 0.3);
+    }
+
+    button:active {
+      transform: translateY(2px);
+    }
+
+    .youtube-button {
+      background: #ff0000;
+      color: rgb(255, 255, 255);
+    }
+
+    .discord-button {
+      background: #7289DA;
+      color: rgb(255, 255, 255);
+    }
+
+    .like-button {
+      background: #ff4757;
+      color: rgb(255, 255, 255);
+    }
+
+    .edit-button {
+      background: #2ed573;
+      color: rgb(255, 255, 255);
+    }
+
+    .delete-button {
+      background: #ff6b6b;
+      color: rgb(255, 255, 255);
+    }
+
+    .admin-button {
+      background: #ffa502;
+      color: rgb(255, 255, 255);
+    }
+
+    .search-button {
+      background: #1e90ff;
+      color: rgb(255, 255, 255);
+    }
+
+    @keyframes blueShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    main {
+      max-width: 1200px; /* 넓은 화면에서 더 많은 공간 사용 */
+      margin: 2rem auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2.5rem;
+      box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.37);
+      border-radius: 12px;
+      border: 1px solid rgb(255, 255, 255);
+      backdrop-filter: blur(4px);
+    }
+
+    input, textarea, .species-select {
+      width: 100%;
+      padding: 1rem;
+      margin: 0.7rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.05);
+      color: rgb(255, 255, 255);
+      font-weight: 500;
+      box-shadow: 
+        0 2px 0 rgba(0, 0, 0, 0.1),
+        0 0 10px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+    }
+
+    input:focus, textarea:focus, .species-select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 
+        0 0 0 4px rgba(0, 162, 255, 0.2),
+        0 0 20px rgba(0, 162, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    #postList div {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem; /* 게시글 간 간격 조정 */
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 
+        0 4px 0 rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+    }
+
+    #postList div:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary-color);
+      box-shadow: 
+        0 8px 0 rgba(0, 0, 0, 0.1),
+        0 0 30px rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    #postList div strong {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    #postList div small {
+      color: #666;
+    }
+
+    #postDetail {
+      display: none;
+      margin-top: 2.5rem; /* 디테일 뷰 상단 간격 조정 */
+      border-top: 2px solid var(--border-color);
+      padding-top: 1.5rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #detailTitle {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+
+    #detailAuthor {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.5rem 1rem;
+      background-color: var(--background-color);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    #detailContent {
+      line-height: 1.8;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background-color: var(--background-color);
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+    }
+
+    .comment-section {
+      margin-top: 3.5rem; /* 댓글 섹션 상단 간격 조정 */
+      padding-top: 2rem;
+      border-top: 2px solid var(--border-color);
+    }
+
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .comment {
+      background-color: var(--background-color);
+      margin: 1rem 0;
+      padding: 1.2rem;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .comment-text {
+      line-height: 1.6;
+    }
+
+    .comment-meta {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    #newComment {
+      margin-top: 1.5rem;
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    #postForm {
+      background-color: rgb(92, 92, 92);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 3px solid var(--border-color); /* 테두리 두께 조정 */
+      margin-bottom: 3rem; /* 게시글 폼 하단 간격 조정 */
+      box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+    #postForm h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    #postForm h2::before {
+      content: "✏️";
+    }
+
+    .post-type-select {
+      width: 100%;
+      padding: 1rem;
+      margin: 0.7rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: rgb(255, 255, 255);
+      backdrop-filter: blur(4px);
+    }
+
+    .post-type-select option {
+      background: rgb(92, 92, 92);
+      color: white;
+    }
+
+    .post-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    .post-badge.notice {
+      background: #ff4757;
+      color: white;
+    }
+
+    .post-badge.general {
+      background: #1e90ff;
+      color: white;
+    }
+
+    .post-badge.info {
+      background: #2ed573;
+      color: white;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      padding: 0.5rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .post-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 1rem;
+    }
+
+    .share-button {
+      background: #1e90ff;
+      color: white;
+    }
+
+    .report-button {
+      background: #ff4757;
+      color: white;
+    }
+
+    .views-count {
+      color: rgb(200, 200, 200);
+    }
+
+    #reportModal .modal-content {
+      background: rgb(92, 92, 92);
+      padding: 2rem;
+      border-radius: 12px;
+    }
+
+    #reportModal textarea {
+      width: 100%;
+      min-height: 100px;
+      margin: 1rem 0;
+    }
+
+    #userArea {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 2rem; /* 사용자 영역 패딩 조정 */
+      border-radius: 16px;
+      margin-bottom: 3rem; /* 사용자 영역 하단 간격 조정 */
+      color: rgb(95, 95, 95);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+    #userInfo {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    #userArea button {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    #userArea button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal {
+      background-color: rgb(99, 99, 99);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 
+        0 8px 0 rgba(0, 0, 0, 0.1),
+        0 0 0 4px rgba(0, 0, 0, 0.05) inset;
+      width: 90%;
+      max-width: 500px;
+      transform: scale(0.9);
+      opacity: 0;
+      animation: modalAppear 0.3s ease forwards;
+      border: 4px solid var(--primary-color);
+    }
+
+    @keyframes modalAppear {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal h2 {
+      margin-top: 0;
+      color: var(--text-color);
+      font-size: 1.8rem;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 4px 0 rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+      max-width: 400px;
+      border-radius: 8px;
+    }
+
+    .notification-icon {
+      font-size: 1.5rem;
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .notification-message {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    .admin-badge {
+      background: var(--gradient-gold);
+      background-size: 200% 200%;
+      color: rgb(87, 87, 87);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      margin-left: 8px;
+      text-transform: uppercase;
+      box-shadow: 
+        0 2px 0 rgba(0, 0, 0, 0.3),
+        0 0 10px rgba(255, 215, 0, 0.5);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      animation: goldShift 3s ease infinite;
+    }
+
+    @keyframes goldShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .admin-panel {
+      background: rgb(114, 114, 114);
+      padding: 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+    .admin-panel h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      color: #ff6b6b;
+    }
+
+    .admin-panel h2::before {
+      content: "👑";
+    }
+
+    .user-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .user-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--background-color);
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .admin-button {
+      background-color: #ff6b6b;
+    }
+
+    .admin-button:hover {
+      background-color: #ff5252;
+    }
+
+    /* 모던한 버튼 스타일 */
+    .modern-button {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      color: rgb(90, 90, 90);
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    /* 애니메이션 효과 */
+    .fade-slide-in {
+      animation: fadeSlideIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .admin-dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 카드 최소 너비 조정 */
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 
+        0 6px 0 rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+      border-radius: 12px;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-color);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--primary-color);
+      margin: 1rem 0;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+      background: var(--gradient-neon);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(92, 92, 92, 0.8));
+      }
+    }
+
+    .stat-chart {
+      height: 200px;
+      background-color: #5f5f5f;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .report-list {
+      max-height: 250px; /* 신고 목록 최대 높이 조정 */
+      overflow-y: auto;
+    }
+
+    .report-badge {
+      background: #ff4757;
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    #reportModal .modal {
+      max-width: 500px;
+      width: 90%;
+    }
+
+    #reportModal textarea {
+      width: 100%;
+      min-height: 100px;
+      margin: 1rem 0;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      resize: vertical;
+    }
+
+    #reportModal .modal-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1rem;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .report-button {
+      background: #ff4757;
+      color: white;
+    }
+
+    .report-button:hover {
+      background: #ff6b6b;
+    }
+
+    /* 새로운 스타일 추가: 게시글 목록과 상세 정보를 담을 컨테이너 */
+    .post-container {
+      display: flex;
+      gap: 2rem; /* 목록과 상세 정보 사이 간격 */
+      flex-wrap: wrap; /* 화면이 좁아지면 줄바꿈 */
+    }
+
+    #postList {
+      flex: 1; /* 남은 공간을 채우도록 설정 */
+      min-width: 300px; /* 최소 너비 설정 */
+    }
+
+    #postDetail {
+      flex: 2; /* 목록보다 더 많은 공간 사용 */
+      min-width: 400px; /* 최소 너비 설정 */
+      display: none; /* 초기에는 숨김 */
+      margin-top: 0; /* Flexbox 컨테이너 내에서는 margin-top 불필요 */
+      border-top: none; /* Flexbox 컨테이너 내에서는 border-top 불필요 */
+      padding-top: 0; /* Flexbox 컨테이너 내에서는 padding-top 불필요 */
+      border-left: 2px solid var(--border-color); /* 왼쪽에 구분선 추가 */
+      padding-left: 2rem; /* 구분선과 내용 사이 간격 */
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* 작은 화면에서는 세로로 배치 */
+    @media (max-width: 768px) {
+      .post-container {
+        flex-direction: column; /* 세로로 재배치 */
+      }
+
+      #postList,
+      #postDetail {
+        flex: none; /* Flex 속성 해제 */
+        width: 100%; /* 너비 전체 사용 */
+        min-width: unset; /* 최소 너비 해제 */
+      }
+
+      #postDetail {
+        margin-top: 2rem; /* 다시 상단 마진 추가 */
+        border-top: 2px solid var(--border-color); /* 다시 상단 구분선 추가 */
+        padding-top: 1.5rem; /* 다시 상단 패딩 추가 */
+        border-left: none; /* 왼쪽 구분선 제거 */
+        padding-left: 0; /* 왼쪽 패딩 제거 */
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>YX클랜 커뮤니티</h1>
+  </header>
+
+  <main>
+    <div id="authForm">
+        <input type="text" id="username" placeholder="이름 (닉네임) 입력"><br>
+        <input type="email" id="email" placeholder="이메일 입력"><br>
+        <input type="password" id="password" placeholder="비밀번호 입력"><br>
+        <select id="species" class="species-select">
+          <option value="">종족을 선택하세요</option>
+          <option value="polar-bear">🐻‍❄️ 북극곰</option>
+          <option value="cat">🐱 고양이</option>
+          <option value="dinosaur">🦖 공룡</option>
+          <option value="pig">🐷 돼지</option>
+          <option value="fox">🦊 여우</option>
+          <option value="dog">🐶 강아지</option>
+          <option value="bird">🐦 새</option>
+          <option value="fish">🐟 물고기</option>
+          <option value="snake">🐍 도마뱀</option>
+          <option value="tiger">🐯 호랑이</option>
+          <option value="elephant">🐘 코끼리</option>
+          <option value="monkey">🐒 원숭이</option>
+          <option value="none">❌ 없음</option>
+        </select><br>
+        <button onclick="register()">회원가입</button>
+        <button onclick="login()">로그인</button>
+      </div>
+
+    <!-- 상단 광고 -->
+    <div class="ad-container" style="margin: 20px 0; text-align: center;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-9686733290484221"
+           data-ad-slot="XXXXXXXXXX"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <div id="userArea" style="display:none;">
+      <p id="userInfo"></p>
+      <button onclick="logout()">로그아웃</button>
+    </div>
+
+    <!-- 게시글 목록과 상세보기 사이 광고 -->
+    <div class="ad-container" style="margin: 20px 0; text-align: center;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-9686733290484221"
+           data-ad-slot="XXXXXXXXXX"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <div id="postForm" style="display:none;">
+      <h2>게시글 작성</h2>
+      <select id="postType" class="post-type-select">
+        <option value="general">일반 게시글</option>
+        <option value="info">정보 게시글</option>
+        <option value="notice">공지사항</option>
+      </select>
+      <input type="text" id="title" placeholder="제목"><br>
+      <textarea id="content" rows="4" placeholder="내용을 입력하세요"></textarea><br>
+      <button onclick="submitPost()">작성 완료</button>
+    </div>
+
+    <div id="postList">
+      <h2>📄 게시글 목록</h2>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="게시글 검색...">
+        <button onclick="searchPosts()">검색</button>
+      </div>
+      <div class="sort-buttons">
+        <button onclick="sortPosts('latest')">최신순</button>
+        <button onclick="sortPosts('likes')">인기순</button>
+      </div>
+    </div>
+
+    <div id="postDetail">
+      <h3 id="detailTitle"></h3>
+      <div id="detailAuthor"></div>
+      <div id="detailContent"></div>
+      <div class="post-meta">
+        <span class="like-count">❤️ <span id="likeCount">0</span></span>
+        <span id="detailDate"></span>
+      </div>
+      <div class="post-actions" style="margin-bottom: 1.5rem;">
+        <button class="like-button" onclick="toggleLike()">
+          좋아요
+        </button>
+        <button class="edit-button" onclick="editPost()" style="display: none;">수정</button>
+        <button class="delete-button" onclick="deletePost()" style="display: none;">삭제</button>
+      </div>
+      
+      <div class="comment-section">
+        <div class="comment-header">
+          <span>💬</span>
+          <span>댓글</span>
+        </div>
+        <div id="commentList"></div>
+        <textarea id="newComment" placeholder="댓글을 작성해주세요..." rows="3"></textarea>
+        <button onclick="submitComment()">댓글 작성</button>
+      </div>
+    </div>
+
+    <div class="admin-dashboard">
+      <div class="dashboard-card">
+        <h3>총 사용자</h3>
+        <div class="stat-number" id="totalUsers">0</div>
+        <div class="stat-chart" id="userGrowthChart"></div>
+      </div>
+      
+      <div class="dashboard-card">
+        <h3>오늘의 활동</h3>
+        <div class="stat-number" id="todayPosts">0</div>
+        <div class="stat-chart" id="activityChart"></div>
+      </div>
+      
+      <div class="dashboard-card">
+        <h3>신고된 콘텐츠</h3>
+        <div class="stat-number" id="reportedContent">0</div>
+        <div class="report-list" id="recentReports"></div>
+      </div>
+    </div>
+
+    <div class="social-buttons">
+      <button class="youtube-button" onclick="window.open('https://www.youtube.com/@티미월드', '_blank')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+        </svg>
+        유튜브 채널
+      </button>
+      <button class="discord-button" onclick="requestDiscordJoin()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.118.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.946 2.419-2.157 2.419z"/>
+        </svg>
+        디스코드 참여 요청
+      </button>
+    </div>
+
+    <!-- 디스코드 참여 요청 모달 -->
+    <div id="discordRequestModal" class="modal-overlay" style="display: none;">
+      <div class="modal">
+        <h2>디스코드 참여 요청</h2>
+        <p>아래 정보를 입력해주세요.</p>
+        <textarea id="requestReason" placeholder="참여하고 싶은 이유를 작성해주세요." rows="4"></textarea>
+        <input type="text" id="robloxNickname" placeholder="로블록스 닉네임">
+        <label for="isInClan">이미 다른 클랜에 소속되어 있나요?</label>
+        <select id="isInClan">
+          <option value="no">아니오</option>
+          <option value="yes">예</option>
+        </select>
+        <div class="modal-buttons">
+          <button onclick="submitDiscordRequest()">요청 제출</button>
+          <button onclick="closeDiscordRequestModal()" class="modern-button">취소</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="adminPanel" style="display: none;" class="admin-panel">
+      <h2>관리자 패널</h2>
+      <div class="admin-controls">
+        <button onclick="showUserList()" class="admin-button">사용자 관리</button>
+        <button onclick="showAllPosts()" class="admin-button">전체 게시글 관리</button>
+        <button onclick="showDiscordRequests()" class="admin-button">디스코드 참여 요청</button>
+      </div>
+      <div id="userList" class="user-list"></div>
+      <div id="discordRequests" class="user-list" style="display: none;"></div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCVciBor_0vj8NyuKJ080-HyfE-VRjam70",
+        authDomain: "yxclan-90b06.firebaseapp.com",
+        projectId: "yxclan-90b06",
+        storageBucket: "yxclan-90b06.appspot.com",
+        messagingSenderId: "291460759619",
+        appId: "1:291460759619:web:18bcecb89c3570e7d7d4f6",
+        measurementId: "G-QZ9JQRZ3CH"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      let currentPostId = null;
+      let currentPost = null;
+
+      // 관리자 UID 목록
+      const ADMIN_UIDS = [
+        'YbfIABREwDetVkK1umXq7bEozrS2',
+        '9IkE8eqj1zOgbKBqDEzsUv3N6Mq1',
+        'LdLWlqsy5Ievf074vKV6nSWDBan1',
+        'ADMIN_UID_4',
+        'ADMIN_UID_5'
+      ];
+
+      // 사용자가 관리자인지 확인하는 함수
+      function isAdmin(uid) {
+        return ADMIN_UIDS.includes(uid);
+      }
+
+      // Firebase 설정 후 바로 아래에 실시간 리스너 추가
+      let unsubscribePostsListener = null;
+
+      // 실시간 게시글 업데이트 리스너
+      function setupRealtimeListeners() {
+        if (unsubscribePostsListener) {
+          unsubscribePostsListener();
+        }
+
+        const postList = document.getElementById("postList");
+        postList.innerHTML = "<h2>📄 게시글 목록</h2>" +
+          '<div class="search-bar">' +
+          '<input type="text" id="searchInput" placeholder="게시글 검색...">' +
+          '<button onclick="searchPosts()">검색</button>' +
+          '</div>' +
+          '<div class="sort-buttons">' +
+          '<button onclick="sortPosts(\'latest\')">최신순</button>' +
+          '<button onclick="sortPosts(\'likes\')">인기순</button>' +
+          '</div>';
+
+        unsubscribePostsListener = db.collection("posts")
+          .orderBy("createdAt", "desc")
+          .onSnapshot((snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+              if (change.type === "added") {
+                const div = createPostElement(change.doc.id, change.doc.data());
+                postList.appendChild(div);
+              }
+              if (change.type === "modified") {
+                const existingPost = document.querySelector(`[data-post-id="${change.doc.id}"]`);
+                if (existingPost) {
+                  const newPost = createPostElement(change.doc.id, change.doc.data());
+                  existingPost.replaceWith(newPost);
+                }
+              }
+              if (change.type === "removed") {
+                const existingPost = document.querySelector(`[data-post-id="${change.doc.id}"]`);
+                if (existingPost) {
+                  existingPost.remove();
+                }
+              }
+            });
+          });
+      }
+
+      // 페이지 로드 시 실시간 리스너 설정
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          db.collection("users").doc(user.uid).get().then(doc => {
+            const name = doc.exists ? doc.data().name : user.email;
+            const species = doc.exists ? doc.data().species : null;
+            
+            if (!species) {
+              document.getElementById("speciesModal").style.display = "flex";
+            } else {
+              const speciesEmoji = getSpeciesEmoji(species);
+              let userInfo = `${speciesEmoji} ${name}님 환영합니다!`;
+              if (isAdmin(user.uid)) {
+                userInfo += '<span class="admin-badge">관리자</span>';
+                document.getElementById("adminPanel").style.display = "block";
+              }
+              document.getElementById("userInfo").innerHTML = userInfo;
+            }
+            
+            document.getElementById("authForm").style.display = "none";
+            document.getElementById("userArea").style.display = "block";
+            document.getElementById("postForm").style.display = "block";
+            updatePostTypeOptions();
+          });
+        } else {
+          document.getElementById("authForm").style.display = "block";
+          document.getElementById("userArea").style.display = "none";
+          document.getElementById("postForm").style.display = "none";
+          document.getElementById("speciesModal").style.display = "none";
+          document.getElementById("adminPanel").style.display = "none";
+        }
+        setupRealtimeListeners();
+      });
+
+      function register() {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const name = document.getElementById("username").value.trim();
+        const species = document.getElementById("species").value;
+        
+        if (!email || !password || !name || !species) {
+          return alert("이름, 이메일, 비밀번호, 종족을 모두 입력해주세요");
+        }
+        
+        auth.createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            return db.collection("users").doc(userCredential.user.uid).set({
+              name: name,
+              email: email,
+              species: species
+            });
+          })
+          .then(() => alert("회원가입 완료"))
+          .catch(error => alert("오류: " + error.message));
+      }
+
+      function login() {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        if (!email || !password) return alert("이메일과 비밀번호 입력 필수");
+        auth.signInWithEmailAndPassword(email, password)
+          .catch(error => alert("로그인 실패: " + error.message));
+      }
+
+      function logout() {
+        auth.signOut();
+      }
+
+      // 게시글 작성 함수
+      async function submitPost() {
+        const user = auth.currentUser;
+        if (!user) return alert("로그인이 필요합니다.");
+
+        // 차단된 사용자 확인
+        const userDoc = await db.collection("users").doc(user.uid).get();
+        if (userDoc.exists && userDoc.data().isBanned) {
+          return alert("차단된 사용자는 게시글을 작성할 수 없습니다.");
+        }
+
+        const title = document.getElementById("title").value.trim();
+        const content = document.getElementById("content").value.trim();
+        const postType = document.getElementById("postType").value;
+
+        if (!title || !content) return alert("제목과 내용을 입력하세요.");
+        
+        // 공지사항 권한 체크
+        if (postType === 'notice' && !isAdmin(user.uid)) {
+          return alert("공지사항은 관리자만 작성할 수 있습니다.");
+        }
+
+        db.collection("users").doc(user.uid).get().then(doc => {
+          const authorName = doc.exists ? doc.data().name : user.email;
+          db.collection("posts").add({
+            title,
+            content,
+            author: authorName,
+            authorId: user.uid,
+            createdAt: new Date(),
+            postType: postType,
+            views: 0,
+            likeCount: 0,
+            likes: {},
+            reports: [],
+            isReported: false
+          }).then(() => {
+            document.getElementById("title").value = "";
+            document.getElementById("content").value = "";
+            document.getElementById("postType").value = "general";
+            loadPosts();
+          });
+        });
+      }
+
+      function loadPosts() {
+        const user = auth.currentUser;
+        let query = db.collection("posts");
+
+        if (!isAdmin(user?.uid)) {
+          // 관리자가 아닌 경우 공지사항 제외
+          query = query.where("postType", "!=", "notice");
+        }
+
+        query.orderBy("createdAt", "desc")
+          .get()
+          .then((snapshot) => {
+            const postList = document.getElementById("postList");
+            postList.innerHTML = "<h2>📄 게시글 목록</h2>";
+            snapshot.forEach((doc) => {
+              const div = createPostElement(doc.id, doc.data());
+              postList.appendChild(div);
+            });
+          });
+      }
+
+      function showPostDetail(id) {
+        const postRef = db.collection("posts").doc(id);
+        postRef.get().then(doc => {
+          if (doc.exists) {
+            const data = doc.data();
+            document.getElementById("detailTitle").innerText = data.title;
+            document.getElementById("detailAuthor").innerText = `작성자: ${data.author}`;
+            document.getElementById("detailContent").innerText = data.content;
+            document.getElementById("detailDate").innerText = 
+              `작성일: ${data.createdAt ? data.createdAt.toDate().toLocaleString() : '날짜 없음'}`;
+            document.getElementById("likeCount").innerText = data.likeCount || 0;
+            document.getElementById("postDetail").style.display = "block";
+            
+            // 수정/삭제 버튼 표시 여부
+            const user = auth.currentUser;
+            const editButton = document.querySelector(".edit-button");
+            const deleteButton = document.querySelector(".delete-button");
+            if (user && (data.authorId === user.uid || isAdmin(user.uid))) {
+              editButton.style.display = "block";
+              deleteButton.style.display = "block";
+            } else {
+              editButton.style.display = "none";
+              deleteButton.style.display = "none";
+            }
+            
+            currentPostId = id;
+            currentPost = data;
+            loadComments(id);
+          }
+        });
+      }
+
+      function loadComments(postId) {
+        const commentList = document.getElementById("commentList");
+        commentList.innerHTML = "";
+        db.collection("posts").doc(postId).collection("comments")
+          .orderBy("createdAt", "desc")
+          .get().then(snapshot => {
+            snapshot.forEach(doc => {
+              const data = doc.data();
+              const div = document.createElement("div");
+              div.className = "comment";
+              const date = data.createdAt ? data.createdAt.toDate().toLocaleString() : '날짜 없음';
+              div.innerHTML = `
+                <div class="comment-author">${data.author}</div>
+                <div class="comment-text">${data.text}</div>
+                <div class="comment-meta">${date}</div>
+              `;
+              commentList.appendChild(div);
+            });
+          });
+      }
+
+      // 댓글 작성 함수
+      async function submitComment() {
+        const user = auth.currentUser;
+        if (!user) return alert("로그인이 필요합니다.");
+
+        // 차단된 사용자 확인
+        const userDoc = await db.collection("users").doc(user.uid).get();
+        if (userDoc.exists && userDoc.data().isBanned) {
+          return alert("차단된 사용자는 댓글을 작성할 수 없습니다.");
+        }
+
+        const text = document.getElementById("newComment").value.trim();
+        if (!text) return alert("댓글을 입력하세요.");
+        
+        db.collection("users").doc(user.uid).get().then(doc => {
+          const authorName = doc.exists ? doc.data().name : user.email;
+          db.collection("posts").doc(currentPostId).collection("comments").add({
+            text,
+            author: authorName,
+            authorId: user.uid,
+            createdAt: new Date()
+          }).then(() => {
+            document.getElementById("newComment").value = "";
+            loadComments(currentPostId);
+
+            // 게시글 작성자에게 댓글 알림
+            db.collection("posts").doc(currentPostId).get().then(postDoc => {
+              const postData = postDoc.data();
+              if (postData.authorId !== user.uid) {
+                showBrowserNotification(
+                  "새로운 댓글",
+                  `${authorName}님이 회원님의 게시글에 댓글을 남겼습니다.`
+                );
+                showNotification(
+                  "새로운 댓글",
+                  `${authorName}님이 회원님의 게시글에 댓글을 남겼습니다.`,
+                  "💬"
+                );
+              }
+            });
+          });
+        });
+      }
+
+      function searchPosts() {
+        const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        const postList = document.getElementById("postList");
+        postList.innerHTML = "<h2>📄 게시글 목록</h2>" +
+          '<div class="search-bar">' +
+          '<input type="text" id="searchInput" placeholder="게시글 검색...">' +
+          '<button onclick="searchPosts()">검색</button>' +
+          '</div>' +
+          '<div class="sort-buttons">' +
+          '<button onclick="sortPosts(\'latest\')">최신순</button>' +
+          '<button onclick="sortPosts(\'likes\')">인기순</button>' +
+          '</div>';
+      
+        db.collection("posts").get().then(snapshot => {
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.title.toLowerCase().includes(searchTerm) || 
+                data.content.toLowerCase().includes(searchTerm)) {
+              const div = createPostElement(doc.id, data);
+              postList.appendChild(div);
+            }
+          });
+        });
+      }
+      
+      function sortPosts(criteria) {
+        const postList = document.getElementById("postList");
+        postList.innerHTML = "<h2>📄 게시글 목록</h2>" +
+          '<div class="search-bar">' +
+          '<input type="text" id="searchInput" placeholder="게시글 검색...">' +
+          '<button onclick="searchPosts()">검색</button>' +
+          '</div>' +
+          '<div class="sort-buttons">' +
+          '<button onclick="sortPosts(\'latest\')">최신순</button>' +
+          '<button onclick="sortPosts(\'likes\')">인기순</button>' +
+          '</div>';
+      
+        let query = db.collection("posts");
+        if (criteria === 'latest') {
+          query = query.orderBy("createdAt", "desc");
+        } else if (criteria === 'likes') {
+          query = query.orderBy("likeCount", "desc");
+        }
+      
+        query.get().then(snapshot => {
+          snapshot.forEach(doc => {
+            const div = createPostElement(doc.id, doc.data());
+            postList.appendChild(div);
+          });
+        });
+      }
+      
+      function createPostElement(id, data) {
+        const div = document.createElement("div");
+        div.setAttribute('data-post-id', id);
+        const date = data.createdAt ? data.createdAt.toDate().toLocaleString() : '날짜 없음';
+        const likes = data.likeCount || 0;
+        const views = data.views || 0;
+        const reports = data.reports ? data.reports.length : 0;
+        
+        const postTypeBadge = `<span class="post-badge ${data.postType}">${
+          data.postType === 'notice' ? '공지' :
+          data.postType === 'info' ? '정보' : '일반'
+        }</span>`;
+
+        div.innerHTML = `
+          <div class="post-header" onclick="showPostDetail('${id}')">
+            ${postTypeBadge}
+            <strong>${data.title}</strong>
+          </div>
+          <div class="post-meta">
+            <span class="views-count">👁️ ${views}</span>
+            <span>❤️ ${likes}</span>
+            <span>📅 ${date}</span>
+            ${data.isReported ? '<span class="report-badge">신고됨</span>' : ''}
+          </div>
+          <div class="post-actions">
+            <button class="report-button" onclick="event.stopPropagation(); showReportModal('${id}')">신고</button>
+          </div>
+        `;
+
+        // 게시글 클릭 이벤트
+        div.querySelector('.post-header').addEventListener('click', () => {
+          incrementViews(id);
+          showPostDetail(id, data);
+        });
+        
+        return div;
+      }
+
+      function incrementViews(postId) {
+        const postRef = db.collection("posts").doc(postId);
+        postRef.update({
+          views: firebase.firestore.FieldValue.increment(1)
+        });
+      }
+
+      function toggleLike() {
+        const user = auth.currentUser;
+        if (!user) return alert("로그인이 필요합니다.");
+        
+        const postRef = db.collection("posts").doc(currentPostId);
+        
+        db.runTransaction(transaction => {
+          return transaction.get(postRef).then(doc => {
+            if (!doc.exists) return;
+            
+            const data = doc.data();
+            const likes = data.likes || {};
+            const likeCount = data.likeCount || 0;
+            
+            if (likes[user.uid]) {
+              delete likes[user.uid];
+              transaction.update(postRef, {
+                likes,
+                likeCount: likeCount - 1
+              });
+            } else {
+              likes[user.uid] = true;
+              transaction.update(postRef, {
+                likes,
+                likeCount: likeCount + 1
+              });
+
+              // 게시글 작성자에게 좋아요 알림
+              if (data.authorId !== user.uid) {
+                db.collection("users").doc(user.uid).get().then(userDoc => {
+                  const userName = userDoc.data().name;
+                  showBrowserNotification(
+                    "새로운 좋아요",
+                    `${userName}님이 회원님의 게시글을 좋아합니다.`
+                  );
+                  showNotification(
+                    "새로운 좋아요",
+                    `${userName}님이 회원님의 게시글을 좋아합니다.`,
+                    "❤️"
+                  );
+                });
+              }
+            }
+          });
+        }).then(() => {
+          loadPosts();
+          postRef.get().then(doc => {
+            if (doc.exists) {
+              showPostDetail(currentPostId, doc.data());
+            }
+          });
+        });
+      }
+      
+      function editPost() {
+        const user = auth.currentUser;
+        if (!user || currentPost.authorId !== user.uid) return;
+        
+        const newTitle = prompt("수정할 제목:", currentPost.title);
+        const newContent = prompt("수정할 내용:", currentPost.content);
+        
+        if (newTitle && newContent) {
+          db.collection("posts").doc(currentPostId).update({
+            title: newTitle,
+            content: newContent,
+            updatedAt: new Date()
+          }).then(() => {
+            alert("게시글이 수정되었습니다.");
+            loadPosts();
+            db.collection("posts").doc(currentPostId).get().then(doc => {
+              if (doc.exists) {
+                showPostDetail(currentPostId, doc.data());
+              }
+            });
+          });
+        }
+      }
+      
+      function deletePost() {
+        const user = auth.currentUser;
+        if (!user || currentPost.authorId !== user.uid) return;
+        
+        if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+          db.collection("posts").doc(currentPostId).delete().then(() => {
+            alert("게시글이 삭제되었습니다.");
+            document.getElementById("postDetail").style.display = "none";
+            loadPosts();
+          });
+        }
+      }
+
+      function getSpeciesEmoji(species) {
+        const emojiMap = {
+          'polar-bear': '🐻‍❄️',
+          'cat': '🐱',
+          'dinosaur': '🦖',
+          'pig': '🐷',
+          'fox': '🦊',
+          'dog': '🐶',
+          'bird': '🐦',
+          'fish': '🐟',
+          'snake': '🐍',
+          'tiger': '🐯',
+          'elephant': '🐘',
+          'monkey': '🐒',
+          'none': ''
+        };
+        return emojiMap[species] || '';
+      }
+
+      function saveSpecies() {
+        const species = document.getElementById("speciesModalSelect").value;
+        if (!species) {
+          alert("종족을 선택해주세요!");
+          return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) return;
+
+        db.collection("users").doc(user.uid).get().then(doc => {
+          const userData = doc.exists ? doc.data() : {};
+          return db.collection("users").doc(user.uid).set({
+            ...userData,
+            species: species
+          });
+        }).then(() => {
+          document.getElementById("speciesModal").style.display = "none";
+          // 사용자 정보 업데이트
+          db.collection("users").doc(user.uid).get().then(doc => {
+            const name = doc.data().name || user.email;
+            const speciesEmoji = getSpeciesEmoji(species);
+            document.getElementById("userInfo").innerText = `${speciesEmoji} ${name}님 환영합니다!`;
+          });
+        }).catch(error => {
+          alert("오류가 발생했습니다: " + error.message);
+        });
+      }
+
+      // 알림 권한 요청 함수
+      async function requestNotificationPermission() {
+        if (!("Notification" in window)) {
+          console.log("이 브라우저는 알림을 지원하지 않습니다.");
+          return;
+        }
+
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            showNotification("알림 설정 완료", "앞으로 새로운 소식을 알려드리겠습니다!");
+          }
+        } catch (error) {
+          console.error("알림 권한 요청 중 오류:", error);
+        }
+      }
+
+      // 브라우저 알림 표시 함수
+      function showBrowserNotification(title, body) {
+        if (Notification.permission === "granted") {
+          new Notification(title, {
+            body: body,
+            icon: "https://www.google.com/favicon.ico" // 여기에 실제 사이트 아이콘 URL을 넣으세요
+          });
+        }
+      }
+
+      // 인앱 알림 표시 함수
+      function showNotification(title, message, icon = "💬") {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.innerHTML = `
+          <div class="notification-icon">${icon}</div>
+          <div class="notification-content">
+            <div class="notification-title">${title}</div>
+            <div class="notification-message">${message}</div>
+          </div>
+        `;
+        document.body.appendChild(notification);
+
+        // 3초 후 알림 제거
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
+
+      // 페이지 로드 시 알림 권한 요청
+      window.addEventListener('load', () => {
+        requestNotificationPermission();
+      });
+
+      // 사용자 목록 표시 함수
+      async function showUserList() {
+        const userList = document.getElementById("userList");
+        userList.innerHTML = "<h3>사용자 목록</h3>";
+        
+        const snapshot = await db.collection("users").get();
+        snapshot.forEach(doc => {
+          const userData = doc.data();
+          const userDiv = document.createElement("div");
+          userDiv.className = "user-item";
+          
+          const speciesEmoji = getSpeciesEmoji(userData.species || 'none');
+          userDiv.innerHTML = `
+            <div class="user-info">
+              <span>${speciesEmoji}</span>
+              <span>${userData.name || doc.id}</span>
+              <span>${userData.email}</span>
+            </div>
+            <div class="user-actions">
+              <button onclick="toggleUserBan('${doc.id}')" class="admin-button">
+                ${userData.isBanned ? '차단 해제' : '차단'}
+              </button>
+              <button onclick="deleteUser('${doc.id}')" class="admin-button">계정 삭제</button>
+            </div>
+          `;
+          userList.appendChild(userDiv);
+        });
+      }
+
+      // 전체 게시글 관리 함수
+      async function showAllPosts() {
+        const posts = await db.collection("posts").get();
+        const postList = document.getElementById("postList");
+        postList.innerHTML = "<h2>📄 전체 게시글 관리</h2>";
+        
+        posts.forEach(doc => {
+          const data = doc.data();
+          const div = createPostElement(doc.id, data, true);
+          postList.appendChild(div);
+        });
+      }
+
+      // 사용자 차단/해제 함수
+      async function toggleUserBan(uid) {
+        const userRef = db.collection("users").doc(uid);
+        const doc = await userRef.get();
+        const userData = doc.data();
+        
+        await userRef.update({
+          isBanned: !userData.isBanned
+        });
+        
+        showNotification(
+          "사용자 상태 변경",
+          `${userData.name}님을 ${userData.isBanned ? '차단 해제' : '차단'}했습니다.`,
+          "🔒"
+        );
+        
+        showUserList();
+      }
+
+      // 사용자 삭제 함수
+      async function deleteUser(uid) {
+        if (!confirm("정말로 이 사용자를 삭제하시겠습니까?")) return;
+        
+        try {
+          // 사용자의 게시글 삭제
+          const posts = await db.collection("posts")
+            .where("authorId", "==", uid)
+            .get();
+          
+          posts.forEach(async (doc) => {
+            await db.collection("posts").doc(doc.id).delete();
+          });
+          
+          // 사용자 정보 삭제
+          await db.collection("users").doc(uid).delete();
+          
+          showNotification(
+            "사용자 삭제",
+            "사용자와 관련된 모든 데이터가 삭제되었습니다.",
+            "🗑️"
+          );
+          
+          showUserList();
+        } catch (error) {
+          console.error("사용자 삭제 중 오류:", error);
+          showNotification(
+            "오류 발생",
+            "사용자 삭제 중 문제가 발생했습니다.",
+            "⚠️"
+          );
+        }
+      }
+
+      // 대시보드 통계 업데이트
+      async function updateDashboardStats() {
+          const stats = {
+              totalUsers: await getTotalUsers(),
+              newPosts: await getTodaysPosts(),
+              activeUsers: await getActiveUsers(),
+              bannedUsers: await getBannedUsers()
+          };
+          
+          updateDashboardUI(stats);
+      }
+
+      // 고급 사용자 관리
+      async function manageUserRole(uid, role) {
+          await db.collection('users').doc(uid).update({
+              role: role,
+              updatedAt: new Date(),
+              updatedBy: auth.currentUser.uid
+          });
+          
+          showNotification('역할 변경', `사용자 역할이 ${role}로 변경되었습니다.`);
+      }
+
+      // 임시 차단 기능
+      async function temporaryBanUser(uid, days) {
+          const banEndDate = new Date();
+          banEndDate.setDate(banEndDate.getDate() + days);
+          
+          await db.collection('users').doc(uid).update({
+              isBanned: true,
+              banEndDate: banEndDate,
+              banReason: document.getElementById('banReason').value
+          });
+      }
+
+      // 활동 로그 기록
+      function logAdminAction(action, details) {
+          return db.collection('adminLogs').add({
+              action,
+              details,
+              adminId: auth.currentUser.uid,
+              timestamp: new Date()
+          });
+      }
+
+      let currentReportPostId = null;
+
+      function showReportModal(postId) {
+        event.stopPropagation(); // 이벤트 버블링 방지
+        const user = auth.currentUser;
+        if (!user) {
+          alert("신고하려면 로그인이 필요합니다.");
+          return;
+        }
+
+        currentReportPostId = postId;
+        document.getElementById('reportModal').style.display = 'flex';
+        document.getElementById('reportDetail').value = '';
+        document.getElementById('reportReason').value = 'spam';
+      }
+
+      function closeReportModal() {
+        document.getElementById('reportModal').style.display = 'none';
+        currentReportPostId = null;
+      }
+
+      async function submitReport() {
+        if (!currentReportPostId) return;
+
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const reason = document.getElementById('reportReason').value;
+        const detail = document.getElementById('reportDetail').value.trim();
+
+        if (!detail) {
+          alert("상세 사유를 입력해주세요.");
+          return;
+        }
+
+        const report = {
+          userId: user.uid,
+          userName: user.displayName || user.email,
+          reason: reason,
+          detail: detail,
+          timestamp: new Date()
+        };
+
+        try {
+          await db.collection("posts").doc(currentReportPostId).update({
+            reports: firebase.firestore.FieldValue.arrayUnion(report),
+            isReported: true
+          });
+
+          // 관리자에게 알림
+          const admins = ADMIN_UIDS;
+          admins.forEach(async (adminUid) => {
+            await db.collection("notifications").add({
+              userId: adminUid,
+              type: 'report',
+              postId: currentReportPostId,
+              message: `새로운 게시글 신고가 접수되었습니다.`,
+              createdAt: new Date(),
+              read: false
+            });
+          });
+
+          alert("신고가 접수되었습니다.");
+          closeReportModal();
+        } catch (error) {
+          console.error("신고 처리 중 오류:", error);
+          alert("신고 처리 중 오류가 발생했습니다.");
+        }
+      }
+
+      // 게시글 작성 폼에서 공지사항 옵션 관리
+      function updatePostTypeOptions() {
+        const postTypeSelect = document.getElementById('postType');
+        const user = auth.currentUser;
+        
+        if (postTypeSelect) {
+          postTypeSelect.innerHTML = `
+            <option value="general">일반 게시글</option>
+            <option value="info">정보 게시글</option>
+            ${isAdmin(user?.uid) ? '<option value="notice">공지사항</option>' : ''}
+          `;
+        }
+      }
+
+      // 디스코드 참여 요청 함수
+      async function requestDiscordJoin() {
+        const user = auth.currentUser;
+        if (!user) {
+          alert("디스코드 참여 요청을 하려면 로그인이 필요합니다.");
+          return;
+        }
+        document.getElementById('discordRequestModal').style.display = 'flex';
+      }
+
+      // 디스코드 참여 요청 모달 닫기
+      function closeDiscordRequestModal() {
+        document.getElementById('discordRequestModal').style.display = 'none';
+      }
+
+      // 디스코드 참여 요청 제출
+      async function submitDiscordRequest() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const reason = document.getElementById("requestReason").value.trim();
+        const robloxNickname = document.getElementById("robloxNickname").value.trim();
+        const isInClan = document.getElementById("isInClan").value;
+
+        if (!reason || !robloxNickname) {
+          alert("참여 이유와 로블록스 닉네임을 입력해주세요.");
+          return;
+        }
+
+        try {
+          const userDoc = await db.collection("users").doc(user.uid).get();
+          const userName = userDoc.data().name;
+          const species = userDoc.data().species;
+          const speciesEmoji = getSpeciesEmoji(species);
+
+          // 이미 요청한 적이 있는지 확인
+          const existingRequest = await db.collection("discord_requests")
+            .where("userId", "==", user.uid)
+            .where("status", "in", ["pending", "approved"])
+            .get();
+
+          if (!existingRequest.empty) {
+            alert("이미 디스코드 참여 요청을 하셨습니다. 관리자의 승인을 기다려주세요.");
+            closeDiscordRequestModal();
+            return;
+          }
+
+          // 새로운 요청 생성
+          const requestData = {
+            userId: user.uid,
+            userName: userName,
+            species: species,
+            speciesEmoji: speciesEmoji,
+            status: "pending",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            message: `${speciesEmoji} ${userName}님이 디스코드 참여를 요청했습니다.`, // 기본 메시지
+            reason: reason, // 추가된 이유 필드
+            robloxNickname: robloxNickname, // 추가된 로블록스 닉네임 필드
+            isInClan: isInClan // 추가된 이미 클랜 있는지 여부 필드
+          };
+
+          await db.collection("discord_requests").add(requestData);
+
+          // 관리자들에게 알림 전송
+          for (const adminUid of ADMIN_UIDS) {
+            await db.collection("notifications").add({
+              userId: adminUid,
+              type: 'discord_join_request',
+              userName: userName,
+              userSpecies: species,
+              userSpeciesEmoji: speciesEmoji,
+              message: `${speciesEmoji} ${userName}님이 디스코드 참여를 요청했습니다. (사유: ${reason}) (로블록스 닉네임: ${robloxNickname}) (다른 클랜 소속: ${isInClan === 'yes' ? '예' : '아니오'})`,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              read: false
+            });
+          }
+
+          showNotification(
+            "참여 요청 완료",
+            "관리자 검토 후 승인되면 알려드리겠습니다.",
+            "📨"
+          );
+
+          closeDiscordRequestModal();
+        } catch (error) {
+          console.error("디스코드 참여 요청 중 오류:", error);
+          alert("요청 처리 중 오류가 발생했습니다.");
+        }
+      }
+
+      // 디스코드 참여 요청 목록 표시
+      async function showDiscordRequests() {
+        const requestsDiv = document.getElementById("discordRequests");
+        const userListDiv = document.getElementById("userList");
+
+        userListDiv.style.display = "none";
+        requestsDiv.style.display = "block";
+        requestsDiv.innerHTML = "<h3>디스코드 참여 요청 목록</h3>";
+
+        try {
+          const snapshot = await db.collection("discord_requests")
+            .where("status", "==", "pending")
+            .orderBy("createdAt", "desc")
+            .get();
+
+          if (snapshot.empty) {
+            requestsDiv.innerHTML += "<p>대기 중인 요청이 없습니다.</p>";
+            return;
+          }
+
+          snapshot.forEach(doc => {
+            const request = doc.data();
+            const requestDiv = document.createElement("div");
+            requestDiv.className = "user-item";
+
+            const createdAt = request.createdAt ? request.createdAt.toDate().toLocaleString() : '날짜 없음';
+            const isInClanText = request.isInClan === 'yes' ? '예' : '아니오';
+
+            requestDiv.innerHTML = `
+              <div class="user-info">
+                <span>${request.speciesEmoji}</span>
+                <span>${request.userName}</span>
+                <span>로블록스 닉네임: ${request.robloxNickname}</span>
+                <span>이미 클랜 소속: ${isInClanText}</span>
+                <span>요청 이유: ${request.reason}</span>
+                <span>${createdAt}</span>
+              </div>
+              <div class="user-actions">
+                <button onclick="approveDiscordRequest('${doc.id}', '${request.userName}')" class="admin-button">승인</button>
+                <button onclick="rejectDiscordRequest('${doc.id}', '${request.userName}')" class="admin-button">거절</button>
+              </div>
+            `;
+            requestsDiv.appendChild(requestDiv);
+          });
+        } catch (error) {
+          console.error("요청 목록 조회 중 오류:", error);
+          requestsDiv.innerHTML += "<p>요청 목록을 불러오는 중 오류가 발생했습니다.</p>";
+        }
+      }
+
+      // 디스코드 참여 요청 승인
+      async function approveDiscordRequest(requestId, userName) {
+        try {
+          const requestDoc = await db.collection("discord_requests").doc(requestId).get();
+          const request = requestDoc.data();
+
+          // 요청 상태 업데이트
+          await db.collection("discord_requests").doc(requestId).update({
+            status: 'approved',
+            approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          // 사용자에게 승인 알림 및 디스코드 링크 전송
+          await db.collection("notifications").add({
+            userId: request.userId,
+            type: 'discord_join_approved',
+            message: '디스코드 참여가 승인되었습니다. 아래 링크로 참여해주세요.',
+            discordLink: 'https://discord.gg/uZmsRDyYkQ',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            read: false
+          });
+
+          // 사용자 정보 업데이트
+          await db.collection("users").doc(request.userId).update({
+            discordApproved: true,
+            discordApprovedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          showNotification(
+            "요청 승인 완료",
+            `${userName}님의 디스코드 참여 요청을 승인했습니다.`,
+            "✅"
+          );
+
+          showDiscordRequests();
+        } catch (error) {
+          console.error("요청 승인 중 오류:", error);
+          alert("요청 승인 중 오류가 발생했습니다.");
+        }
+      }
+
+      // 디스코드 참여 요청 거절
+      async function rejectDiscordRequest(requestId, userName) {
+        try {
+          const requestDoc = await db.collection("discord_requests").doc(requestId).get();
+          const request = requestDoc.data();
+
+          // 요청 상태 업데이트
+          await db.collection("discord_requests").doc(requestId).update({
+            status: 'rejected',
+            rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          // 사용자에게 거절 알림
+          await db.collection("notifications").add({
+            userId: request.userId,
+            type: 'discord_join_rejected',
+            message: '디스코드 참여 요청이 거절되었습니다.',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            read: false
+          });
+
+          showNotification(
+            "요청 거절 완료",
+            `${userName}님의 디스코드 참여 요청을 거절했습니다.`,
+            "❌"
+          );
+
+          showDiscordRequests();
+        } catch (error) {
+          console.error("요청 거절 중 오류:", error);
+          alert("요청 거절 중 오류가 발생했습니다.");
+        }
+      }
+
+      // 디스코드 버튼 상태 업데이트 함수
+      async function updateDiscordButton() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const discordButton = document.querySelector('.discord-button');
+        if (!discordButton) return;
+
+        try {
+          // 사용자의 디스코드 승인 상태 확인
+          const userDoc = await db.collection("users").doc(user.uid).get();
+          const userData = userDoc.data();
+
+          if (userData?.discordApproved) {
+            // 승인된 경우 디스코드 링크로 이동하는 버튼으로 변경
+            discordButton.innerHTML = `
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.118.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.946 2.419-2.157 2.419z"/>
+              </svg>
+              디스코드 참여하기
+            `;
+            discordButton.onclick = () => window.open('https://discord.gg/uZmsRDyYkQ', '_blank');
+          } else {
+            // 승인되지 않은 경우 요청 버튼으로 유지
+            discordButton.innerHTML = `
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.118.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.946 2.419-2.157 2.419z"/>
+              </svg>
+              디스코드 참여 요청
+            `;
+            discordButton.onclick = requestDiscordJoin;
+          }
+        } catch (error) {
+          console.error("디스코드 버튼 상태 업데이트 중 오류:", error);
+        }
+      }
+
+      // 페이지 로드 시 디스코드 버튼 상태 업데이트
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          updateDiscordButton();
+        }
+      });
+    </script>
+  </main>
+
+  <!-- 종족 선택 모달 -->
+  <div id="speciesModal" class="modal-overlay" style="display: none;">
+    <div class="modal">
+      <h2>종족 선택</h2>
+      <p>커뮤니티 활동을 위해 종족을 선택해주세요!</p>
+      <select id="speciesModalSelect" class="species-select">
+        <option value="">종족을 선택하세요</option>
+        <option value="polar-bear">🐻‍❄️ 북극곰</option>
+        <option value="cat">🐱 고양이</option>
+        <option value="dinosaur">🦖 공룡</option>
+        <option value="pig">🐷 돼지</option>
+        <option value="fox">🦊 여우</option>
+        <option value="dog">🐶 강아지</option>
+        <option value="bird">🐦 새</option>
+        <option value="fish">🐟 물고기</option>
+        <option value="snake">🐍 도마뱀</option>
+        <option value="tiger">🐯 호랑이</option>
+        <option value="elephant">🐘 코끼리</option>
+        <option value="monkey">🐒 원숭이</option>
+        <option value="none">❌ 없음</option>
+      </select>
+      <div class="modal-buttons">
+        <button onclick="saveSpecies()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminPanel" style="display: none;" class="admin-panel">
+    <h2>관리자 패널</h2>
+    <div class="admin-controls">
+      <button onclick="showUserList()" class="admin-button">사용자 관리</button>
+      <button onclick="showAllPosts()" class="admin-button">전체 게시글 관리</button>
+      <button onclick="showDiscordRequests()" class="admin-button">디스코드 참여 요청</button>
+    </div>
+    <div id="userList" class="user-list"></div>
+    <div id="discordRequests" class="user-list" style="display: none;"></div>
+  </div>
+
+  <!-- 디스코드 참여 요청 모달 -->
+  <div id="discordRequestModal" class="modal-overlay" style="display: none;">
+    <div class="modal">
+      <h2>디스코드 참여 요청</h2>
+      <p>아래 정보를 입력해주세요.</p>
+      <textarea id="requestReason" placeholder="참여하고 싶은 이유를 작성해주세요." rows="4"></textarea>
+      <input type="text" id="robloxNickname" placeholder="로블록스 닉네임">
+      <label for="isInClan">이미 다른 클랜에 소속되어 있나요?</label>
+      <select id="isInClan">
+        <option value="no">아니오</option>
+        <option value="yes">예</option>
+      </select>
+      <div class="modal-buttons">
+        <button onclick="submitDiscordRequest()">요청 제출</button>
+        <button onclick="closeDiscordRequestModal()" class="modern-button">취소</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
