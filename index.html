@@ -949,6 +949,7 @@
           <option value="monkey">🐒 원숭이</option>
           <option value="none">❌ 없음</option>
         </select><br>
+        <div class="g-recaptcha" data-sitekey="6LdQQlcrAAAAAFuSPn_e2Kw7t3R3MPF9YN96ytqb"></div>
         <button onclick="register()">회원가입</button>
         <button onclick="login()">로그인</button>
         <button onclick="googleLogin()" class="google-login-btn">
@@ -1224,11 +1225,14 @@
         const password = document.getElementById("password").value.trim();
         const name = document.getElementById("username").value.trim();
         const species = document.getElementById("species").value;
-        
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+          alert("로봇이 아님을 인증해주세요!");
+          return;
+        }
         if (!email || !password || !name || !species) {
           return alert("이름, 이메일, 비밀번호, 종족을 모두 입력해주세요");
         }
-        
         auth.createUserWithEmailAndPassword(email, password)
           .then((userCredential) => {
             return db.collection("users").doc(userCredential.user.uid).set({
@@ -1244,6 +1248,11 @@
       function login() {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+          alert("로봇이 아님을 인증해주세요!");
+          return;
+        }
         if (!email || !password) return alert("이메일과 비밀번호 입력 필수");
         auth.signInWithEmailAndPassword(email, password)
           .catch(error => alert("로그인 실패: " + error.message));
