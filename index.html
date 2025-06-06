@@ -7,6 +7,7 @@
   <!-- Google AdSense 코드 -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221"
      crossorigin="anonymous"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
@@ -1221,6 +1222,10 @@
       });
 
       function register() {
+        if (typeof grecaptcha === "undefined") {
+          alert("reCAPTCHA가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
+          return;
+        }
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
         const name = document.getElementById("username").value.trim();
@@ -1246,6 +1251,10 @@
       }
 
       function login() {
+        if (typeof grecaptcha === "undefined") {
+          alert("reCAPTCHA가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
+          return;
+        }
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
         var recaptchaResponse = grecaptcha.getResponse();
