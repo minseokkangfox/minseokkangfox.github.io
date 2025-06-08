@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YX클랜 게시판</title>
+  <title>XY클랜 게시판</title>
   <!-- Google AdSense 코드 -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221"
      crossorigin="anonymous"></script>
@@ -926,7 +926,7 @@
 </head>
 <body>
   <header>
-    <h1>YX클랜 커뮤니티</h1>
+    <h1>XY클랜 커뮤니티</h1>
   </header>
 
   <main>
@@ -1127,11 +1127,11 @@
       let currentPostId = null;
       let currentPost = null;
 
-      // 관리자 UID 목록               sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+      // 관리자 UID 목록
       const ADMIN_UIDS = [
         'dd',
         'dd',
-        'x6b14PhraWdUwA7pmZ1xRDfAl6S2',
+        'dd',
         'YbfIABREwDetVkK1umXq7bEozrS2',
         'TY0BHaGoImdKC7LwDEEunKHeYCI3'
       ];
@@ -1192,12 +1192,16 @@
           db.collection("users").doc(user.uid).get().then(doc => {
             const name = doc.exists ? doc.data().name : user.email;
             const species = doc.exists ? doc.data().species : null;
+            const photoURL = doc.exists ? doc.data().photoURL : null; // 프로필 사진 URL
             
             if (!species) {
               document.getElementById("speciesModal").style.display = "flex";
             } else {
               const speciesEmoji = getSpeciesEmoji(species);
               let userInfo = `${speciesEmoji} ${name}님 환영합니다!`;
+              if (photoURL) {
+                userInfo = `<img src="${photoURL}" alt="프로필" style="width:40px;height:40px;border-radius:50%;vertical-align:middle;margin-right:8px;">` + userInfo;
+              }
               if (isAdmin(user.uid)) {
                 userInfo += '<span class="admin-badge">관리자</span>';
                 document.getElementById("adminPanel").style.display = "block";
