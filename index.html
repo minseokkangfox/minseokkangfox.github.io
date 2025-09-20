@@ -11,196 +11,526 @@
   <style>
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      background: #18191c;
       font-family: 'Noto Sans KR', 'Montserrat', Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: fadeInBg 1.2s;
-    }
-    .ad-left, .ad-right {
-      position: fixed;
-      top: 0;
-      width: 160px;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-    .ad-left { left: 0; }
-    .ad-right { right: 0; }
-    @media (max-width: 900px) {
-      .ad-left, .ad-right { display: none; }
-    }
+      }
+
     @keyframes fadeInBg {
       from { opacity: 0; }
       to { opacity: 1; }
     }
     .container {
-      max-width: 480px;
+      max-width: 900px;
       width: 100%;
-      margin: 40px auto;
-      background: rgba(255,255,255,0.98);
+      margin: 80px auto 0 auto;
+      background: #232428;
       border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
-      padding: 40px 32px 32px 32px;
+      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.18);
+      padding: 40px 48px 48px 260px;
       position: relative;
-      transition: box-shadow 0.3s;
-      animation: fadeInCard 1.1s;
+      border: none;
+      z-index: 1;
+      color: #e3e3e3;
+      min-height: 700px;
+      overflow: visible;
+    }
+    /* Roblox style top nav */
+    .roblox-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 56px;
+      background: #d32c2c;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 2px 8px #0005;
+    }
+    .roblox-logo {
+      font-weight: 900;
+      font-size: 2.1rem;
+      letter-spacing: 2px;
+      margin-left: 32px;
+      margin-right: 32px;
+      font-family: 'Montserrat', 'Noto Sans KR', Arial, sans-serif;
+      color: #fff;
+      text-shadow: 0 2px 8px #0008;
+    }
+    .roblox-nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .roblox-nav-links a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition: border 0.2s;
+    }
+    .roblox-nav-links a:hover {
+      border-bottom: 2px solid #fff;
+    }
+    .roblox-nav-search {
+      margin-left: auto;
+      margin-right: 40px;
+    }
+    .roblox-nav-search input {
+      background: #232428;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      width: 260px;
+    }
+    /* Roblox style sidebar */
+    .roblox-sidebar {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      width: 220px;
+      height: calc(100vh - 56px);
+      background: #202124;
+      color: #fff;
+      padding: 32px 0 0 0;
+      z-index: 99;
+      box-shadow: 2px 0 8px #0003;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .roblox-sidebar .sidebar-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 24px 18px 24px;
+      border-bottom: 1px solid #333;
+      margin-bottom: 18px;
+    }
+    .roblox-sidebar .sidebar-profile .profile-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #444;
+      object-fit: cover;
+    }
+    .roblox-sidebar .sidebar-profile .profile-name {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+    .roblox-sidebar .sidebar-link {
+      padding: 10px 32px;
+      color: #e3e3e3;
+      font-size: 1.05rem;
+      text-decoration: none;
+      font-weight: 600;
+      border-left: 4px solid transparent;
+      transition: background 0.15s, border 0.15s;
+      border-radius: 0 18px 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .roblox-sidebar .sidebar-link:hover, .roblox-sidebar .sidebar-link.active {
+      background: #232428;
+      border-left: 4px solid #d32c2c;
+      color: #fff;
+    }
+    .container::before {
+      display: none !important;
     }
     @keyframes fadeInCard {
       from { transform: translateY(30px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
     h2, h3 {
-      color: #009688;
+      color: #fff;
       margin-top: 0;
       font-family: 'Montserrat', 'Noto Sans KR', Arial, sans-serif;
-      letter-spacing: 1px;
-      font-weight: 700;
-      text-shadow: 0 2px 8px rgba(0,150,136,0.08);
+      letter-spacing: 1.2px;
+      font-weight: 800;
+      font-size: 2.1rem;
+      margin-bottom: 18px;
     }
-    input, textarea, button {
+    input, textarea {
       font-family: inherit;
       font-size: 15px;
       border-radius: 8px;
-      border: 1px solid #ddd;
-      margin-bottom: 12px;
-      padding: 10px;
+      border: 1.5px solid #232428;
+      margin-bottom: 16px;
+      padding: 13px;
       outline: none;
       box-sizing: border-box;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      background: #232428;
+      color: #fff;
+      box-shadow: 0 1px 4px #18191c;
     }
     input:focus, textarea:focus {
-      border-color: #009688;
-      box-shadow: 0 0 0 2px #b2dfdb44;
+      border-color: #d32c2c;
+      box-shadow: 0 0 0 2px #d32c2c55, 0 2px 8px #d32c2c33;
+      background: #232428;
+      color: #fff;
     }
     button {
-      background: linear-gradient(90deg, #009688 60%, #26c6da 100%);
+      background: #d32c2c;
       color: #fff;
       border: none;
       cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s;
-      margin-right: 6px;
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0,150,136,0.08);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      margin-right: 8px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px #d32c2c55;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      letter-spacing: 0.5px;
+      font-size: 17px;
+      border-radius: 12px;
     }
     button:hover {
-      background: linear-gradient(90deg, #00796b 60%, #009688 100%);
-      box-shadow: 0 4px 16px rgba(0,150,136,0.13);
+      background: #b71c1c;
+      box-shadow: 0 4px 16px #d32c2c55;
+      transform: translateY(-2px) scale(1.04);
     }
     #formContainer {
-      margin-top: 24px;
+      margin-top: 28px;
       animation: fadeInForm 0.8s;
+      position: relative;
+      z-index: 1;
     }
     @keyframes fadeInForm {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     #result {
-      margin-top: 12px;
-      color: #e91e63;
+      margin-top: 14px;
+      color: #d32c2c;
       font-weight: bold;
       text-align: center;
-      font-size: 16px;
+      font-size: 17px;
       letter-spacing: 0.5px;
+      border-radius: 8px;
+      background: #232428;
+      padding: 6px 0;
     }
     table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      background: #fafbfc;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 16px;
+      background: #232428;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,150,136,0.07);
-      font-size: 15px;
+      box-shadow: 0 2px 8px #18191c;
+      font-size: 16px;
+      color: #e3e3e3;
     }
     th, td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #eee;
+      padding: 14px 12px;
+      border-bottom: 1px solid #232428;
       text-align: left;
     }
     th {
-      background: linear-gradient(90deg, #e0f2f1 60%, #b2ebf2 100%);
-      color: #009688;
-      font-weight: 700;
+      background: #202124;
+      color: #fff;
+      font-weight: 800;
       letter-spacing: 0.5px;
+      font-size: 16px;
+      border-top: 1.5px solid #232428;
     }
     tr:last-child td {
       border-bottom: none;
     }
     #showSignup, #showLogin, #logoutBtn, #showCommunity {
-      margin: 8px 4px 0 0;
-      padding: 10px 22px;
-      font-size: 16px;
-      border-radius: 8px;
+      margin: 10px 6px 0 0;
+      padding: 13px 28px;
+      font-size: 17px;
+      border-radius: 10px;
       border: none;
-      background: linear-gradient(90deg, #009688 60%, #26c6da 100%);
+      background: #2196f3;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(0,150,136,0.08);
-      font-weight: 600;
+      box-shadow: 0 2px 8px #90caf9;
+      font-weight: 700;
       letter-spacing: 0.5px;
-      transition: background 0.2s, box-shadow 0.2s;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
     #showSignup:hover, #showLogin:hover, #logoutBtn:hover, #showCommunity:hover {
-      background: linear-gradient(90deg, #00796b 60%, #009688 100%);
-      box-shadow: 0 4px 16px rgba(0,150,136,0.13);
+      background: #1769aa;
+      box-shadow: 0 4px 16px #2196f355;
+      transform: translateY(-2px) scale(1.04);
     }
     #backToServer {
-      background: linear-gradient(90deg, #e0f2f1 60%, #b2ebf2 100%);
-      color: #009688;
+      background: #2196f3;
+      color: #fff;
       border: none;
       font-weight: 700;
-      margin-bottom: 16px;
-      padding: 10px 20px;
-      border-radius: 8px;
+      margin-bottom: 18px;
+      padding: 13px 24px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.2s;
-      box-shadow: 0 2px 8px rgba(0,150,136,0.08);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 2px 8px #90caf9;
       letter-spacing: 0.5px;
     }
     #backToServer:hover {
-      background: linear-gradient(90deg, #b2dfdb 60%, #e0f2f1 100%);
-      box-shadow: 0 4px 16px rgba(0,150,136,0.13);
+      background: #1769aa;
+      box-shadow: 0 4px 16px #2196f355;
+      transform: translateY(-2px) scale(1.04);
     }
     .post-nickname {
-      color: #009688;
-      font-size: 14px;
-      font-weight: 600;
-      margin-left: 8px;
+      color: #d32c2c;
+      font-size: 15px;
+      font-weight: 700;
+      margin-left: 10px;
       letter-spacing: 0.3px;
     }
     .post-content {
-      color: #444;
-      margin: 6px 0 8px 0;
+      color: #e3e3e3;
+      margin: 8px 0 10px 0;
       display: block;
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: 16px;
+      line-height: 1.7;
     }
     .post-date {
-      font-size: 12px;
-      color: #aaa;
+      font-size: 13px;
+      color: #bdbdbd;
       margin-left: 2px;
     }
-    /* 아이콘 버튼 예시 (FontAwesome 등 사용 가능) */
-    .icon-btn {
-      display: inline-flex;
+    
+    /* 모달 스타일 */
+    #modalBg {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+    }
+    
+    #modalContent {
+      background: #232428;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      color: #fff;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    #closeModal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #closeModal:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* 로그인/회원가입 버튼 스타일 */
+    #loginButtons button, #userInfo button {
+      margin: 5px;
+      padding: 12px 24px;
       font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    #loginButtons button {
+      background: #2196f3;
+      color: #fff;
+    }
+    
+    #loginButtons button:hover {
+      background: #1769aa;
+      transform: translateY(-2px);
+    }
+    
+    #userInfo button {
+      background: #f44336;
+      color: #fff;
+    }
+    
+    #userInfo button:hover {
+      background: #d32f2f;
+      transform: translateY(-2px);
+    }
+    
+    /* 차단/IP차단 버튼 스타일 */
+    .blockBtn, .ipBlockBtn {
+      padding: 6px 12px;
+      margin: 2px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    .blockBtn {
+      background: #f44336;
+      color: #fff;
+    }
+    
+    .blockBtn:hover {
+      background: #d32f2f;
+      transform: translateY(-1px);
+    }
+    
+    .ipBlockBtn {
+      background: #ff9800;
+      color: #fff;
+    }
+    
+    .ipBlockBtn:hover {
+      background: #f57c00;
+      transform: translateY(-1px);
+    }
+    
+    /* 서버 관리 버튼 스타일 */
+    .approveServerBtn, .rejectServerBtn, .stopServerBtn, .pauseServerBtn, .deleteServerBtn {
+      padding: 6px 12px;
+      margin: 2px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    .approveServerBtn {
+      background: #4caf50;
+      color: #fff;
+    }
+    
+    .approveServerBtn:hover {
+      background: #388e3c;
+      transform: translateY(-1px);
+    }
+    
+    .rejectServerBtn {
+      background: #f44336;
+      color: #fff;
+    }
+    
+    .rejectServerBtn:hover {
+      background: #d32f2f;
+      transform: translateY(-1px);
+    }
+    
+    .stopServerBtn {
+      background: #ff5722;
+      color: #fff;
+    }
+    
+    .stopServerBtn:hover {
+      background: #e64a19;
+      transform: translateY(-1px);
+    }
+    
+    .pauseServerBtn {
+      background: #ff9800;
+      color: #fff;
+    }
+    
+    .pauseServerBtn:hover {
+      background: #f57c00;
+      transform: translateY(-1px);
+    }
+    
+    .deleteServerBtn {
+      background: #9c27b0;
+      color: #fff;
+    }
+    
+    .deleteServerBtn:hover {
+      background: #7b1fa2;
+      transform: translateY(-1px);
     }
   </style>
 </head>
 <body>
+  <!-- Roblox style top navigation bar -->
+  <nav class="roblox-nav">
+    <span class="roblox-logo">HJNF</span>
+    <div class="roblox-nav-links">
+      <a href="#" id="navHomeBtn">홈</a>
+      <a href="#" id="navServerChartBtn">서버 차트</a>
+      <a href="#" id="navCreateBtn">만들기</a>
+      <a href="#" id="navCommunityBtn">커뮤니티</a>
+    </div>
+    <div class="roblox-nav-search">
+      <input type="text" placeholder="검색..." />
+    </div>
+  </nav>
+
+  <!-- Roblox style left sidebar -->
+  <aside class="roblox-sidebar">
+    <a href="#" class="sidebar-link" id="sidebarProfileLink">프로필</a>
+    <a href="#" class="sidebar-link" id="sidebarMessageLink">메시지</a>
+    <a href="#" class="sidebar-link" id="sidebarFriendsLink">친구</a>
+  <a href="#" class="sidebar-link">인벤토리</a>
+  <a href="#" class="sidebar-link"><b>프리미엄</b></a>
+    <a href="#" class="sidebar-link">이벤트</a>
+    <a href="#" class="sidebar-link" id="sidebarMembersBtn" style="display:none">맴버 목록</a>
+  </aside>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <div class="container">
+    <div id="formContainer">
+      <h2>HJNF 서버 관리 시스템</h2>
+      <p>로블록스 서버를 관리하고 친구들과 소통하세요!</p>
+      <div id="loginButtons" style="margin-top: 20px;">
+        <button id="showLogin">로그인</button>
+        <button id="showSignup">회원가입</button>
+      </div>
+      <div id="userInfo" style="display: none; margin-top: 20px;">
+        <p>환영합니다, <span id="userNickname"></span>님!</p>
+        <button id="logoutBtn">로그아웃</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모달 배경 -->
+  <div id="modalBg">
+    <div id="modalContent">
+      <button id="closeModal">&times;</button>
+    </div>
+  </div>
+
   <div class="ad-left">
     <!-- Google AdSense 광고 영역 -->
     <ins class="adsbygoogle"
@@ -209,441 +539,2087 @@
          data-ad-slot="1234567890"
          data-ad-format="auto"></ins>
     <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-  <div class="ad-right">
-    <!-- Google AdSense 광고 영역 -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-7436486053633664"
-         data-ad-slot="1234567890"
-         data-ad-format="auto"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-  <div class="container">
-    <div style="text-align:center; margin-bottom:24px;">
-      <span style="font-size:2.2rem; font-weight:900; color:#009688; letter-spacing:2px; font-family:'Montserrat','Noto Sans KR',sans-serif; text-shadow:0 2px 12px #b2ebf2;">HJNF</span>
-      <div style="font-size:1.1rem; color:#555; margin-top:4px; font-weight:500;">Roblox 서버 & 커뮤니티</div>
-    </div>
-    <button id="showSignup">회원가입</button>
-    <button id="showLogin">로그인</button>
-    <button id="logoutBtn" style="display:none">로그아웃</button>
-    <button id="showCommunity">커뮤니티</button>
-    <div id="formContainer">
-      <!-- 폼이 여기에 동적으로 표시됨 -->
-    </div>
-    <div id="result"></div>
-  </div>
-  <script>
-    // Firebase 설정
-    const firebaseConfig = {
-      apiKey: "AIzaSyDKxcKXSmKF6LAEnFzF387ZN4wC8iRz8mg",
-      authDomain: "rugged-night-396106.firebaseapp.com",
-      databaseURL: "https://rugged-night-396106-default-rtdb.firebaseio.com",
-      projectId: "rugged-night-396106",
-      storageBucket: "rugged-night-396106.appspot.com",
-      messagingSenderId: "388578786746",
-      appId: "1:388578786746:web:c50051b71731c153f6b183",
-      measurementId: "G-SRLCD2LZT8"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    const auth = firebase.auth();
-    const db = firebase.database();
-
-    // 폼 전환 함수
-    function showSignupForm() {
-      document.getElementById('formContainer').innerHTML = `
-        <h2>회원가입</h2>
-        <form id="signupForm">
-          <input type="email" id="email" placeholder="이메일" required><br>
-          <input type="password" id="password" placeholder="비밀번호" required><br>
-          <input type="text" id="roblox" placeholder="로블록스 닉네임" required><br>
-          <button type="submit">회원가입</button>
-        </form>
-      `;
-      document.getElementById('result').innerText = "";
-      document.getElementById('signupForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const roblox = document.getElementById('roblox').value;
-        auth.createUserWithEmailAndPassword(email, password)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            db.ref('users/' + user.uid).set({
-              email: email,
-              robloxNickname: roblox
-            });
-            document.getElementById('result').innerText = "회원가입 성공!";
-          })
-          .catch((error) => {
-            document.getElementById('result').innerText = "오류: " + error.message;
-          });
-      });
-    }
-
-    // 관리자 UID
-    const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
-
-    function showLoginForm() {
-      document.getElementById('formContainer').innerHTML = `
-        <h2>로그인</h2>
-        <form id="loginForm">
-          <input type="email" id="loginEmail" placeholder="이메일" required><br>
-          <input type="password" id="loginPassword" placeholder="비밀번호" required><br>
-          <button type="submit">로그인</button>
-        </form>
-      `;
-      document.getElementById('result').innerText = "";
-      document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        auth.signInWithEmailAndPassword(email, password)
-          .then((userCredential) => {
-            document.getElementById('result').innerText = "로그인 성공!";
-            if (userCredential.user.uid === ADMIN_UID) {
-              showAdminPanel();
-            } else {
-              // 로그인 후 서버 정보 확인
-              db.ref('users/' + userCredential.user.uid + '/server').once('value').then(snap => {
-                const server = snap.val();
-                if (server && server.status) {
-                  showServerStatus(userCredential.user.uid, server);
-                } else {
-                  showServerButton(userCredential.user.uid);
-                }
-              });
-            }
-          })
-          .catch((error) => {
-            document.getElementById('result').innerText = "오류: " + error.message;
-          });
-      });
-    }
-
-    // 서버 상태 및 시간초 표시 함수
-    function showServerStatus(uid, server) {
-      // 로블록스 닉네임 가져오기
-      db.ref('users/' + uid + '/robloxNickname').once('value').then(snap => {
-        const nickname = snap.val() || '';
-        let statusText = '';
-        let extraBtn = '';
-        // 상태 한국어 변환
-        let statusKor = '';
-        switch (server.status) {
-          case 'pending': statusKor = '대기중'; break;
-          case 'approved': statusKor = '운영중'; break;
-          case 'stopped': statusKor = '정지됨'; break;
-          case 'paused': statusKor = '일시정지'; break;
-          default: statusKor = server.status;
-        }
-        if (server.status === 'stopped') {
-          statusText = '<span style="color:red">정지된 서버</span>';
-        } else if (server.status === 'paused') {
-          statusText = '<span style="color:orange">일시정지</span>';
-          extraBtn = '<button id="resumeServerBtn">다시 시작</button>';
-        } else {
-          statusText = `<span id="serverStatusText">${statusKor}</span>`;
-        }
-        document.getElementById('formContainer').innerHTML = `
-          <h2>내 서버 정보</h2>
-          <div>로블록스 닉네임: <b>${nickname}</b></div>
-          <div>상태: ${statusText}</div>
-          <div>요청 시간: ${server.requestedAt ? new Date(server.requestedAt).toLocaleString() : ''}</div>
-          ${server.url ? `<div>서버 주소: <a href="${server.url}" target="_blank">${server.url}</a></div>` : ''}
-          ${extraBtn}
-        `;
-        // 서버 상태 실시간 업데이트
-        db.ref('users/' + uid + '/server/status').on('value', function(snapshot) {
-          const val = snapshot.val();
-          // 상태 한국어 변환
-          let statusKor = '';
-          switch (val) {
-            case 'pending': statusKor = '대기중'; break;
-            case 'approved': statusKor = '운영중'; break;
-            case 'stopped': statusKor = '정지됨'; break;
-            case 'paused': statusKor = '일시정지'; break;
-            default: statusKor = val;
+    // 프리미엄 등급 관리 패널 (관리자만)
+    function showPremiumPanel() {
+      if (!auth.currentUser) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+        return;
+      }
+      db.ref('users').once('value').then(snap => {
+        const users = snap.val() || {};
+        const isAdmin = auth.currentUser.uid === ADMIN_UID;
+        let html = '<h2>프리미엄 등급 현황</h2>';
+        html += '<input type="text" id="premiumMemberSearchInput" placeholder="닉네임 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">';
+        html += '<table id="premiumMemberTable" style="width:100%;background:#232428;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #18191c;font-size:16px;color:#e3e3e3;">';
+        html += '<tr><th>닉네임</th><th>등급</th>' + (isAdmin ? '<th>설정</th>' : '') + '</tr>';
+        for (const uid in users) {
+          if (uid === ADMIN_UID) continue;
+          const user = users[uid];
+          const grade = user.premium || '';
+          html += '<tr data-nick="' + (user.robloxNickname || '') + '" data-email="' + (user.email || '') + '">' +
+            '<td>' + (user.robloxNickname || '-') + '</td>' +
+            '<td id="premiumGrade-' + uid + '">' + (grade ? grade : '-') + '</td>';
+          if (isAdmin) {
+            html += '<td>' +
+              '<select class="premiumSelect" data-uid="' + uid + '">' +
+                '<option value="">없음</option>' +
+                '<option value="VIP">VIP</option>' +
+                '<option value="VIP+">VIP+</option>' +
+                '<option value="MVP">MVP</option>' +
+                '<option value="MVP+">MVP+</option>' +
+              '</select>' +
+              '<button class="setPremiumBtn" data-uid="' + uid + '">설정</button>' +
+            '</td>';
           }
-          if (val === 'stopped') {
-            document.getElementById('serverStatusText').innerHTML = '<span style="color:red">정지된 서버</span>';
-          } else if (val === 'paused') {
-            document.getElementById('serverStatusText').innerHTML = '<span style="color:orange">일시정지</span>';
-            if (!document.getElementById('resumeServerBtn')) {
-              document.getElementById('formContainer').innerHTML += '<button id="resumeServerBtn">다시 시작</button>';
-            }
-          } else {
-            document.getElementById('serverStatusText').innerText = statusKor;
-          }
-        });
-        // 일시정지 상태에서 다시 시작 버튼
-        if (server.status === 'paused') {
-          document.getElementById('resumeServerBtn').onclick = function() {
-            db.ref('serverRequests/' + uid + '/status').set('approved');
-            db.ref('users/' + uid + '/server/status').set('approved');
-          };
-        }
-      });
-    }
-
-    // 관리자 패널: 모든 서버 요청 보기
-    function showAdminPanel() {
-      document.getElementById('formContainer').innerHTML = `
-        <h2>관리자 서버 요청 기록</h2>
-        <div id="adminRequests"></div>
-      `;
-      // 모든 서버 요청 실시간 표시
-      db.ref('serverRequests').on('value', function(snapshot) {
-        const requests = snapshot.val();
-        let html = '<table border="1" style="border-collapse:collapse; width:100%">';
-        html += '<tr><th>로블닉네임</th><th>서버 상태</th><th>요청시간</th><th>관리</th></tr>';
-        for (const uid in requests) {
-          const req = requests[uid];
-          // 상태 한국어 변환
-          let statusKor = '';
-          switch (req.status) {
-            case 'pending': statusKor = '대기중'; break;
-            case 'approved': statusKor = '운영중'; break;
-            case 'stopped': statusKor = '정지됨'; break;
-            case 'paused': statusKor = '일시정지'; break;
-            default: statusKor = req.status;
-          }
-          html += `<tr id="row-${uid}"><td id="nick-${uid}">조회중...</td>`;
-          html += `<td>${statusKor}</td>`;
-          html += `<td>${new Date(req.requestedAt).toLocaleString()}</td>`;
-          html += `<td>`;
-          if (req.status === 'pending') {
-            html += `<input type="text" id="serverUrl-${uid}" placeholder="서버 주소 입력" style="width:120px;">`;
-            html += `<button onclick="approveServerWithUrl('${uid}')">승인</button>`;
-          }
-          html += `<button onclick="stopServer('${uid}')">정지</button>`;
-          html += `<button onclick="pauseServer('${uid}')">일시정지</button>`;
-          html += `<button onclick="deleteServer('${uid}')">삭제</button>`;
-          html += `</td></tr>`;
-          // 닉네임 비동기 표시
-          db.ref('users/' + uid + '/robloxNickname').once('value').then(snap => {
-            const nickname = snap.val() || '(없음)';
-            document.getElementById('nick-' + uid).innerText = nickname;
-          });
+          html += '</tr>';
         }
         html += '</table>';
-        document.getElementById('adminRequests').innerHTML = html;
+        document.getElementById('formContainer').innerHTML = html;
+        // 검색 필터
+        document.getElementById('premiumMemberSearchInput').addEventListener('input', function() {
+          const v = this.value.trim().toLowerCase();
+          document.querySelectorAll('#premiumMemberTable tr[data-nick]').forEach(function(tr) {
+            const nick = tr.getAttribute('data-nick').toLowerCase();
+            tr.style.display = nick.includes(v) ? '' : 'none';
+          });
+        });
+        if (isAdmin) {
+          // 등급 select 값 세팅
+          document.querySelectorAll('.premiumSelect').forEach(function(sel) {
+            const uid = sel.getAttribute('data-uid');
+            const user = users[uid];
+            if (user && user.premium) sel.value = user.premium;
+          });
+          // 설정 버튼 이벤트
+          document.querySelectorAll('.setPremiumBtn').forEach(function(btn) {
+            btn.onclick = function() {
+              const uid = btn.getAttribute('data-uid');
+              const sel = document.querySelector('.premiumSelect[data-uid="' + uid + '"]');
+              const grade = sel.value;
+              db.ref('users/' + uid + '/premium').set(grade || null);
+              document.getElementById('premiumGrade-' + uid).innerText = grade || '-';
+              btn.textContent = '저장됨';
+              setTimeout(() => { btn.textContent = '설정'; }, 1000);
+            };
+          });
+        }
       });
     }
-
-    // 서버 관리 함수들 (window에 등록)
-    // 서버 승인(주소 포함)
-    window.approveServerWithUrl = function(uid) {
-      const urlInput = document.getElementById('serverUrl-' + uid);
-      const serverUrl = urlInput ? urlInput.value.trim() : '';
-      db.ref('serverRequests/' + uid + '/status').set('approved');
-      db.ref('users/' + uid + '/server/status').set('approved');
-      db.ref('users/' + uid + '/server/url').set(serverUrl);
-    }
-    window.stopServer = function(uid) {
-      db.ref('serverRequests/' + uid + '/status').set('stopped');
-      db.ref('users/' + uid + '/server/status').set('stopped');
-    }
-    window.pauseServer = function(uid) {
-      db.ref('serverRequests/' + uid + '/status').set('paused');
-      db.ref('users/' + uid + '/server/status').set('paused');
-    }
-    window.deleteServer = function(uid) {
-      db.ref('serverRequests/' + uid).remove();
-      db.ref('users/' + uid + '/server').remove();
-    }
-
-    document.getElementById('showSignup').addEventListener('click', showSignupForm);
-    document.getElementById('showLogin').addEventListener('click', showLoginForm);
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-      auth.signOut();
-    });
-  document.getElementById('showCommunity').addEventListener('click', showCommunity);
-    // 커뮤니티(게시판) 기능
-    function showCommunity() {
-      let formHtml = '';
-      if (auth.currentUser) {
-        formHtml = `
-          <form id="postForm">
-            <input type="text" id="postTitle" placeholder="제목" required style="width:200px"><br>
-            <textarea id="postContent" placeholder="내용" required style="width:300px;height:80px"></textarea><br>
-            <button type="submit">글 작성</button>
-          </form>
-        `;
+// 메시지(친구 DM) 패널
+function showMessagePanel() {
+  if (!auth.currentUser) {
+    document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+    return;
+  }
+  
+  db.ref('users/' + auth.currentUser.uid + '/friends').once('value').then(friendSnap => {
+    const myFriends = friendSnap.val() || {};
+    db.ref('users').once('value').then(snap => {
+      const users = snap.val() || {};
+      let html = '<h2>메시지 (친구 목록)</h2>';
+      
+      // 친구가 있는지 확인
+      const friendUids = Object.keys(myFriends);
+      if (friendUids.length === 0) {
+        html += '<div style="background:#232428;padding:20px;border-radius:10px;text-align:center;color:#888;">';
+        html += '<p>친구가 없습니다.</p>';
+        html += '<p>친구를 추가한 후 메시지를 주고받을 수 있습니다.</p>';
+        html += '<button onclick="showFriendsPanel()" style="margin-top:10px;padding:10px 20px;background:#2196f3;color:#fff;border:none;border-radius:8px;cursor:pointer;">친구 추가하기</button>';
+        html += '</div>';
       } else {
-        formHtml = `<div style="color:red;margin-bottom:10px">커뮤니티 글 작성은 로그인 후 이용 가능합니다.</div>`;
+        html += '<div style="background:#232428;padding:12px 18px;border-radius:10px;box-shadow:0 2px 8px #18191c;margin-bottom:18px;">';
+        html += '<h3 style="color:#fff;margin:0 0 12px 0;">💬 친구 목록</h3>';
+        html += '<ul id="dmFriendsList" style="list-style:none;margin:0;padding:0;">';
+        
+        friendUids.forEach(fuid => {
+          if (users[fuid]) {
+            html += '<li style="margin:8px 0;padding:12px;background:#333;border-radius:8px;cursor:pointer;transition:background 0.2s;" class="dmFriendItem" data-fuid="' + fuid + '" onmouseover="this.style.background=\'#444\'" onmouseout="this.style.background=\'#333\'">';
+            html += '<div style="display:flex;align-items:center;gap:10px;">';
+            html += '<div style="width:40px;height:40px;background:#555;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;">' + (users[fuid].robloxNickname || 'U').charAt(0).toUpperCase() + '</div>';
+            html += '<div>';
+            html += '<div style="font-weight:600;color:#fff;">' + (users[fuid].robloxNickname || '익명') + '</div>';
+            html += '<div style="font-size:12px;color:#aaa;">메시지 보내기</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</li>';
+          }
+        });
+        
+        html += '</ul>';
+        html += '</div>';
       }
-      document.getElementById('formContainer').innerHTML = `
-        <h2>커뮤니티 게시판</h2>
-        <button id="backToServer" style="margin-bottom:10px">서버 관리로 돌아가기</button>
-        ${formHtml}
-        <div id="postList"></div>
-      `;
-      document.getElementById('backToServer').onclick = function() {
-        if (auth.currentUser) {
-          if (auth.currentUser.uid === ADMIN_UID) {
-            showAdminPanel();
-          } else {
-            db.ref('users/' + auth.currentUser.uid + '/server').once('value').then(snap => {
-              const server = snap.val();
-              if (server && server.status) {
-                showServerStatus(auth.currentUser.uid, server);
+      
+      html += '<div id="dmChatPanel"></div>';
+      document.getElementById('formContainer').innerHTML = html;
+      
+      // 친구 클릭 시 채팅창 열기
+      document.querySelectorAll('.dmFriendItem').forEach(function(li) {
+        li.onclick = function() {
+          const fuid = li.getAttribute('data-fuid');
+          showDmChatPanel(fuid, users[fuid].robloxNickname || fuid);
+        };
+      });
+    });
+  });
+}
+
+    // DM 채팅 패널 (구현 예정)
+// DM 채팅 패널 (구현 예정)
+function showDmChatPanel(friendUid, friendNick) {
+  if (!auth.currentUser) return;
+  const myUid = auth.currentUser.uid;
+  // uid1_uid2 (정렬)
+  const chatKey = myUid < friendUid ? (myUid + '_' + friendUid) : (friendUid + '_' + myUid);
+  let html = '<div style="font-weight:700;font-size:1.2rem;margin-bottom:10px">[' + friendNick + ']님과의 채팅</div>';
+  html += '<div id="dmChatHistory" style="height:260px;overflow-y:auto;background:#232428;padding:12px 10px 12px 10px;border-radius:10px;margin-bottom:12px;border:1.5px solid #232428;"></div>';
+  html += '<form id="dmChatForm" style="display:flex;gap:8px;"><input id="dmChatInput" type="text" placeholder="메시지 입력..." style="flex:1;padding:10px 14px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;"><button type="submit" style="background:#2196f3;color:#fff;font-weight:700;border:none;border-radius:8px;padding:10px 22px;">전송</button></form>';
+  document.getElementById('dmChatPanel').innerHTML = html;
+
+  // 메시지 실시간 표시
+  const chatRef = db.ref('dmMessages/' + chatKey);
+  chatRef.off();
+  chatRef.on('value', function(snap) {
+    const messages = snap.val() || {};
+    let msgHtml = '';
+    const msgArr = Object.entries(messages).sort((a, b) => a[1].timestamp - b[1].timestamp);
+    msgArr.forEach(([key, msg]) => {
+      const isMe = msg.from === myUid;
+      msgHtml += '<div style="margin-bottom:8px;text-align:' + (isMe ? 'right' : 'left') + '">' +
+        '<span style="display:inline-block;max-width:70%;padding:8px 14px;border-radius:12px;font-size:1rem;' +
+        (isMe ? 'background:#2196f3;color:#fff;' : 'background:#333;color:#fff;') + '">' +
+        (msg.text ? msg.text.replace(/</g,'&lt;').replace(/>/g,'&gt;') : '') +
+        '</span><br>' +
+        '<span style="font-size:11px;color:#aaa;margin-top:2px;">' +
+        (msg.timeStr || '') + '</span>' +
+        '</div>';
+    });
+    document.getElementById('dmChatHistory').innerHTML = msgHtml;
+    // 스크롤 맨 아래로
+    document.getElementById('dmChatHistory').scrollTop = 99999;
+  });
+
+  // 메시지 전송
+  document.getElementById('dmChatForm').onsubmit = function(e) {
+    e.preventDefault();
+    const input = document.getElementById('dmChatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    const now = Date.now();
+    const timeStr = new Date(now).toLocaleString();
+    chatRef.push({
+      from: myUid,
+      to: friendUid,
+      text,
+      timestamp: now,
+      timeStr
+    });
+    input.value = '';
+  };
+}
+
+// 모달 열기/닫기 함수는 항상 최상단에 위치 (전역에서 사용 가능)
+function openModal(contentHtml) {
+  document.getElementById('modalContent').innerHTML = contentHtml;
+  document.getElementById('modalBg').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('modalBg').style.display = 'none';
+  document.getElementById('modalContent').innerHTML = '';
+}
+
+// 차단된 유저 차단 메시지 표시 함수
+function showBlockedMessage(nick) {
+  document.body.style.background = '#fff';
+  document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;width:100vw;"><div style="font-size:1.2rem;font-weight:700;color:#222;text-align:center;">' + (nick ? (nick + '님은 영구 차단 되었음니다.') : '영구 차단된 계정입니다.') + '</div></div>';
+}
+
+// 친구 패널 함수
+function showFriendsPanel() {
+  if (!auth.currentUser) {
+    document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+    return;
+  }
+  
+  // 친구 요청을 가져오기
+  const loadFriendRequests = async () => {
+    try {
+      const requestSnap = await db.ref('friendRequests/' + auth.currentUser.uid).once('value');
+      const requests = requestSnap.val() || {};
+      const requestUids = Object.keys(requests).filter(uid => requests[uid].status === 'pending');
+      
+      let notifHtml = '';
+      if (requestUids.length > 0) {
+        notifHtml += '<div style="background:#ff9800;padding:16px 18px;border-radius:10px;margin-bottom:18px;box-shadow:0 2px 8px #18191c;">';
+        notifHtml += '<h3 style="color:#fff;margin:0 0 12px 0;">📨 받은 친구 요청 (' + requestUids.length + '개)</h3>';
+        notifHtml += '<ul style="margin:8px 0 0 0;padding:0;list-style:none;" id="friendRequestList">';
+        
+        // 각 요청에 대해 닉네임을 가져와서 표시
+        for (const fromUid of requestUids) {
+          const nickSnap = await db.ref('users/' + fromUid + '/robloxNickname').once('value');
+          const nickname = nickSnap.val() || '익명';
+          const requestHtml = '<li style="margin:8px 0;padding:12px;background:#333;border-radius:8px;display:flex;justify-content:space-between;align-items:center;" data-fromuid="' + fromUid + '">' +
+            '<div><strong>' + nickname + '</strong>님이 친구 요청을 보냈습니다.</div>' +
+            '<div>' +
+            '<button class="acceptFriendBtn" data-fromuid="' + fromUid + '" style="padding:6px 12px;background:#4caf50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;">수락</button>' +
+            '<button class="rejectFriendBtn" data-fromuid="' + fromUid + '" style="padding:6px 12px;background:#f44336;color:#fff;border:none;border-radius:4px;cursor:pointer;">거절</button>' +
+            '</div>' +
+            '</li>';
+          
+          notifHtml += requestHtml;
+        }
+        
+        notifHtml += '</ul></div>';
+      }
+      
+      return notifHtml;
+    } catch (error) {
+      console.error('친구 요청 로드 오류:', error);
+      return '';
+    }
+  };
+  
+  // 친구 목록을 가져오기
+  const loadFriendsList = async () => {
+    try {
+      const friendSnap = await db.ref('users/' + auth.currentUser.uid + '/friends').once('value');
+      const myFriends = friendSnap.val() || {};
+      const userSnap = await db.ref('users').once('value');
+      const users = userSnap.val();
+      
+      const notifHtml = await loadFriendRequests();
+      let html = notifHtml;
+      html += '<h2>내 친구 목록</h2>';
+      html += '<input type="text" id="friendSearchInput" placeholder="닉네임 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">';
+      html += '<ul id="myFriendsList" style="background:#232428;padding:12px 18px;border-radius:10px;box-shadow:0 2px 8px #18191c;list-style:none;margin-bottom:18px;">';
+      let hasFriend = false;
+      for (const fuid in myFriends) {
+        if (users[fuid]) {
+          hasFriend = true;
+          html += '<li style="margin:6px 0;" data-nick="' + (users[fuid].robloxNickname || '') + '">' +
+            (users[fuid].robloxNickname || fuid) +
+            ' <button class="deleteFriendBtn" data-fuid="' + fuid + '">친구 삭제</button></li>';
+        }
+      }
+      if (!hasFriend) html += '<li>친구가 없습니다.</li>';
+      html += '</ul>';
+      html += '<h2>모든 멤버 목록</h2>';
+      html += '<input type="text" id="allMemberSearchInput" placeholder="닉네임 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">';
+      html += '<table id="allMembersTable" style="width:100%;background:#232428;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #18191c;font-size:16px;color:#e3e3e3;">';
+      html += '<tr><th>닉네임</th><th>친구 추가</th></tr>';
+      for (const uid in users) {
+        if (uid === auth.currentUser.uid) continue;
+        const user = users[uid];
+        const isFriend = myFriends[uid];
+        html += '<tr data-nick="' + (user.robloxNickname || '') + '">' +
+          '<td>' + (user.robloxNickname || '-') + '</td>' +
+          '<td>' + (isFriend ? '<span style="color:#aaa">이미 친구</span>' : '<button class="addFriendBtn" data-uid="' + uid + '">친구 추가</button>') + '</td>' +
+          '</tr>';
+      }
+      html += '</table>';
+      setTimeout(function() {
+        var input = document.getElementById('allMemberSearchInput');
+        if (input) {
+          input.addEventListener('input', function() {
+            const v = this.value.trim().toLowerCase();
+            document.querySelectorAll('#allMembersTable tr[data-nick]').forEach(function(tr) {
+              if (!v) {
+                tr.style.display = '';
               } else {
-                showServerButton(auth.currentUser.uid);
+                const nick = tr.getAttribute('data-nick').toLowerCase();
+                tr.style.display = (nick.includes(v)) ? '' : 'none';
+              }
+            });
+          });
+          document.querySelectorAll('#allMembersTable tr[data-nick]').forEach(function(tr) {
+            tr.style.display = '';
+          });
+        }
+      }, 100);
+      setTimeout(function() {
+        var input = document.getElementById('friendSearchInput');
+        if (input) {
+            input.addEventListener('input', function() {
+              const v = this.value.trim().toLowerCase();
+              document.querySelectorAll('#myFriendsList li[data-nick]').forEach(function(li) {
+                if (!v) {
+                  li.style.display = '';
+                } else {
+                  const nick = li.getAttribute('data-nick').toLowerCase();
+                  li.style.display = nick.includes(v) ? '' : 'none';
+                }
+              });
+            });
+          document.querySelectorAll('#myFriendsList li[data-nick]').forEach(function(li) {
+            li.style.display = '';
+          });
+        }
+      }, 100);
+      document.querySelectorAll('.addFriendBtn').forEach(function(btn) {
+        btn.onclick = function() {
+          const targetUid = btn.getAttribute('data-uid');
+          
+          // 이미 친구인지 확인
+          if (myFriends[targetUid]) {
+            alert('이미 친구입니다.');
+            return;
+          }
+          
+          // 이미 요청을 보냈는지 확인
+          db.ref('friendRequests/' + targetUid + '/' + auth.currentUser.uid).once('value').then(function(snap) {
+            if (snap.exists()) {
+              alert('이미 친구 요청을 보냈습니다.');
+              return;
+            }
+            
+            // 친구 요청 전송
+            db.ref('friendRequests/' + targetUid + '/' + auth.currentUser.uid).set({
+              status: 'pending',
+              requestedAt: Date.now(),
+              requesterUid: auth.currentUser.uid
+            }).then(() => {
+              btn.disabled = true;
+              btn.textContent = '요청됨';
+              btn.style.background = '#666';
+              alert('친구 요청을 보냈습니다!');
+            }).catch(error => {
+              alert('친구 요청 전송 실패: ' + error.message);
+            });
+          });
+        };
+      });
+      document.querySelectorAll('.deleteFriendBtn').forEach(function(btn) {
+        btn.onclick = function() {
+          const fuid = btn.getAttribute('data-fuid');
+          db.ref('users/' + auth.currentUser.uid + '/friends/' + fuid).remove();
+          db.ref('users/' + fuid + '/friends/' + auth.currentUser.uid).remove();
+          showFriendsPanel();
+        };
+      });
+      if (typeof requestUids !== 'undefined' && requestUids.length > 0) {
+        requestUids.forEach(function(fromUid) {
+          const req = requests[fromUid];
+          if (req.status === 'pending') {
+            db.ref('users/' + fromUid + '/robloxNickname').once('value').then(function(nickSnap) {
+              const nick = nickSnap.val() || fromUid;
+              const li = document.querySelector('li[data-fromuid="' + fromUid + '"]');
+              if (li) {
+                const acceptBtn = li.querySelector('.acceptFriendBtn');
+                const rejectBtn = li.querySelector('.rejectFriendBtn');
+                li.innerHTML = nick + '님에게 친구 요청이 왔습니다 ';
+                li.appendChild(acceptBtn);
+                li.appendChild(rejectBtn);
               }
             });
           }
-        } else {
-          showSignupForm();
-        }
-      };
-      loadPosts();
-      if (auth.currentUser) {
-        document.getElementById('postForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          const title = document.getElementById('postTitle').value.trim();
-          const content = document.getElementById('postContent').value.trim();
-          if (!title || !content) return;
-          let nickname = '';
-          db.ref('users/' + auth.currentUser.uid + '/robloxNickname').once('value').then(snap => {
-            nickname = snap.val() || '';
-            const postData = {
-              title,
-              content,
-              nickname,
-              createdAt: Date.now()
+        });
+        // 친구 요청 수락/거절 이벤트 리스너
+        setTimeout(function() {
+          document.querySelectorAll('.acceptFriendBtn').forEach(function(btn) {
+            btn.onclick = function() {
+              const fromUid = btn.getAttribute('data-fromuid');
+              if (confirm('친구 요청을 수락하시겠습니까?')) {
+                // 양방향 친구 관계 설정
+                db.ref('users/' + auth.currentUser.uid + '/friends/' + fromUid).set(true);
+                db.ref('users/' + fromUid + '/friends/' + auth.currentUser.uid).set(true);
+                // 친구 요청 삭제
+                db.ref('friendRequests/' + auth.currentUser.uid + '/' + fromUid).remove();
+                alert('친구 요청을 수락했습니다!');
+                showFriendsPanel(); // 친구 목록 새로고침
+              }
             };
-            db.ref('community/posts').push(postData).then(() => {
-              document.getElementById('postTitle').value = '';
-              document.getElementById('postContent').value = '';
+          });
+          
+          document.querySelectorAll('.rejectFriendBtn').forEach(function(btn) {
+            btn.onclick = function() {
+              const fromUid = btn.getAttribute('data-fromuid');
+              if (confirm('친구 요청을 거절하시겠습니까?')) {
+                // 친구 요청만 삭제
+                db.ref('friendRequests/' + auth.currentUser.uid + '/' + fromUid).remove();
+                alert('친구 요청을 거절했습니다.');
+                showFriendsPanel(); // 친구 목록 새로고침
+              }
+            };
+          });
+        }, 100);
+      }
+      
+      document.getElementById('formContainer').innerHTML = html;
+      
+      // 이벤트 리스너 설정
+      setTimeout(() => {
+        // 검색 기능
+        const friendSearchInput = document.getElementById('friendSearchInput');
+        if (friendSearchInput) {
+          friendSearchInput.addEventListener('input', function() {
+            const v = this.value.trim().toLowerCase();
+            document.querySelectorAll('#myFriendsList li[data-nick]').forEach(function(li) {
+              if (!v) {
+                li.style.display = '';
+              } else {
+                const nick = li.getAttribute('data-nick').toLowerCase();
+                li.style.display = nick.includes(v) ? '' : 'none';
+              }
             });
+          });
+        }
+        
+        // 친구 추가 버튼
+        document.querySelectorAll('.addFriendBtn').forEach(function(btn) {
+          btn.onclick = function() {
+            const targetUid = btn.getAttribute('data-uid');
+            
+            if (myFriends[targetUid]) {
+              alert('이미 친구입니다.');
+              return;
+            }
+            
+            db.ref('friendRequests/' + targetUid + '/' + auth.currentUser.uid).once('value').then(function(snap) {
+              if (snap.exists()) {
+                alert('이미 친구 요청을 보냈습니다.');
+                return;
+              }
+              
+              db.ref('friendRequests/' + targetUid + '/' + auth.currentUser.uid).set({
+                status: 'pending',
+                requestedAt: Date.now(),
+                requesterUid: auth.currentUser.uid
+              }).then(() => {
+                btn.disabled = true;
+                btn.textContent = '요청됨';
+                btn.style.background = '#666';
+                alert('친구 요청을 보냈습니다!');
+              }).catch(error => {
+                alert('친구 요청 전송 실패: ' + error.message);
+              });
+            });
+          };
+        });
+        
+        // 친구 삭제 버튼
+        document.querySelectorAll('.deleteFriendBtn').forEach(function(btn) {
+          btn.onclick = function() {
+            const fuid = btn.getAttribute('data-fuid');
+            db.ref('users/' + auth.currentUser.uid + '/friends/' + fuid).remove();
+            db.ref('users/' + fuid + '/friends/' + auth.currentUser.uid).remove();
+            showFriendsPanel();
+          };
+        });
+        
+        // 친구 요청 수락/거절 버튼
+        document.querySelectorAll('.acceptFriendBtn').forEach(function(btn) {
+          btn.onclick = function() {
+            const fromUid = btn.getAttribute('data-fromuid');
+            if (confirm('친구 요청을 수락하시겠습니까?')) {
+              db.ref('users/' + auth.currentUser.uid + '/friends/' + fromUid).set(true);
+              db.ref('users/' + fromUid + '/friends/' + auth.currentUser.uid).set(true);
+              db.ref('friendRequests/' + auth.currentUser.uid + '/' + fromUid).remove();
+              alert('친구 요청을 수락했습니다!');
+              showFriendsPanel();
+            }
+          };
+        });
+        
+        document.querySelectorAll('.rejectFriendBtn').forEach(function(btn) {
+          btn.onclick = function() {
+            const fromUid = btn.getAttribute('data-fromuid');
+            if (confirm('친구 요청을 거절하시겠습니까?')) {
+              db.ref('friendRequests/' + auth.currentUser.uid + '/' + fromUid).remove();
+              alert('친구 요청을 거절했습니다.');
+              showFriendsPanel();
+            }
+          };
+        });
+      }, 100);
+      
+    } catch (error) {
+      console.error('친구 목록 로드 오류:', error);
+      document.getElementById('formContainer').innerHTML = '<div style="color:red">친구 목록을 불러오는 중 오류가 발생했습니다.</div>';
+    }
+  };
+  
+  // 함수 호출
+  loadFriendsList();
+}
+
+// 프로필(내 정보) 패널
+function showProfilePanel() {
+  if (!auth.currentUser) {
+    document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+    return;
+  }
+  const uid = auth.currentUser.uid;
+  db.ref('users/' + uid).once('value').then(snap => {
+    const user = snap.val() || {};
+    let html = '<h2>내 프로필</h2>';
+    html += '<div style="background:#232428;padding:18px 22px;border-radius:10px;box-shadow:0 2px 8px #18191c;">';
+    html += '<b>로블록스 닉네임:</b> ' + (user.robloxNickname || '-') + '<br>';
+    html += '<b>가입 시기:</b> ' + (user.createdAt ? new Date(user.createdAt).toLocaleString() : '-') + '<br>';
+    // 인벤토리
+    const inv = (user.inventory && Array.isArray(user.inventory)) ? user.inventory : [];
+    html += '<b>인벤토리:</b> ' + (inv.length ? inv.join(', ') : '-') + '<br>';
+    // 프리미엄
+    html += '<b>프리미엄:</b> ' + (user.premium || '-') + '<br>';
+    // 서버 정보
+    if (user.server) {
+      html += '<b>서버 생성 여부:</b> O<br>';
+      html += '<b>서버 생성 시기:</b> ' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : '-') + '<br>';
+    } else {
+      html += '<b>서버 생성 여부:</b> X<br>';
+      html += '<b>서버 생성 시기:</b> -<br>';
+    }
+    html += '</div>';
+    document.getElementById('formContainer').innerHTML = html;
+  });
+}
+
+// 로블록스 닉네임을 사이드바에 표시
+function setSidebarNickname(nick) {
+  var el = document.getElementById('sidebarNickname');
+  if (el) {
+    el.textContent = nick || '닉네임';
+  }
+}
+
+// Firebase 설정
+const firebaseConfig = {
+  apiKey: "AIzaSyDKxcKXSmKF6LAEnFzF387ZN4wC8iRz8mg",
+  authDomain: "rugged-night-396106.firebaseapp.com",
+  databaseURL: "https://rugged-night-396106-default-rtdb.firebaseio.com",
+  projectId: "rugged-night-396106",
+  storageBucket: "rugged-night-396106.appspot.com",
+  messagingSenderId: "388578786746",
+  appId: "1:388578786746:web:c50051b71731c153f6b183",
+  measurementId: "G-SRLCD2LZT8"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.database();
+const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
+
+// 홈 패널 함수
+function showHomePanel() {
+  if (!auth.currentUser) {
+    document.getElementById('formContainer').innerHTML = 
+      '<h2>HJNF 서버 관리 시스템</h2>' +
+      '<p>로블록스 서버를 관리하고 친구들과 소통하세요!</p>' +
+      '<div id="loginButtons" style="margin-top: 20px;">' +
+      '<button id="showLogin">로그인</button>' +
+      '<button id="showSignup">회원가입</button>' +
+      '</div>';
+    return;
+  }
+      
+  db.ref('users/' + auth.currentUser.uid).once('value').then(snap => {
+    const user = snap.val() || {};
+    let html = '<h2>홈</h2>';
+    html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+    html += '<h3>환영합니다, ' + (user.robloxNickname || '사용자') + '님!</h3>';
+    html += '<p>서버 관리와 친구들과의 소통을 시작해보세요.</p>';
+    html += '</div>';
+    
+    // 서버 상태 표시 (실시간 업데이트용 컨테이너)
+    html += '<div id="serverStatusContainer" style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+    html += '<h3>내 서버 상태</h3>';
+    html += '<div id="serverStatusContent">불러오는 중...</div>';
+    html += '</div>';
+    
+    // 프리미엄 상태 표시
+    html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+    html += '<h3>프리미엄 상태</h3>';
+    html += '<p><strong>등급:</strong> ' + (user.premium || '없음') + '</p>';
+    html += '</div>';
+    
+    // 친구 요청 알림 표시
+    html += '<div id="friendRequestNotifications" style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+    html += '<h3>친구 요청 알림</h3>';
+    html += '<div id="pendingFriendRequests">불러오는 중...</div>';
+    html += '</div>';
+    
+    // 서버 소유자용 멤버 관리 패널
+    if (user.server && user.server.status === 'approved') {
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-top:20px;">';
+      html += '<h3>내 서버 멤버 관리</h3>';
+      html += '<p>서버 참여 신청 승인 및 멤버 관리</p>';
+      html += '<button onclick="showServerMemberManagement()" style="margin-top:10px;padding:10px 20px;background:#4caf50;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">멤버 관리</button>';
+      html += '</div>';
+    }
+    
+    // 관리자용 서버 관리 패널
+    if (auth.currentUser.uid === ADMIN_UID) {
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-top:20px;">';
+      html += '<h3>관리자 서버 관리</h3>';
+      html += '<p>서버 승인/거절 및 관리 기능</p>';
+      html += '<button onclick="showAdminServerManagement()" style="margin-top:10px;padding:10px 20px;background:#ff9800;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 관리</button>';
+      html += '</div>';
+      
+      // 실시간 서버 요청 알림 표시
+      html += '<div id="serverRequestNotifications" style="background:#232428;padding:20px;border-radius:10px;margin-top:20px;">';
+      html += '<h3>서버 요청 알림</h3>';
+      html += '<div id="pendingRequestsList">불러오는 중...</div>';
+      html += '</div>';
+      
+      // 사이트 관리자용 참여 승인 알림
+      html += '<div id="joinApprovalNotifications" style="background:#232428;padding:20px;border-radius:10px;margin-top:20px;">';
+      html += '<h3>참여 승인 알림</h3>';
+      html += '<div id="pendingJoinApprovals">불러오는 중...</div>';
+      html += '</div>';
+      
+      // 사이트 관리자용 추방 승인 알림
+      html += '<div id="kickApprovalNotifications" style="background:#232428;padding:20px;border-radius:10px;margin-top:20px;">';
+      html += '<h3>추방 승인 알림</h3>';
+      html += '<div id="pendingKickApprovals">불러오는 중...</div>';
+      html += '</div>';
+    }
+        
+        document.getElementById('formContainer').innerHTML = html;
+        
+        // 관리자인 경우 실시간 서버 요청 알림 표시
+        if (auth.currentUser.uid === ADMIN_UID) {
+          showRealtimeServerRequests();
+          showRealtimeJoinApprovals();
+          showRealtimeKickApprovals();
+        }
+        
+        // 서버 소유자인 경우 멤버 관리 알림 표시
+        if (user.server && user.server.status === 'approved') {
+          showRealtimeJoinRequests();
+        }
+        
+        // 실시간 서버 상태 업데이트
+        showRealtimeServerStatus();
+        
+        // 실시간 친구 요청 알림 표시
+        showRealtimeFriendRequests();
+      });
+    }
+
+    // 실시간 친구 요청 알림 표시
+    function showRealtimeFriendRequests() {
+      if (!auth.currentUser) return;
+      
+      db.ref('friendRequests/' + auth.currentUser.uid).on('value', function(snap) {
+        const requests = snap.val() || {};
+        const pendingRequests = Object.keys(requests).filter(uid => requests[uid].status === 'pending');
+        const container = document.getElementById('pendingFriendRequests');
+        
+        if (!container) return;
+        
+        if (pendingRequests.length === 0) {
+          container.innerHTML = '<p style="color:#888;">대기중인 친구 요청이 없습니다.</p>';
+        } else {
+          let html = '<div style="background:#ff9800;padding:15px;border-radius:8px;margin-bottom:10px;">';
+          html += '<p><strong>' + pendingRequests.length + '개의 친구 요청이 있습니다!</strong></p>';
+          html += '<p style="font-size:14px;color:#fff;">친구 패널에서 확인하고 수락하세요.</p>';
+          html += '<button onclick="showFriendsPanel()" style="margin-top:10px;padding:8px 16px;background:#fff;color:#ff9800;border:none;border-radius:4px;cursor:pointer;font-weight:600;">친구 요청 확인</button>';
+          html += '</div>';
+          container.innerHTML = html;
+        }
+      });
+    }
+
+    // 실시간 서버 상태 업데이트
+    function showRealtimeServerStatus() {
+      if (!auth.currentUser) return;
+      
+      db.ref('users/' + auth.currentUser.uid + '/server').on('value', function(snap) {
+        const server = snap.val();
+        const container = document.getElementById('serverStatusContent');
+        if (!container) return;
+        
+        if (server) {
+          let statusKor = '';
+          switch (server.status) {
+            case 'pending': statusKor = '대기중'; break;
+            case 'approved': statusKor = '운영중'; break;
+            case 'stopped': statusKor = '정지됨'; break;
+            case 'paused': statusKor = '일시정지'; break;
+            default: statusKor = server.status;
+          }
+          
+          let html = '<p><strong>상태:</strong> ' + statusKor + '</p>';
+          html += '<p><strong>생성일:</strong> ' + (server.requestedAt ? new Date(server.requestedAt).toLocaleString() : '-') + '</p>';
+          if (server.url) {
+            html += '<p><strong>서버 주소:</strong> <a href="' + server.url + '" target="_blank" style="color:#2196f3;">' + server.url + '</a></p>';
+          }
+          
+          // 상태별 메시지
+          if (server.status === 'pending') {
+            html += '<div style="background:#ff9800;padding:15px;border-radius:10px;margin-top:15px;">';
+            html += '<p><strong>서버 생성 요청이 대기중입니다.</strong></p>';
+            html += '<p>관리자 승인을 기다려주세요.</p>';
+            html += '</div>';
+          } else if (server.status === 'approved') {
+            html += '<div style="background:#4caf50;padding:15px;border-radius:10px;margin-top:15px;">';
+            html += '<p><strong>서버가 승인되었습니다!</strong></p>';
+            html += '<p>서버를 운영할 수 있습니다.</p>';
+            html += '</div>';
+          } else if (server.status === 'paused') {
+            html += '<div style="background:#ff9800;padding:15px;border-radius:10px;margin-top:15px;">';
+            html += '<p><strong>서버가 일시정지되었습니다.</strong></p>';
+            html += '<p>서버를 다시 시작할 수 있습니다.</p>';
+            html += '<button onclick="resumeServer()" style="margin-top:10px;padding:10px 20px;background:#4caf50;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 재개</button>';
+            html += '</div>';
+          } else if (server.status === 'stopped') {
+            html += '<div style="background:#f44336;padding:15px;border-radius:10px;margin-top:15px;">';
+            html += '<p><strong>서버가 정지되었습니다.</strong></p>';
+            html += '<p>관리자에게 문의하세요.</p>';
+            html += '</div>';
+          }
+          
+          container.innerHTML = html;
+        } else {
+          container.innerHTML = '<p>아직 서버가 없습니다. 서버를 생성해보세요!</p>' +
+            '<button onclick="showServerRequestForm()" style="margin-top:10px;padding:10px 20px;background:#d32c2c;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 생성 요청</button>';
+        }
+      });
+    }
+
+    // 실시간 서버 요청 알림 표시
+    function showRealtimeServerRequests() {
+      db.ref('users').orderByChild('server/status').equalTo('pending').on('value', function(snap) {
+        const users = snap.val() || {};
+        let html = '';
+        
+        for (const uid in users) {
+          const user = users[uid];
+          if (user.server && user.server.status === 'pending') {
+            html += '<div style="background:#ff9800;padding:15px;border-radius:8px;margin-bottom:10px;">';
+            html += '<p><strong>' + (user.robloxNickname || '익명') + '님</strong>이 서버 생성을 요청했습니다.</p>';
+            html += '<p style="font-size:12px;color:#ccc;">요청 시간: ' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : '-') + '</p>';
+            html += '<div style="margin-top:10px;">';
+            html += '<input type="text" id="serverUrl-' + uid + '" placeholder="서버 URL 입력" style="width:200px;padding:5px;margin-right:10px;border-radius:4px;border:1px solid #333;background:#18191c;color:#fff;">';
+            html += '<button onclick="approveServerRequest(\'' + uid + '\')" style="padding:5px 15px;background:#4caf50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;">승인</button>';
+            html += '<button onclick="rejectServerRequest(\'' + uid + '\')" style="padding:5px 15px;background:#f44336;color:#fff;border:none;border-radius:4px;cursor:pointer;">거절</button>';
+            html += '</div>';
+            html += '</div>';
+          }
+        }
+        
+        if (!html) {
+          html = '<p style="color:#ccc;">대기중인 서버 요청이 없습니다.</p>';
+        }
+        
+        const container = document.getElementById('pendingRequestsList');
+        if (container) {
+          container.innerHTML = html;
+        }
+      });
+    }
+
+    // 서버 요청 승인
+    function approveServerRequest(uid) {
+      const serverUrl = document.getElementById('serverUrl-' + uid).value.trim();
+      if (!serverUrl) {
+        alert('서버 URL을 입력해주세요.');
+        return;
+      }
+      
+      if (confirm('서버 요청을 승인하시겠습니까?')) {
+        db.ref('users/' + uid + '/server').update({
+          status: 'approved',
+          url: serverUrl,
+          approvedAt: Date.now()
+        }).then(() => {
+          alert('서버 요청이 승인되었습니다.');
+        });
+      }
+    }
+
+    // 서버 요청 거절
+    function rejectServerRequest(uid) {
+      if (confirm('서버 요청을 거절하시겠습니까?')) {
+        db.ref('users/' + uid + '/server').remove().then(() => {
+          alert('서버 요청이 거절되었습니다.');
+        });
+      }
+    }
+
+    // 서버 소유자용 멤버 관리 패널
+    function showServerMemberManagement() {
+      if (!auth.currentUser) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+        return;
+      }
+      
+      let html = '<h2>서버 멤버 관리</h2>';
+      html += '<div id="joinRequestsContainer" style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+      html += '<h3>참여 신청 목록</h3>';
+      html += '<div id="joinRequestsList">불러오는 중...</div>';
+      html += '</div>';
+      
+      html += '<div id="serverMembersContainer" style="background:#232428;padding:20px;border-radius:10px;">';
+      html += '<h3>서버 멤버 목록</h3>';
+      html += '<div id="serverMembersList">불러오는 중...</div>';
+      html += '</div>';
+      
+      document.getElementById('formContainer').innerHTML = html;
+      
+      // 실시간 참여 신청 및 멤버 목록 표시
+      showRealtimeJoinRequests();
+      showRealtimeServerMembers();
+    }
+
+    // 실시간 참여 신청 표시
+    function showRealtimeJoinRequests() {
+      if (!auth.currentUser) return;
+      
+      db.ref('serverJoinRequests/' + auth.currentUser.uid).on('value', function(snap) {
+        const requests = snap.val() || {};
+        let html = '';
+        
+        for (const requesterUid in requests) {
+          const request = requests[requesterUid];
+          if (request.status === 'pending') {
+            db.ref('users/' + requesterUid + '/robloxNickname').once('value').then(nickSnap => {
+              const nickname = nickSnap.val() || '익명';
+              html += '<div style="background:#ff9800;padding:15px;border-radius:8px;margin-bottom:10px;">';
+              html += '<p><strong>' + nickname + '님</strong>이 서버 참여를 신청했습니다.</p>';
+              html += '<p style="font-size:12px;color:#ccc;">신청 시간: ' + (request.requestedAt ? new Date(request.requestedAt).toLocaleString() : '-') + '</p>';
+              html += '<div style="margin-top:10px;">';
+              html += '<button onclick="approveJoinRequest(\'' + requesterUid + '\')" style="padding:5px 15px;background:#4caf50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;">승인</button>';
+              html += '<button onclick="rejectJoinRequest(\'' + requesterUid + '\')" style="padding:5px 15px;background:#f44336;color:#fff;border:none;border-radius:4px;cursor:pointer;">거절</button>';
+              html += '</div>';
+              html += '</div>';
+              
+              const container = document.getElementById('joinRequestsList');
+              if (container) {
+                container.innerHTML = html;
+              }
+            });
+          }
+        }
+        
+        if (!html) {
+          html = '<p style="color:#ccc;">대기중인 참여 신청이 없습니다.</p>';
+          const container = document.getElementById('joinRequestsList');
+          if (container) {
+            container.innerHTML = html;
+          }
+        }
+      });
+    }
+
+    // 참여 신청 승인
+    function approveJoinRequest(requesterUid) {
+      if (confirm('참여 신청을 승인하시겠습니까?')) {
+        // 1단계: 서버 소유자 승인
+        db.ref('serverJoinRequests/' + auth.currentUser.uid + '/' + requesterUid).update({
+          status: 'approved',
+          approvedAt: Date.now()
+        }).then(() => {
+          // 2단계: 사이트 관리자 승인 요청
+          db.ref('serverJoinApprovals/' + auth.currentUser.uid + '/' + requesterUid).set({
+            status: 'pending',
+            requestedAt: Date.now(),
+            serverOwnerUid: auth.currentUser.uid,
+            requesterUid: requesterUid
+          }).then(() => {
+            alert('참여 신청이 승인되었습니다. 사이트 관리자 승인을 기다려주세요.');
           });
         });
       }
     }
 
-    function loadPosts() {
-      db.ref('community/posts').orderByChild('createdAt').limitToLast(30).on('value', function(snapshot) {
-        const posts = snapshot.val();
-        let html = '<h3>게시글 목록</h3>';
-        if (!posts) {
-          html += '<div>아직 글이 없습니다.</div>';
-        } else {
-          html += '<ul style="padding-left:0">';
-          // 최신글이 위로
-          const arr = Object.entries(posts).sort((a, b) => b[1].createdAt - a[1].createdAt);
-          arr.forEach(([key, post]) => {
-            html += `<li style="margin-bottom:10px;list-style:none;border-bottom:1px solid #eee;padding-bottom:8px">
-              <b>${post.title}</b> <span style="color:#009688;font-size:13px">(${post.nickname || '익명'})</span><br>
-              <span style="color:#555">${post.content}</span><br>
-              <span style="font-size:12px;color:#aaa">${new Date(post.createdAt).toLocaleString()}</span>
-              ${auth.currentUser && auth.currentUser.uid === ADMIN_UID ? `<button onclick="deletePost('${key}')" style="margin-left:10px;color:red">삭제</button>` : ''}
-            </li>`;
-          });
-          html += '</ul>';
-        }
-        document.getElementById('postList').innerHTML = html;
-      });
-    }
-
-    // 관리자 글 삭제 함수
-    window.deletePost = function(key) {
-      if (auth.currentUser && auth.currentUser.uid === ADMIN_UID) {
-        db.ref('community/posts/' + key).remove();
+    // 참여 신청 거절
+    function rejectJoinRequest(requesterUid) {
+      if (confirm('참여 신청을 거절하시겠습니까?')) {
+        db.ref('serverJoinRequests/' + auth.currentUser.uid + '/' + requesterUid).update({
+          status: 'rejected',
+          rejectedAt: Date.now()
+        }).then(() => {
+          alert('참여 신청이 거절되었습니다.');
+        });
       }
     }
 
-    // 자동 로그인 처리
-    auth.onAuthStateChanged(function(user) {
-      if (user) {
-        document.getElementById('showSignup').style.display = 'none';
-        document.getElementById('showLogin').style.display = 'none';
-        document.getElementById('logoutBtn').style.display = '';
-        if (user.uid === ADMIN_UID) {
-          showAdminPanel();
-        } else {
-          db.ref('users/' + user.uid + '/server').once('value').then(snap => {
-            const server = snap.val();
-            if (server && server.status) {
-              showServerStatus(user.uid, server);
-            } else {
-              showServerButton(user.uid);
+    // 실시간 서버 멤버 목록 표시
+    function showRealtimeServerMembers() {
+      if (!auth.currentUser) return;
+      
+      db.ref('serverMembers/' + auth.currentUser.uid).on('value', function(snap) {
+        const members = snap.val() || {};
+        let html = '';
+        
+        for (const memberUid in members) {
+          const member = members[memberUid];
+          if (member.status === 'approved') {
+            db.ref('users/' + memberUid + '/robloxNickname').once('value').then(nickSnap => {
+              const nickname = nickSnap.val() || '익명';
+              html += '<div style="background:#4caf50;padding:15px;border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">';
+              html += '<div>';
+              html += '<p><strong>' + nickname + '</strong></p>';
+              html += '<p style="font-size:12px;color:#ccc;">가입일: ' + (member.joinedAt ? new Date(member.joinedAt).toLocaleString() : '-') + '</p>';
+              html += '</div>';
+              html += '<button onclick="kickServerMember(\'' + memberUid + '\')" style="padding:5px 15px;background:#f44336;color:#fff;border:none;border-radius:4px;cursor:pointer;">추방</button>';
+              html += '</div>';
+              
+              const container = document.getElementById('serverMembersList');
+              if (container) {
+                container.innerHTML = html;
+              }
+            });
+          }
+        }
+        
+        if (!html) {
+          html = '<p style="color:#ccc;">서버 멤버가 없습니다.</p>';
+          const container = document.getElementById('serverMembersList');
+          if (container) {
+            container.innerHTML = html;
+          }
+        }
+      });
+    }
+
+    // 서버 멤버 추방
+    function kickServerMember(memberUid) {
+      if (confirm('이 멤버를 추방하시겠습니까?')) {
+        // 추방 요청을 사이트 관리자에게 전송
+        db.ref('kickRequests/' + auth.currentUser.uid + '/' + memberUid).set({
+          status: 'pending',
+          requestedAt: Date.now(),
+          serverOwnerUid: auth.currentUser.uid,
+          memberUid: memberUid
+        }).then(() => {
+          alert('추방 요청이 사이트 관리자에게 전송되었습니다.');
+        });
+      }
+    }
+
+    // 사이트 관리자용 참여 승인 알림 표시
+    function showRealtimeJoinApprovals() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
+      
+      db.ref('serverJoinApprovals').on('value', function(snap) {
+        const approvals = snap.val() || {};
+        let html = '';
+        
+        for (const serverOwnerUid in approvals) {
+          const serverApprovals = approvals[serverOwnerUid];
+          for (const requesterUid in serverApprovals) {
+            const approval = serverApprovals[requesterUid];
+            if (approval.status === 'pending') {
+              // 서버 소유자와 신청자 닉네임 가져오기
+              Promise.all([
+                db.ref('users/' + serverOwnerUid + '/robloxNickname').once('value'),
+                db.ref('users/' + requesterUid + '/robloxNickname').once('value')
+              ]).then(([ownerSnap, requesterSnap]) => {
+                const ownerNick = ownerSnap.val() || '익명';
+                const requesterNick = requesterSnap.val() || '익명';
+                
+                html += '<div style="background:#2196f3;padding:15px;border-radius:8px;margin-bottom:10px;">';
+                html += '<p><strong>' + requesterNick + '님</strong>이 <strong>' + ownerNick + '님</strong>의 서버 참여를 요청했습니다.</p>';
+                html += '<p style="font-size:12px;color:#ccc;">요청 시간: ' + (approval.requestedAt ? new Date(approval.requestedAt).toLocaleString() : '-') + '</p>';
+                html += '<div style="margin-top:10px;">';
+                html += '<button onclick="approveJoinApproval(\'' + serverOwnerUid + '\', \'' + requesterUid + '\')" style="padding:5px 15px;background:#4caf50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;">승인</button>';
+                html += '<button onclick="rejectJoinApproval(\'' + serverOwnerUid + '\', \'' + requesterUid + '\')" style="padding:5px 15px;background:#f44336;color:#fff;border:none;border-radius:4px;cursor:pointer;">거절</button>';
+                html += '</div>';
+                html += '</div>';
+                
+                const container = document.getElementById('pendingJoinApprovals');
+                if (container) {
+                  container.innerHTML = html;
+                }
+              });
             }
+          }
+        }
+        
+        if (!html) {
+          html = '<p style="color:#ccc;">대기중인 참여 승인 요청이 없습니다.</p>';
+          const container = document.getElementById('pendingJoinApprovals');
+          if (container) {
+            container.innerHTML = html;
+          }
+        }
+      });
+    }
+
+    // 참여 승인 승인
+    function approveJoinApproval(serverOwnerUid, requesterUid) {
+      if (confirm('참여 승인을 승인하시겠습니까?')) {
+        // 사이트 관리자 승인
+        db.ref('serverJoinApprovals/' + serverOwnerUid + '/' + requesterUid).update({
+          status: 'approved',
+          approvedAt: Date.now()
+        }).then(() => {
+          // 서버 멤버로 추가
+          db.ref('serverMembers/' + serverOwnerUid + '/' + requesterUid).set({
+            status: 'approved',
+            joinedAt: Date.now()
+          }).then(() => {
+            alert('참여 승인이 완료되었습니다.');
+          });
+        });
+      }
+    }
+
+    // 참여 승인 거절
+    function rejectJoinApproval(serverOwnerUid, requesterUid) {
+      if (confirm('참여 승인을 거절하시겠습니까?')) {
+        db.ref('serverJoinApprovals/' + serverOwnerUid + '/' + requesterUid).update({
+          status: 'rejected',
+          rejectedAt: Date.now()
+        }).then(() => {
+          alert('참여 승인이 거절되었습니다.');
+        });
+      }
+    }
+
+    // 사이트 관리자용 추방 승인 알림 표시
+    function showRealtimeKickApprovals() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
+      
+      db.ref('kickRequests').on('value', function(snap) {
+        const kickRequests = snap.val() || {};
+        let html = '';
+        
+        for (const serverOwnerUid in kickRequests) {
+          const serverKicks = kickRequests[serverOwnerUid];
+          for (const memberUid in serverKicks) {
+            const kickRequest = serverKicks[memberUid];
+            if (kickRequest.status === 'pending') {
+              // 서버 소유자와 멤버 닉네임 가져오기
+              Promise.all([
+                db.ref('users/' + serverOwnerUid + '/robloxNickname').once('value'),
+                db.ref('users/' + memberUid + '/robloxNickname').once('value')
+              ]).then(([ownerSnap, memberSnap]) => {
+                const ownerNick = ownerSnap.val() || '익명';
+                const memberNick = memberSnap.val() || '익명';
+                
+                html += '<div style="background:#f44336;padding:15px;border-radius:8px;margin-bottom:10px;">';
+                html += '<p><strong>' + ownerNick + '님</strong>이 <strong>' + memberNick + '님</strong>의 추방을 요청했습니다.</p>';
+                html += '<p style="font-size:12px;color:#ccc;">요청 시간: ' + (kickRequest.requestedAt ? new Date(kickRequest.requestedAt).toLocaleString() : '-') + '</p>';
+                html += '<div style="margin-top:10px;">';
+                html += '<button onclick="approveKickRequest(\'' + serverOwnerUid + '\', \'' + memberUid + '\')" style="padding:5px 15px;background:#f44336;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;">추방 승인</button>';
+                html += '<button onclick="rejectKickRequest(\'' + serverOwnerUid + '\', \'' + memberUid + '\')" style="padding:5px 15px;background:#666;color:#fff;border:none;border-radius:4px;cursor:pointer;">거절</button>';
+                html += '</div>';
+                html += '</div>';
+                
+                const container = document.getElementById('pendingKickApprovals');
+                if (container) {
+                  container.innerHTML = html;
+                }
+              });
+            }
+          }
+        }
+        
+        if (!html) {
+          html = '<p style="color:#ccc;">대기중인 추방 승인 요청이 없습니다.</p>';
+          const container = document.getElementById('pendingKickApprovals');
+          if (container) {
+            container.innerHTML = html;
+          }
+        }
+      });
+    }
+
+    // 추방 승인
+    function approveKickRequest(serverOwnerUid, memberUid) {
+      if (confirm('추방을 승인하시겠습니까?')) {
+        // 추방 승인
+        db.ref('kickRequests/' + serverOwnerUid + '/' + memberUid).update({
+          status: 'approved',
+          approvedAt: Date.now()
+        }).then(() => {
+          // 서버 멤버에서 제거
+          db.ref('serverMembers/' + serverOwnerUid + '/' + memberUid).remove().then(() => {
+            alert('추방이 완료되었습니다.');
+          });
+        });
+      }
+    }
+
+    // 추방 거절
+    function rejectKickRequest(serverOwnerUid, memberUid) {
+      if (confirm('추방을 거절하시겠습니까?')) {
+        db.ref('kickRequests/' + serverOwnerUid + '/' + memberUid).update({
+          status: 'rejected',
+          rejectedAt: Date.now()
+        }).then(() => {
+          alert('추방이 거절되었습니다.');
+        });
+      }
+    }
+
+    // 로그인 함수
+    function showLoginForm() {
+      const html = 
+        '<h2>로그인</h2>' +
+        '<form id="loginForm">' +
+        '<input type="email" id="loginEmail" placeholder="이메일" required>' +
+        '<input type="password" id="loginPassword" placeholder="비밀번호" required>' +
+        '<button type="submit">로그인</button>' +
+        '</form>';
+      openModal(html);
+      
+      document.getElementById('loginForm').onsubmit = function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            closeModal();
+            // 로그인 성공 시 자동으로 홈으로 이동
+            setTimeout(() => {
+              showHomePanel();
+            }, 100);
+          })
+          .catch(error => {
+            alert('로그인 실패: ' + error.message);
+          });
+      };
+    }
+
+    // 회원가입 함수
+    function showSignupForm() {
+      const html = 
+        '<h2>회원가입</h2>' +
+        '<form id="signupForm">' +
+        '<input type="email" id="signupEmail" placeholder="이메일" required>' +
+        '<input type="password" id="signupPassword" placeholder="비밀번호" required>' +
+        '<input type="text" id="robloxNickname" placeholder="로블록스 닉네임" required>' +
+        '<button type="submit">회원가입</button>' +
+        '</form>';
+      openModal(html);
+      
+      document.getElementById('signupForm').onsubmit = function(e) {
+        e.preventDefault();
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const nickname = document.getElementById('robloxNickname').value;
+        
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(userCredential => {
+            const user = userCredential.user;
+            return db.ref('users/' + user.uid).set({
+              email: email,
+              robloxNickname: nickname,
+              createdAt: Date.now()
+            });
+          })
+          .then(() => {
+            closeModal();
+            // 회원가입 성공 시 자동으로 홈으로 이동
+            setTimeout(() => {
+              showHomePanel();
+            }, 100);
+          })
+          .catch(error => {
+            alert('회원가입 실패: ' + error.message);
+          });
+      };
+    }
+
+    // 서버 재개 함수
+    function resumeServer() {
+      if (!auth.currentUser) {
+        alert('로그인 후 이용 가능합니다.');
+        return;
+      }
+      
+      if (confirm('서버를 재개하시겠습니까?')) {
+        db.ref('users/' + auth.currentUser.uid + '/server/status').set('approved').then(() => {
+          alert('서버가 재개되었습니다.');
+          showHomePanel(); // 홈 패널 새로고침
+        }).catch(error => {
+          alert('서버 재개 실패: ' + error.message);
+        });
+      }
+    }
+
+    // 서버 생성 요청 폼 (간소화)
+    function showServerRequestForm() {
+      if (!auth.currentUser) {
+        alert('로그인 후 이용 가능합니다.');
+        return;
+      }
+      
+      if (confirm('서버 생성 요청을 보내시겠습니까?')) {
+        db.ref('users/' + auth.currentUser.uid + '/server').set({
+          status: 'pending',
+          requestedAt: Date.now(),
+          requestedBy: auth.currentUser.uid
+        })
+        .then(() => {
+          // 관리자에게 실시간 알림 전송
+          db.ref('adminNotifications/serverRequests').push({
+            userId: auth.currentUser.uid,
+            userNickname: '', // 닉네임은 별도로 가져올 예정
+            timestamp: Date.now(),
+            type: 'serverRequest'
+          });
+          
+          showHomePanel();
+          alert('서버 생성 요청이 완료되었습니다. 관리자 승인을 기다려주세요.');
+        })
+        .catch(error => {
+          alert('요청 실패: ' + error.message);
+        });
+      }
+    }
+
+    // 커뮤니티 패널
+    function showCommunity() {
+      if (!auth.currentUser) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+        return;
+      }
+      
+      let html = '<h2>커뮤니티</h2>';
+      html += '<div style="margin-bottom: 20px;">';
+      html += '<textarea id="postContent" placeholder="게시글을 작성하세요..." rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>';
+      html += '<button onclick="submitPost()">게시하기</button>';
+      html += '</div>';
+      html += '<div id="postsList">불러오는 중...</div>';
+      
+      document.getElementById('formContainer').innerHTML = html;
+      
+      // 게시글 목록 불러오기
+      db.ref('posts').orderByChild('timestamp').limitToLast(20).on('value', function(snap) {
+        const posts = snap.val() || {};
+        let postsHtml = '';
+        const postsArray = Object.entries(posts).reverse();
+        
+        postsArray.forEach(([key, post]) => {
+          postsHtml += '<div style="background:#232428;padding:15px;border-radius:10px;margin-bottom:15px;">';
+          postsHtml += '<div class="post-nickname">' + (post.nickname || '익명') + '</div>';
+          postsHtml += '<div class="post-content">' + post.content + '</div>';
+          postsHtml += '<div class="post-date">' + (post.timeStr || '') + '</div>';
+          postsHtml += '</div>';
+        });
+        
+        document.getElementById('postsList').innerHTML = postsHtml || '<p>게시글이 없습니다.</p>';
+      });
+    }
+
+    // 게시글 작성 함수
+    function submitPost() {
+      const content = document.getElementById('postContent').value.trim();
+      if (!content) {
+        alert('내용을 입력해주세요.');
+        return;
+      }
+      
+      db.ref('users/' + auth.currentUser.uid + '/robloxNickname').once('value').then(snap => {
+        const nickname = snap.val() || '익명';
+        const now = Date.now();
+        
+        db.ref('posts').push({
+          content: content,
+          nickname: nickname,
+          timestamp: now,
+          timeStr: new Date(now).toLocaleString()
+        }).then(() => {
+          document.getElementById('postContent').value = '';
+        });
+      });
+    }
+
+    // 관리자용 아이템 관리 패널
+    function showAdminInventoryManagement() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">관리자만 접근 가능합니다.</div>';
+        return;
+      }
+      
+      db.ref('users').once('value').then(snap => {
+        const users = snap.val() || {};
+        let html = '<h2>관리자 아이템 관리</h2>';
+        html += '<input type="text" id="inventoryMemberSearchInput" placeholder="닉네임 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">';
+        html += '<table id="inventoryMembersTable" style="width:100%;background:#232428;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #18191c;font-size:16px;color:#e3e3e3;">';
+        html += '<tr><th>닉네임</th><th>현재 아이템</th><th>아이템 추가</th><th>관리</th></tr>';
+        
+        for (const uid in users) {
+          const user = users[uid];
+          const inventory = user.inventory || [];
+          const inventoryText = inventory.length > 0 ? inventory.join(', ') : '없음';
+          
+          html += '<tr data-nick="' + (user.robloxNickname || '') + '">';
+          html += '<td>' + (user.robloxNickname || '-') + '</td>';
+          html += '<td id="inventory-' + uid + '">';
+          if (inventory.length > 0) {
+            inventory.forEach((item, index) => {
+              html += '<span style="display:inline-block;background:#333;padding:2px 6px;margin:2px;border-radius:4px;font-size:12px;">';
+              html += item + ' <button onclick="removeItem(\'' + uid + '\', \'' + index + '\')" style="background:none;border:none;color:#f44336;cursor:pointer;font-size:12px;margin-left:4px;">×</button>';
+              html += '</span>';
+            });
+          } else {
+            html += '없음';
+          }
+          html += '</td>';
+          html += '<td>';
+          html += '<select id="newItemType-' + uid + '" style="width:120px;padding:4px 8px;margin-right:5px;border-radius:4px;border:1px solid #333;background:#18191c;color:#fff;font-size:14px;">';
+          html += '<option value="custom">직접 입력</option>';
+          html += '<option value="[서버추가]">[서버추가]</option>';
+          html += '<option value="[VIP]">[VIP]</option>';
+          html += '<option value="[VIP+]">[VIP+]</option>';
+          html += '<option value="[MVP]">[MVP]</option>';
+          html += '<option value="[MVP+]">[MVP+]</option>';
+          html += '</select>';
+          html += '<input type="text" id="newItem-' + uid + '" placeholder="새 아이템" style="width:120px;padding:4px 8px;margin-right:5px;border-radius:4px;border:1px solid #333;background:#18191c;color:#fff;font-size:14px;">';
+          html += '<button class="addItemBtn" data-uid="' + uid + '" style="padding:4px 8px;background:#4caf50;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;">추가</button>';
+          html += '</td>';
+          html += '<td>';
+          html += '<button class="clearInventoryBtn" data-uid="' + uid + '" style="padding:4px 8px;background:#f44336;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;">전체 삭제</button>';
+          html += '</td>';
+          html += '</tr>';
+        }
+        html += '</table>';
+        
+        document.getElementById('formContainer').innerHTML = html;
+        
+        // 이벤트 리스너 설정
+        setTimeout(() => {
+          // 검색 기능
+          const input = document.getElementById('inventoryMemberSearchInput');
+          if (input) {
+            input.addEventListener('input', function() {
+              const v = this.value.trim().toLowerCase();
+              document.querySelectorAll('#inventoryMembersTable tr[data-nick]').forEach(tr => {
+                const nick = tr.getAttribute('data-nick').toLowerCase();
+                tr.style.display = nick.includes(v) ? '' : 'none';
+              });
+            });
+          }
+          
+          // 아이템 추가 버튼
+          document.querySelectorAll('.addItemBtn').forEach(btn => {
+            btn.onclick = function() {
+              const uid = btn.getAttribute('data-uid');
+              const select = document.getElementById('newItemType-' + uid);
+              const input = document.getElementById('newItem-' + uid);
+              const selectedType = select.value;
+              const customItem = input.value.trim();
+              
+              let newItem = '';
+              if (selectedType === 'custom') {
+                newItem = customItem;
+                if (!newItem) {
+                  alert('아이템 이름을 입력해주세요.');
+                  return;
+                }
+              } else {
+                newItem = selectedType;
+              }
+              
+              db.ref('users/' + uid + '/inventory').once('value').then(snap => {
+                const currentInventory = snap.val() || [];
+                if (currentInventory.includes(newItem)) {
+                  alert('이미 보유한 아이템입니다.');
+                  return;
+                }
+                
+                const updatedInventory = [...currentInventory, newItem];
+                db.ref('users/' + uid + '/inventory').set(updatedInventory).then(() => {
+                  input.value = '';
+                  select.value = 'custom';
+                  alert('아이템이 추가되었습니다.');
+                  showAdminInventoryManagement(); // 새로고침
+                });
+              });
+            };
+          });
+          
+          // 인벤토리 전체 삭제 버튼
+          document.querySelectorAll('.clearInventoryBtn').forEach(btn => {
+            btn.onclick = function() {
+              const uid = btn.getAttribute('data-uid');
+              if (confirm('이 사용자의 모든 아이템을 삭제하시겠습니까?')) {
+                db.ref('users/' + uid + '/inventory').set([]).then(() => {
+                  alert('인벤토리가 초기화되었습니다.');
+                  showAdminInventoryManagement(); // 새로고침
+                });
+              }
+            };
+          });
+        }, 100);
+      });
+    }
+
+    // 개별 아이템 삭제 함수
+    function removeItem(uid, itemIndex) {
+      if (confirm('이 아이템을 삭제하시겠습니까?')) {
+        db.ref('users/' + uid + '/inventory').once('value').then(snap => {
+          const inventory = snap.val() || [];
+          inventory.splice(itemIndex, 1);
+          db.ref('users/' + uid + '/inventory').set(inventory).then(() => {
+            alert('아이템이 삭제되었습니다.');
+            showAdminInventoryManagement(); // 새로고침
+          });
+        });
+      }
+    }
+
+    // 서버 아이템 사용 함수
+    function useServerItem(itemName, itemIndex) {
+      if (!auth.currentUser) {
+        alert('로그인 후 이용 가능합니다.');
+        return;
+      }
+
+      // 아이템명에 따른 처리
+      if (itemName === '[서버추가]') {
+        // 서버 추가 아이템 사용
+        if (confirm('[서버추가] 아이템을 사용하여 추가 서버를 생성하시겠습니까?')) {
+          db.ref('users/' + auth.currentUser.uid + '/inventory').once('value').then(snap => {
+            const inventory = snap.val() || [];
+            inventory.splice(itemIndex, 1);
+            
+            // 인벤토리 업데이트
+            db.ref('users/' + auth.currentUser.uid).update({
+              inventory: inventory
+            }).then(() => {
+              alert('[서버추가] 아이템을 사용했습니다! 이제 추가 서버를 생성할 수 있습니다.');
+              showInventoryPanel(); // 인벤토리 패널 새로고침
+            }).catch(error => {
+              alert('아이템 사용 실패: ' + error.message);
+            });
+          });
+        }
+      } else if (['[VIP]', '[VIP+]', '[MVP]', '[MVP+]'].includes(itemName)) {
+        // 프리미엄 등급 아이템 사용
+        const premiumGrade = itemName.replace(/[\[\]]/g, ''); // 대괄호 제거
+        
+        if (confirm(itemName + ' 아이템을 사용하여 ' + premiumGrade + ' 등급을 받으시겠습니까?')) {
+          // 현재 인벤토리에서 아이템 제거
+          db.ref('users/' + auth.currentUser.uid + '/inventory').once('value').then(snap => {
+            const inventory = snap.val() || [];
+            inventory.splice(itemIndex, 1);
+            
+            // 인벤토리 업데이트 및 프리미엄 등급 설정
+            db.ref('users/' + auth.currentUser.uid).update({
+              inventory: inventory,
+              premium: premiumGrade
+            }).then(() => {
+              alert('아이템을 사용하여 ' + premiumGrade + ' 등급을 받았습니다!');
+              showInventoryPanel(); // 인벤토리 패널 새로고침
+            }).catch(error => {
+              alert('아이템 사용 실패: ' + error.message);
+            });
           });
         }
       } else {
-        document.getElementById('showSignup').style.display = '';
-        document.getElementById('showLogin').style.display = '';
-        document.getElementById('logoutBtn').style.display = 'none';
-        showSignupForm();
+        alert('잘못된 아이템입니다.');
+        return;
       }
-    });
+    }
 
-    // 서버 생성 버튼 및 서버 요청/타이머 처리
-    function showServerButton(uid) {
-      // 서버가 이미 있으면 생성 버튼 숨김
-      db.ref('users/' + uid + '/server').once('value').then(snap => {
-        if (snap.exists()) {
-          showServerStatus(uid, snap.val());
-          return;
+    // 인벤토리 패널
+    function showInventoryPanel() {
+      if (!auth.currentUser) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+        return;
+      }
+      
+      db.ref('users/' + auth.currentUser.uid).once('value').then(snap => {
+        const user = snap.val() || {};
+        const inventory = user.inventory || [];
+        
+        let html = '<h2>인벤토리</h2>';
+        html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+        html += '<h3>보유 아이템</h3>';
+        if (inventory.length > 0) {
+          html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">';
+          inventory.forEach((item, index) => {
+            const isServerItem = ['[서버추가]', '[VIP]', '[VIP+]', '[MVP]', '[MVP+]'].includes(item);
+            html += '<div style="background:#333;padding:15px;border-radius:8px;border:1px solid #444;">';
+            html += '<div style="font-weight:600;margin-bottom:8px;">' + item + '</div>';
+            if (isServerItem) {
+              html += '<button onclick="useServerItem(\'' + item + '\', ' + index + ')" style="width:100%;padding:8px;background:#4caf50;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:600;">사용하기</button>';
+            } else {
+              html += '<div style="color:#888;font-size:12px;">일반 아이템</div>';
+            }
+            html += '</div>';
+          });
+          html += '</div>';
+        } else {
+          html += '<p>보유한 아이템이 없습니다.</p>';
         }
-        // 로블록스 닉네임 가져오기
-        db.ref('users/' + uid + '/robloxNickname').once('value').then(nickSnap => {
-          const nickname = nickSnap.val() || '';
-          document.getElementById('formContainer').innerHTML = `
-            <h2>서버 생성</h2>
-            <div>로블록스 닉네임: <b>${nickname}</b></div>
-            <button id="createServerBtn">서버 생성</button>
-            <div id="serverStatus"></div>
-            <div id="serverTimer"></div>
-          `;
-          document.getElementById('createServerBtn').addEventListener('click', function() {
-            // 서버 요청을 DB에 저장
-            const now = Date.now();
-            db.ref('serverRequests/' + uid).set({
-              status: 'pending',
-              requestedAt: now
-            });
-            // 계정에 서버 정보 저장 (초기값)
-            const serverData = {
-              status: 'pending',
-              requestedAt: now,
-              seconds: 0
-            };
-            db.ref('users/' + uid + '/server').set(serverData).then(() => {
-              // 서버 요청을 보냈다고만 표시
-              document.getElementById('formContainer').innerHTML = `
-                <h2>서버 요청</h2>
-                <div>서버 생성 요청을 보냈습니다.<br>관리자의 승인을 기다려주세요.</div>
-              `;
-            });
-            // 서버 승인 대기 및 타이머 표시
-            waitForServerApproval(uid);
+        html += '</div>';
+        
+        // 서버 추가 아이템 설명
+        html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+        html += '<h3>서버 추가 아이템</h3>';
+        html += '<div style="color:#e3e3e3;line-height:1.6;">';
+        html += '<p><strong>[서버추가]:</strong> 서버를 추가로 생성할 수 있습니다.</p>';
+        html += '<p><strong>[VIP]:</strong> VIP 등급을 받을 수 있습니다.</p>';
+        html += '<p><strong>[VIP+]:</strong> VIP+ 등급을 받을 수 있습니다.</p>';
+        html += '<p><strong>[MVP]:</strong> MVP 등급을 받을 수 있습니다.</p>';
+        html += '<p><strong>[MVP+]:</strong> MVP+ 등급을 받을 수 있습니다.</p>';
+        html += '</div>';
+        html += '</div>';
+        
+        // 관리자용 아이템 관리 패널
+        if (auth.currentUser.uid === ADMIN_UID) {
+          html += '<div style="background:#232428;padding:20px;border-radius:10px;">';
+          html += '<h3>관리자 아이템 관리</h3>';
+          html += '<p>다른 멤버들에게 아이템을 추가할 수 있습니다.</p>';
+          html += '<button onclick="showAdminInventoryManagement()" style="margin-top:10px;padding:10px 20px;background:#ff9800;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">아이템 관리</button>';
+          html += '</div>';
+        }
+        
+        document.getElementById('formContainer').innerHTML = html;
+      });
+    }
+
+    // 관리자 서버 관리 패널
+    function showAdminServerManagement() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">관리자만 접근 가능합니다.</div>';
+        return;
+      }
+      
+      let html = '<h2>서버 관리</h2>';
+      html += '<input type="text" id="adminServerSearchInput" placeholder="닉네임/서버명 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">';
+      html += '<div id="adminServerTableContainer">불러오는 중...</div>';
+      
+      document.getElementById('formContainer').innerHTML = html;
+      
+      // 실시간 서버 관리 테이블 업데이트
+      showRealtimeAdminServerTable();
+    }
+
+    // 실시간 관리자 서버 테이블 업데이트
+    function showRealtimeAdminServerTable() {
+      db.ref('users').on('value', function(snap) {
+        const users = snap.val() || {};
+        let html = '<table id="adminServerTable" style="width:100%;background:#232428;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #18191c;font-size:16px;color:#e3e3e3;">';
+        html += '<tr><th>닉네임</th><th>상태</th><th>요청일</th><th>관리</th></tr>';
+        
+        for (const uid in users) {
+          const user = users[uid];
+          if (!user.server) continue;
+          
+          let statusKor = '';
+          switch (user.server.status) {
+            case 'pending': statusKor = '대기중'; break;
+            case 'approved': statusKor = '운영중'; break;
+            case 'stopped': statusKor = '정지됨'; break;
+            case 'paused': statusKor = '일시정지'; break;
+            default: statusKor = user.server.status;
+          }
+          
+          html += '<tr data-nick="' + (user.robloxNickname || '') + '">';
+          html += '<td>' + (user.robloxNickname || '-') + '</td>';
+          html += '<td id="adminStatus-' + uid + '">' + statusKor + '</td>';
+          html += '<td>' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : '-') + '</td>';
+          html += '<td>';
+          
+          if (user.server.status === 'pending') {
+            html += '<button class="approveServerBtn" data-uid="' + uid + '">승인</button> ';
+            html += '<button class="rejectServerBtn" data-uid="' + uid + '">거절</button>';
+          } else if (user.server.status === 'approved') {
+            html += '<button class="stopServerBtn" data-uid="' + uid + '">정지</button> ';
+            html += '<button class="pauseServerBtn" data-uid="' + uid + '">일시정지</button>';
+          } else if (user.server.status === 'stopped') {
+            html += '<button class="approveServerBtn" data-uid="' + uid + '">재승인</button>';
+          } else if (user.server.status === 'paused') {
+            html += '<button class="approveServerBtn" data-uid="' + uid + '">재개</button> ';
+            html += '<button class="stopServerBtn" data-uid="' + uid + '">정지</button>';
+          }
+          
+          // 모든 상태에서 서버 삭제 버튼 추가
+          html += ' <button class="deleteServerBtn" data-uid="' + uid + '">삭제</button>';
+          
+          html += '</td>';
+          html += '</tr>';
+        }
+        html += '</table>';
+        
+        const container = document.getElementById('adminServerTableContainer');
+        if (container) {
+          container.innerHTML = html;
+          
+          // 이벤트 리스너 재등록
+          setupAdminServerEventListeners();
+        }
+      });
+    }
+
+    // 관리자 서버 관리 이벤트 리스너 설정
+    function setupAdminServerEventListeners() {
+      // 검색 기능
+      const input = document.getElementById('adminServerSearchInput');
+      if (input) {
+        input.addEventListener('input', function() {
+          const v = this.value.trim().toLowerCase();
+          document.querySelectorAll('#adminServerTable tr[data-nick]').forEach(tr => {
+            const nick = tr.getAttribute('data-nick').toLowerCase();
+            tr.style.display = nick.includes(v) ? '' : 'none';
           });
         });
+      }
+      
+      // 서버 승인 버튼
+      document.querySelectorAll('.approveServerBtn').forEach(btn => {
+        btn.onclick = function() {
+          const uid = btn.getAttribute('data-uid');
+          const serverUrl = prompt('서버 URL을 입력하세요 (선택사항):');
+          
+          const updateData = {
+            status: 'approved',
+            approvedAt: Date.now()
+          };
+          if (serverUrl) updateData.url = serverUrl;
+          
+          db.ref('users/' + uid + '/server').update(updateData).then(() => {
+            alert('서버가 승인되었습니다.');
+          });
+        };
+      });
+      
+      // 서버 거절 버튼
+      document.querySelectorAll('.rejectServerBtn').forEach(btn => {
+        btn.onclick = function() {
+          const uid = btn.getAttribute('data-uid');
+          if (confirm('서버 요청을 거절하시겠습니까?')) {
+            db.ref('users/' + uid + '/server').remove().then(() => {
+              alert('서버 요청이 거절되었습니다.');
+            });
+          }
+        };
+      });
+      
+      // 서버 정지 버튼
+      document.querySelectorAll('.stopServerBtn').forEach(btn => {
+        btn.onclick = function() {
+          const uid = btn.getAttribute('data-uid');
+          if (confirm('서버를 정지하시겠습니까?')) {
+            db.ref('users/' + uid + '/server/status').set('stopped').then(() => {
+              alert('서버가 정지되었습니다.');
+            });
+          }
+        };
+      });
+      
+      // 서버 일시정지 버튼
+      document.querySelectorAll('.pauseServerBtn').forEach(btn => {
+        btn.onclick = function() {
+          const uid = btn.getAttribute('data-uid');
+          if (confirm('서버를 일시정지하시겠습니까?')) {
+            db.ref('users/' + uid + '/server/status').set('paused').then(() => {
+              alert('서버가 일시정지되었습니다.');
+            });
+          }
+        };
+      });
+      
+      // 서버 삭제 버튼
+      document.querySelectorAll('.deleteServerBtn').forEach(btn => {
+        btn.onclick = function() {
+          const uid = btn.getAttribute('data-uid');
+          if (confirm('서버를 완전히 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+            db.ref('users/' + uid + '/server').remove().then(() => {
+              alert('서버가 삭제되었습니다.');
+            });
+          }
+        };
       });
     }
 
-    function waitForServerApproval(uid) {
-      // 실시간으로 서버 승인 상태 확인
-      db.ref('serverRequests/' + uid + '/status').on('value', function(snapshot) {
-        const status = snapshot.val();
-        if (status === 'approved') {
-          // 서버 정보와 시간초 표시
-          db.ref('users/' + uid + '/server').once('value').then(snap => {
-            showServerStatus(uid, snap.val());
+    // 만들기 패널 (서버 생성)
+    function showCreatePanel() {
+      if (!auth.currentUser) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+        return;
+      }
+      
+      db.ref('users/' + auth.currentUser.uid).once('value').then(snap => {
+        const user = snap.val() || {};
+        let html = '<h2>서버 만들기</h2>';
+        
+        if (user.server) {
+          // 이미 서버가 있는 경우
+          let statusKor = '';
+          switch (user.server.status) {
+            case 'pending': statusKor = '대기중'; break;
+            case 'approved': statusKor = '운영중'; break;
+            case 'stopped': statusKor = '정지됨'; break;
+            case 'paused': statusKor = '일시정지'; break;
+            default: statusKor = user.server.status;
+          }
+          
+          html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+          html += '<h3>현재 서버 상태</h3>';
+          html += '<p><strong>서버 이름:</strong> ' + (user.server.name || '-') + '</p>';
+          html += '<p><strong>상태:</strong> ' + statusKor + '</p>';
+          html += '<p><strong>생성일:</strong> ' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : '-') + '</p>';
+          if (user.server.description) {
+            html += '<p><strong>설명:</strong> ' + user.server.description + '</p>';
+          }
+          if (user.server.url) {
+            html += '<p><strong>서버 주소:</strong> <a href="' + user.server.url + '" target="_blank" style="color:#2196f3;">' + user.server.url + '</a></p>';
+          }
+          html += '</div>';
+          
+          if (user.server.status === 'pending') {
+            html += '<div style="background:#ff9800;padding:15px;border-radius:10px;margin-bottom:20px;">';
+            html += '<p><strong>서버 생성 요청이 대기중입니다.</strong></p>';
+            html += '<p>관리자 승인을 기다려주세요.</p>';
+            html += '</div>';
+          } else if (user.server.status === 'approved') {
+            html += '<div style="background:#4caf50;padding:15px;border-radius:10px;margin-bottom:20px;">';
+            html += '<p><strong>서버가 승인되었습니다!</strong></p>';
+            html += '<p>서버를 운영할 수 있습니다.</p>';
+            html += '</div>';
+          } else if (user.server.status === 'paused') {
+            html += '<div style="background:#ff9800;padding:15px;border-radius:10px;margin-bottom:20px;">';
+            html += '<p><strong>서버가 일시정지되었습니다.</strong></p>';
+            html += '<p>서버를 다시 시작할 수 있습니다.</p>';
+            html += '<button onclick="resumeServer()" style="margin-top:10px;padding:10px 20px;background:#4caf50;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 재개</button>';
+            html += '</div>';
+          } else if (user.server.status === 'stopped') {
+            html += '<div style="background:#f44336;padding:15px;border-radius:10px;margin-bottom:20px;">';
+            html += '<p><strong>서버가 정지되었습니다.</strong></p>';
+            html += '<p>관리자에게 문의하세요.</p>';
+            html += '</div>';
+          }
+        } else {
+          // 서버가 없는 경우
+          html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+          html += '<h3>새 서버 생성</h3>';
+          html += '<p>로블록스 서버를 생성하여 친구들과 함께 플레이하세요!</p>';
+          html += '<button onclick="showServerRequestForm()" style="margin-top:15px;padding:12px 24px;background:#d32c2c;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 생성 요청</button>';
+          html += '</div>';
+          
+          html += '<div style="background:#232428;padding:20px;border-radius:10px;">';
+          html += '<h3>서버 생성 안내</h3>';
+          html += '<ul style="color:#e3e3e3;line-height:1.6;">';
+          html += '<li>서버 생성 요청 후 관리자 승인이 필요합니다</li>';
+          html += '<li>승인되면 서버 주소가 제공됩니다</li>';
+          html += '<li>서버는 24시간 운영됩니다</li>';
+          html += '<li>규칙을 위반하면 서버가 정지될 수 있습니다</li>';
+          html += '</ul>';
+          html += '</div>';
+        }
+        
+        document.getElementById('formContainer').innerHTML = html;
+      });
+    }
+
+    // 멤버 목록 패널 (관리자만)
+    function showMembersPanel() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">관리자만 접근 가능합니다.</div>';
+        return;
+      }
+      
+      db.ref('users').once('value').then(snap => {
+        const users = snap.val() || {};
+        let html = '<h2>전체 멤버 목록</h2>';
+        html += '<input type="text" id="memberSearchInput" placeholder="닉네임 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">';
+        html += '<table id="membersTable" style="width:100%;background:#232428;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #18191c;font-size:16px;color:#e3e3e3;">';
+        html += '<tr><th>닉네임</th><th>가입일</th><th>프리미엄</th><th>서버</th><th>상태</th><th>관리</th></tr>';
+        
+        for (const uid in users) {
+          const user = users[uid];
+          const isBlocked = user.blocked || false;
+          const isIpBlocked = user.ipBlocked || false;
+          let statusText = '정상';
+          if (isIpBlocked) statusText = 'IP차단';
+          else if (isBlocked) statusText = '차단';
+          
+          html += '<tr data-nick="' + (user.robloxNickname || '') + '">';
+          html += '<td>' + (user.robloxNickname || '-') + '</td>';
+          html += '<td>' + (user.createdAt ? new Date(user.createdAt).toLocaleString() : '-') + '</td>';
+          html += '<td>' + (user.premium || '-') + '</td>';
+          let serverStatusText = '-';
+          if (user.server) {
+            switch (user.server.status) {
+              case 'pending': serverStatusText = '대기중'; break;
+              case 'approved': serverStatusText = '운영중'; break;
+              case 'stopped': serverStatusText = '정지됨'; break;
+              case 'paused': serverStatusText = '일시정지'; break;
+              default: serverStatusText = user.server.status || '-';
+            }
+          }
+          html += '<td>' + serverStatusText + '</td>';
+          html += '<td id="status-' + uid + '">' + statusText + '</td>';
+          html += '<td>';
+          html += '<button class="blockBtn" data-uid="' + uid + '" data-action="' + (isBlocked ? 'unblock' : 'block') + '">' + (isBlocked ? '차단해제' : '차단') + '</button> ';
+          html += '<button class="ipBlockBtn" data-uid="' + uid + '" data-action="' + (isIpBlocked ? 'unipblock' : 'ipblock') + '">' + (isIpBlocked ? 'IP차단해제' : 'IP차단') + '</button>';
+          html += '</td>';
+          html += '</tr>';
+        }
+        html += '</table>';
+        
+        document.getElementById('formContainer').innerHTML = html;
+        
+        // 검색 기능
+        setTimeout(() => {
+          const input = document.getElementById('memberSearchInput');
+          if (input) {
+            input.addEventListener('input', function() {
+              const v = this.value.trim().toLowerCase();
+              document.querySelectorAll('#membersTable tr[data-nick]').forEach(tr => {
+                const nick = tr.getAttribute('data-nick').toLowerCase();
+                tr.style.display = nick.includes(v) ? '' : 'none';
+              });
+            });
+          }
+          
+          // 차단 버튼 이벤트
+          document.querySelectorAll('.blockBtn').forEach(btn => {
+            btn.onclick = function() {
+              const uid = btn.getAttribute('data-uid');
+              const action = btn.getAttribute('data-action');
+              const isBlock = action === 'block';
+              
+              if (confirm((isBlock ? '차단' : '차단해제') + '하시겠습니까?')) {
+                db.ref('users/' + uid + '/blocked').set(isBlock ? true : null).then(() => {
+                  btn.textContent = isBlock ? '차단해제' : '차단';
+                  btn.setAttribute('data-action', isBlock ? 'unblock' : 'block');
+                  document.getElementById('status-' + uid).textContent = isBlock ? '차단' : '정상';
+                  alert((isBlock ? '차단' : '차단해제') + ' 완료되었습니다.');
+                });
+              }
+            };
           });
-          startServerTimer(uid);
+          
+          // IP차단 버튼 이벤트
+          document.querySelectorAll('.ipBlockBtn').forEach(btn => {
+            btn.onclick = function() {
+              const uid = btn.getAttribute('data-uid');
+              const action = btn.getAttribute('data-action');
+              const isIpBlock = action === 'ipblock';
+              
+              if (confirm((isIpBlock ? 'IP차단' : 'IP차단해제') + '하시겠습니까?')) {
+                db.ref('users/' + uid + '/ipBlocked').set(isIpBlock ? true : null).then(() => {
+                  btn.textContent = isIpBlock ? 'IP차단해제' : 'IP차단';
+                  btn.setAttribute('data-action', isIpBlock ? 'unipblock' : 'ipblock');
+                  document.getElementById('status-' + uid).textContent = isIpBlock ? 'IP차단' : '정상';
+                  alert((isIpBlock ? 'IP차단' : 'IP차단해제') + ' 완료되었습니다.');
+                });
+              }
+            };
+          });
+        }, 100);
+      });
+    }
+
+    // 모든 버튼/이벤트 등록은 DOMContentLoaded 이후에만 실행
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('closeModal').onclick = closeModal;
+      document.getElementById('modalBg').onclick = function(e) {
+        if (e.target === this) closeModal();
+      };
+      var navHomeBtn = document.getElementById('navHomeBtn');
+      if (navHomeBtn) navHomeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showHomePanel();
+      });
+      var navServerChartBtn = document.getElementById('navServerChartBtn');
+      if (navServerChartBtn) navServerChartBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showServerChart();
+      });
+      var navCommBtn = document.getElementById('navCommunityBtn');
+      if (navCommBtn) navCommBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showCommunity();
+      });
+      var navCreateBtn = document.getElementById('navCreateBtn');
+      if (navCreateBtn) navCreateBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showCreatePanel();
+      });
+      var sidebarFriendsLink = document.getElementById('sidebarFriendsLink');
+      if (sidebarFriendsLink) sidebarFriendsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showFriendsPanel();
+      });
+      var sidebarMessageLink = document.getElementById('sidebarMessageLink');
+      if (sidebarMessageLink) sidebarMessageLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showMessagePanel();
+      });
+      var sidebarPremiumLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.replace(/\s/g,'') === '프리미엄');
+      if (sidebarPremiumLink) sidebarPremiumLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showPremiumPanel();
+      });
+      var sidebarInventoryLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.replace(/\s/g,'') === '인벤토리');
+      if (sidebarInventoryLink) sidebarInventoryLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showInventoryPanel();
+      });
+      var sidebarProfileLink = document.getElementById('sidebarProfileLink');
+      if (sidebarProfileLink) sidebarProfileLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showProfilePanel();
+      });
+      // 로그인/회원가입 버튼 이벤트
+      document.getElementById('showLogin').onclick = function() {
+        showLoginForm();
+      };
+      document.getElementById('showSignup').onclick = function() {
+        showSignupForm();
+      };
+      document.getElementById('logoutBtn').onclick = function() {
+        auth.signOut().then(() => {
+          showHomePanel();
+        });
+      };
+
+      // 인증 상태 변경 감지
+      auth.onAuthStateChanged(function(user) {
+        var btn = document.getElementById('sidebarMembersBtn');
+        if (!btn) return;
+        if (user && user.uid === ADMIN_UID) {
+          btn.style.display = '';
+          btn.onclick = function() { showMembersPanel(); };
+        } else {
+          btn.style.display = 'none';
+          btn.onclick = null;
+        }
+        
+        // 로그인 상태에 따른 UI 업데이트
+        if (user) {
+          // 차단 상태 확인
+          db.ref('users/' + user.uid).once('value').then(snap => {
+            const userData = snap.val() || {};
+            if (userData.blocked || userData.ipBlocked) {
+              showBlockedMessage(userData.robloxNickname);
+              return;
+            }
+            
+            document.getElementById('loginButtons').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'block';
+            const nickname = userData.robloxNickname || '사용자';
+            document.getElementById('userNickname').textContent = nickname;
+            
+            // 로그인 시 자동으로 홈으로 이동
+            setTimeout(() => {
+              showHomePanel();
+            }, 100);
+          });
+        } else {
+          document.getElementById('loginButtons').style.display = 'block';
+          document.getElementById('userInfo').style.display = 'none';
         }
       });
-    }
+      
+      // 페이지 로드 시 홈 패널 표시
+      showHomePanel();
+    });
+    // 서버 차트(전체 서버 목록) 표시 함수
 
-    // 시간초 기능 제거됨
+    function showServerChart() {
+      // 서버 차트 검색 입력 추가
+      document.getElementById('formContainer').innerHTML = '<h2>서버 차트</h2>' +
+        '<input type="text" id="serverSearchInput" placeholder="닉네임/서버 상태 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">' +
+        '<div id="serverChartList">불러오는 중...</div>';
+      db.ref('users').once('value').then(snap => {
+        const users = snap.val();
+        let html = '<table id="serverChartTable" style="width:100%;background:#232428;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #18191c;font-size:16px;color:#e3e3e3;">';
+        html += '<tr><th>닉네임</th><th>상태</th><th>생성일</th><th>참여</th></tr>';
+        for (const uid in users) {
+          const user = users[uid];
+          if (!user.server) continue;
+          let statusKor = '';
+          switch (user.server.status) {
+            case 'pending': statusKor = '대기중'; break;
+            case 'approved': statusKor = '운영중'; break;
+            case 'stopped': statusKor = '정지됨'; break;
+            case 'paused': statusKor = '일시정지'; break;
+            default: statusKor = user.server.status;
+          }
+          let joinCell = '-';
+          if (auth.currentUser && auth.currentUser.uid !== uid) {
+            joinCell = `<span id="joinStatus-${uid}"></span> <button id="joinBtn-${uid}" data-uid="${uid}">참여 신청</button>`;
+          }
+          html += '<tr data-nick="' + (user.robloxNickname || '') + '" data-status="' + statusKor + '">' +
+            '<td>' + (user.robloxNickname || '-') + '</td>' +
+            '<td>' + statusKor + '</td>' +
+            '<td>' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : '-') + '</td>' +
+            '<td>' + joinCell + '</td>' +
+            '</tr>';
+        }
+        html += '</table>';
+        document.getElementById('serverChartList').innerHTML = html;
+        // 검색 필터
+        setTimeout(function() {
+          var input = document.getElementById('serverSearchInput');
+          if (input) {
+            input.addEventListener('input', function() {
+              const v = this.value.trim().toLowerCase();
+              document.querySelectorAll('#serverChartTable tr[data-nick]').forEach(function(tr) {
+                if (!v) {
+                  tr.style.display = '';
+                  return;
+                }
+                const nick = tr.getAttribute('data-nick').toLowerCase();
+                const status = tr.getAttribute('data-status').toLowerCase();
+                tr.style.display = (nick.includes(v) || status.includes(v)) ? '' : 'none';
+              });
+            });
+            // 최초 진입 시 모두 표시
+            document.querySelectorAll('#serverChartTable tr[data-nick]').forEach(function(tr) {
+              tr.style.display = '';
+            });
+          }
+        }, 100); // DOM 렌더 후 바인딩
+        // 참여 신청 버튼 이벤트 등록
+        for (const uid in users) {
+          if (!users[uid].server) continue;
+          if (auth.currentUser && auth.currentUser.uid !== uid) {
+            const btn = document.getElementById('joinBtn-' + uid);
+            if (btn) {
+              btn.onclick = function() {
+                if (confirm('서버 참여를 신청하시겠습니까?')) {
+                  db.ref('serverJoinRequests/' + uid + '/' + auth.currentUser.uid).set({
+                    status: 'pending',
+                    requestedAt: Date.now(),
+                    requesterUid: auth.currentUser.uid
+                  }).then(() => {
+                    alert('서버 참여 신청이 완료되었습니다.');
+                  });
+                }
+              };
+              
+              // 참여 상태 실시간 표시
+              db.ref('serverJoinRequests/' + uid + '/' + auth.currentUser.uid).on('value', function(snap) {
+                const req = snap.val();
+                if (!req) {
+                  document.getElementById('joinStatus-' + uid).innerText = '';
+                  btn.disabled = false;
+                  btn.textContent = '참여 신청';
+                } else if (req.status === 'pending') {
+                  document.getElementById('joinStatus-' + uid).innerText = '서버 소유자 승인 대기';
+                  btn.disabled = true;
+                  btn.textContent = '신청됨';
+                } else if (req.status === 'approved') {
+                  // 서버 소유자가 승인하면 사이트 관리자 승인 대기
+                  db.ref('serverJoinApprovals/' + uid + '/' + auth.currentUser.uid).on('value', function(approvSnap) {
+                    const approv = approvSnap.val();
+                    if (approv && approv.status === 'approved') {
+                      document.getElementById('joinStatus-' + uid).innerHTML = users[uid].server.url ? ('<a href="' + users[uid].server.url + '" target="_blank" style="color:#4caf50;">서버 입장</a>') : '주소 없음';
+                      btn.style.display = 'none';
+                    } else if (approv && approv.status === 'rejected') {
+                      document.getElementById('joinStatus-' + uid).innerText = '사이트 관리자 거절';
+                      btn.style.display = 'none';
+                    } else {
+                      document.getElementById('joinStatus-' + uid).innerText = '사이트 관리자 승인 대기';
+                      btn.style.display = 'none';
+                    }
+                  });
+                } else if (req.status === 'rejected') {
+                  document.getElementById('joinStatus-' + uid).innerText = '서버 소유자 거절';
+                  btn.style.display = 'none';
+                }
+              });
+            }
+          }
+        }
+
+        // 사이트 관리자용 참여 승인 및 추방 승인은 별도 함수로 처리
+      }); // End of db.ref('users').once('value').then
+    } // End of showServerChart
   </script>
 </body>
 </html>
