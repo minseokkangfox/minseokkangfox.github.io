@@ -6,7 +6,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <!-- EmailJS 스크립트 삭제됨 -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7436486053633664"
     crossorigin="anonymous"></script>
   <style>
@@ -522,6 +522,28 @@
       to { 
         opacity: 1;
         transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes slideIn {
+      from { 
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      to { 
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideOut {
+      from { 
+        opacity: 1;
+        transform: translateX(0);
+      }
+      to { 
+        opacity: 0;
+        transform: translateX(100%);
       }
     }
 
@@ -1274,21 +1296,80 @@ const auth = firebase.auth();
 const db = firebase.database();
 const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
 
-// EmailJS 초기화
-emailjs.init("FPHsDmM92wD66S_U6");
+// Firebase Authentication 상태 확인
+console.log('Firebase 초기화 완료');
+console.log('Auth 객체:', auth);
+console.log('Database 객체:', db);
 
-// 이메일 전송 함수
-function sendVerificationEmail(email, verificationCode) {
-  // 현재는 이메일 전송 기능이 제대로 설정되지 않았으므로
-  // 사용자에게 코드를 직접 알려주는 방식으로 처리
-  console.log('이메일 전송 시뮬레이션:', {
-    to: email,
-    code: verificationCode
-  });
+// EmailJS 관련 코드 삭제됨
+
+
+
+// 이메일 인증 기능 삭제됨
+
+// 로그아웃 함수
+function logout() {
+  if (confirm('로그아웃하시겠습니까?')) {
+    auth.signOut().then(() => {
+      console.log('로그아웃 성공');
+      showHomePanel(); // 홈 패널 새로고침 (로그인 화면으로 변경됨)
+    }).catch(error => {
+      console.error('로그아웃 오류:', error);
+      showMessage('로그아웃에 실패했습니다: ' + error.message, 'error');
+    });
+  }
+}
+
+// 메시지 표시 함수 (alert 대신 텍스트로 표시)
+function showMessage(message, type = 'info') {
+  const messageContainer = document.getElementById('messageContainer') || createMessageContainer();
+  const messageDiv = document.createElement('div');
   
-  // 실제 이메일 전송을 위해서는 EmailJS 템플릿 설정이 필요합니다
-  // 현재는 개발 단계이므로 코드를 화면에 표시
-  alert('인증 코드: ' + verificationCode + '\n\n이 코드를 입력하여 인증을 완료해주세요.');
+  let bgColor = '#4caf50'; // 기본: 성공 (초록)
+  if (type === 'error') bgColor = '#f44336'; // 오류 (빨강)
+  if (type === 'warning') bgColor = '#ff9800'; // 경고 (주황)
+  if (type === 'info') bgColor = '#2196f3'; // 정보 (파랑)
+  
+  messageDiv.style.cssText = `
+    background: ${bgColor};
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s ease-out;
+  `;
+  messageDiv.textContent = message;
+  
+  messageContainer.appendChild(messageDiv);
+  
+  // 5초 후 자동 제거
+  setTimeout(() => {
+    if (messageDiv.parentNode) {
+      messageDiv.style.animation = 'slideOut 0.3s ease-in';
+      setTimeout(() => {
+        if (messageDiv.parentNode) {
+          messageDiv.parentNode.removeChild(messageDiv);
+        }
+      }, 300);
+    }
+  }, 5000);
+}
+
+// 메시지 컨테이너 생성
+function createMessageContainer() {
+  const container = document.createElement('div');
+  container.id = 'messageContainer';
+  container.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    max-width: 400px;
+  `;
+  document.body.appendChild(container);
+  return container;
 }
 
     // 홈 패널 함수
@@ -1311,6 +1392,7 @@ function sendVerificationEmail(email, verificationCode) {
     html += '<h3>' + getText('welcome') + ', ' + (user.robloxNickname || getText('user')) + '님!</h3>';
     html += '<p>' + getText('startServerManagement') + '</p>';
     html += '<p style="color:#ffd700;font-weight:600;margin-top:10px;">💡 HJNF000님에게 친구추가를 요청해보세요!</p>';
+    html += '<button onclick="logout()" style="margin-top:15px;padding:8px 16px;background:#f44336;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;">로그아웃</button>';
     html += '</div>';
     
     // 서버 상태 표시 (실시간 업데이트용 컨테이너)
@@ -1856,8 +1938,11 @@ function sendVerificationEmail(email, verificationCode) {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
+        console.log('로그인 시도:', email);
+        
         auth.signInWithEmailAndPassword(email, password)
           .then(() => {
+            console.log('로그인 성공');
             closeModal();
             // 로그인 성공 시 자동으로 홈으로 이동
             setTimeout(() => {
@@ -1865,7 +1950,30 @@ function sendVerificationEmail(email, verificationCode) {
             }, 100);
           })
           .catch(error => {
-            alert(getText('login') + ' 실패: ' + error.message);
+            console.error('로그인 오류:', error);
+            console.error('오류 코드:', error.code);
+            console.error('오류 메시지:', error.message);
+            
+            // 사용자 친화적인 오류 메시지
+            let errorMessage = '';
+            switch(error.code) {
+              case 'auth/user-not-found':
+                errorMessage = '등록되지 않은 이메일 주소입니다.\n회원가입을 먼저 진행해주세요.';
+                break;
+              case 'auth/wrong-password':
+                errorMessage = '비밀번호가 올바르지 않습니다.\n다시 확인해주세요.';
+                break;
+              case 'auth/invalid-email':
+                errorMessage = '올바른 이메일 주소를 입력해주세요.';
+                break;
+              case 'auth/too-many-requests':
+                errorMessage = '너무 많은 로그인 시도가 있었습니다.\n잠시 후 다시 시도해주세요.';
+                break;
+              default:
+                errorMessage = getText('login') + ' 실패: ' + error.message;
+            }
+            
+            showMessage(errorMessage, 'error');
           });
       };
     }
@@ -1879,107 +1987,11 @@ function sendVerificationEmail(email, verificationCode) {
         '<input type="password" id="signupPassword" placeholder="' + getText('password') + '" required>' +
         '<input type="password" id="confirmPassword" placeholder="' + getText('confirmPassword') + '" required>' +
         '<input type="text" id="robloxNickname" placeholder="' + getText('robloxNickname') + '" required>' +
-        '<div id="emailVerificationSection" style="display:none; margin: 15px 0;">' +
-        '<input type="text" id="verificationCode" placeholder="' + getText('verificationCode') + '" style="width: 60%; margin-right: 10px;">' +
-        '<button type="button" id="verifyEmailBtn" style="width: 35%;">' + getText('verifyEmail') + '</button>' +
-        '</div>' +
-        '<button type="button" id="sendVerificationBtn" style="width: 100%; margin-bottom: 10px;">' + getText('sendVerification') + '</button>' +
-        '<button type="submit" id="signupBtn" disabled>' + getText('signup') + '</button>' +
+        '<button type="submit" id="signupBtn">' + getText('signup') + '</button>' +
         '</form>';
       openModal(html);
       
-      // 인증 코드 전송 버튼
-      document.getElementById('sendVerificationBtn').onclick = function() {
-        const email = document.getElementById('signupEmail').value;
-        if (!email) {
-          alert(getText('email') + '을 입력해주세요.');
-          return;
-        }
-        
-        // 이메일 중복 체크
-        auth.fetchSignInMethodsForEmail(email).then(function(signInMethods) {
-          if (signInMethods.length > 0) {
-            alert('이미 사용 중인 이메일 주소입니다. 다른 이메일을 사용하거나 로그인해주세요.');
-            return;
-          }
-          
-          // 6자리 랜덤 인증 코드 생성
-          const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-          
-          // Firebase에 인증 코드 저장 (5분 유효)
-          const emailKey = email.replace(/\./g, '_').replace(/@/g, '_at_');
-          db.ref('emailVerifications/' + emailKey).set({
-            code: verificationCode,
-            timestamp: Date.now(),
-            used: false,
-            email: email
-          }).then(() => {
-            // 이메일 전송
-            sendVerificationEmail(email, verificationCode);
-            
-            // 인증 섹션 표시
-            document.getElementById('emailVerificationSection').style.display = 'block';
-            document.getElementById('sendVerificationBtn').disabled = true;
-            document.getElementById('sendVerificationBtn').textContent = '재전송 (60초 후 가능)';
-            
-            // 60초 후 재전송 버튼 활성화
-            let countdown = 60;
-            const countdownInterval = setInterval(() => {
-              countdown--;
-              if (countdown > 0) {
-                document.getElementById('sendVerificationBtn').textContent = '재전송 (' + countdown + '초 후 가능)';
-              } else {
-                document.getElementById('sendVerificationBtn').disabled = false;
-                document.getElementById('sendVerificationBtn').textContent = '인증 코드 재전송';
-                clearInterval(countdownInterval);
-              }
-            }, 1000);
-          }).catch(error => {
-            console.error('인증 코드 저장 오류:', error);
-            alert('인증 코드 전송에 실패했습니다. 다시 시도해주세요.');
-          });
-        }).catch(function(error) {
-          console.error('이메일 중복 체크 오류:', error);
-          alert('이메일 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
-        });
-      };
-      
-      // 이메일 인증 버튼
-      document.getElementById('verifyEmailBtn').onclick = function() {
-        const email = document.getElementById('signupEmail').value;
-        const inputCode = document.getElementById('verificationCode').value;
-        
-        if (!inputCode) {
-          alert(getText('verificationCode') + '를 입력해주세요.');
-          return;
-        }
-        
-        // Firebase에서 인증 코드 확인
-        const emailKey = email.replace(/\./g, '_').replace(/@/g, '_at_');
-        db.ref('emailVerifications/' + emailKey).once('value').then(snap => {
-          const verification = snap.val();
-          const currentTime = Date.now();
-          const codeAge = currentTime - verification.timestamp;
-          const fiveMinutes = 5 * 60 * 1000; // 5분을 밀리초로 변환
-          
-          if (verification && verification.code === inputCode && !verification.used && codeAge < fiveMinutes) {
-            // 인증 성공
-            db.ref('emailVerifications/' + emailKey).update({ used: true });
-            alert(getText('verificationSuccess'));
-            document.getElementById('signupBtn').disabled = false;
-            document.getElementById('emailVerificationSection').style.display = 'none';
-          } else if (codeAge >= fiveMinutes) {
-            alert('인증 코드가 만료되었습니다. 새로운 코드를 요청해주세요.');
-            document.getElementById('sendVerificationBtn').disabled = false;
-            document.getElementById('emailVerificationSection').style.display = 'none';
-          } else {
-            alert(getText('verificationFailed'));
-          }
-        }).catch(error => {
-          console.error('인증 코드 확인 오류:', error);
-          alert('인증 코드 확인에 실패했습니다. 다시 시도해주세요.');
-        });
-      };
+      // 이메일 인증 기능 삭제됨
       
       document.getElementById('signupForm').onsubmit = function(e) {
         e.preventDefault();
@@ -1989,12 +2001,15 @@ function sendVerificationEmail(email, verificationCode) {
         const nickname = document.getElementById('robloxNickname').value;
         
         if (password !== confirmPassword) {
-          alert(getText('password') + '가 일치하지 않습니다.');
+          showMessage(getText('password') + '가 일치하지 않습니다.', 'error');
           return;
         }
         
+        console.log('회원가입 시도:', email);
+        
         auth.createUserWithEmailAndPassword(email, password)
           .then(userCredential => {
+            console.log('Firebase 사용자 생성 성공:', userCredential.user.uid);
             const user = userCredential.user;
             return db.ref('users/' + user.uid).set({
               email: email,
@@ -2004,6 +2019,7 @@ function sendVerificationEmail(email, verificationCode) {
             });
           })
           .then(() => {
+            console.log('사용자 데이터 저장 성공');
             closeModal();
             // 회원가입 성공 시 자동으로 홈으로 이동
             setTimeout(() => {
@@ -2011,7 +2027,27 @@ function sendVerificationEmail(email, verificationCode) {
             }, 100);
           })
           .catch(error => {
-            alert(getText('signup') + ' 실패: ' + error.message);
+            console.error('회원가입 오류:', error);
+            console.error('오류 코드:', error.code);
+            console.error('오류 메시지:', error.message);
+            
+            // 사용자 친화적인 오류 메시지
+            let errorMessage = '';
+            switch(error.code) {
+              case 'auth/email-already-in-use':
+                errorMessage = '이미 사용 중인 이메일 주소입니다.\n로그인을 시도해보세요.';
+                break;
+              case 'auth/weak-password':
+                errorMessage = '비밀번호가 너무 약합니다.\n6자리 이상의 강한 비밀번호를 사용해주세요.';
+                break;
+              case 'auth/invalid-email':
+                errorMessage = '올바른 이메일 주소를 입력해주세요.';
+                break;
+              default:
+                errorMessage = getText('signup') + ' 실패: ' + error.message;
+            }
+            
+            showMessage(errorMessage, 'error');
           });
       };
     }
