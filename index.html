@@ -1279,23 +1279,16 @@ emailjs.init("FPHsDmM92wD66S_U6");
 
 // 이메일 전송 함수
 function sendVerificationEmail(email, verificationCode) {
-  const templateParams = {
-    to_email: email,
-    verification_code: verificationCode,
-    from_name: 'HJNF 서버 관리 시스템',
-    subject: 'HJNF 이메일 인증 코드',
-    message: `안녕하세요!\n\nHJNF 서버 관리 시스템 회원가입을 위한 인증 코드입니다.\n\n인증 코드: ${verificationCode}\n\n이 코드는 5분간 유효합니다.\n\n감사합니다.`
-  };
-
-  emailjs.send('service_oqkmv1m', 'YOUR_TEMPLATE_ID', templateParams)
-    .then(function(response) {
-      console.log('이메일 전송 성공:', response.status, response.text);
-      // 성공 시에는 별도 알림 없이 조용히 처리
-    }, function(error) {
-      console.error('이메일 전송 실패:', error);
-      // 실패 시에도 코드를 화면에 보여주지 않음
-      alert('이메일 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.');
-    });
+  // 현재는 이메일 전송 기능이 제대로 설정되지 않았으므로
+  // 사용자에게 코드를 직접 알려주는 방식으로 처리
+  console.log('이메일 전송 시뮬레이션:', {
+    to: email,
+    code: verificationCode
+  });
+  
+  // 실제 이메일 전송을 위해서는 EmailJS 템플릿 설정이 필요합니다
+  // 현재는 개발 단계이므로 코드를 화면에 표시
+  alert('인증 코드: ' + verificationCode + '\n\n이 코드를 입력하여 인증을 완료해주세요.');
 }
 
     // 홈 패널 함수
@@ -1923,9 +1916,6 @@ function sendVerificationEmail(email, verificationCode) {
           }).then(() => {
             // 이메일 전송
             sendVerificationEmail(email, verificationCode);
-            
-            // 성공 메시지 표시
-            alert('인증 코드가 이메일로 전송되었습니다.\n이메일을 확인해주세요.');
             
             // 인증 섹션 표시
             document.getElementById('emailVerificationSection').style.display = 'block';
