@@ -6,6 +6,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7436486053633664"
     crossorigin="anonymous"></script>
   <style>
@@ -480,6 +481,179 @@
       background: #7b1fa2;
       transform: translateY(-1px);
     }
+    
+    /* 모달 스타일 */
+    #modalBg {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #modalContent {
+      background: linear-gradient(135deg, #232428 0%, #2a2d32 100%);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+      animation: slideUp 0.4s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    #closeModal {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      font-size: 18px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #closeModal:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    #modalContent h2 {
+      color: #fff;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #modalContent input {
+      width: 100%;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      background: rgba(24, 25, 28, 0.8);
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    #modalContent input:focus {
+      outline: none;
+      border-color: #4ecdc4;
+      background: rgba(24, 25, 28, 1);
+      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+    }
+
+    #modalContent input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    #modalContent button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #modalContent button:hover {
+      background: linear-gradient(45deg, #ff5252, #e53935);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+    }
+
+    #modalContent button:active {
+      transform: translateY(0);
+    }
+
+    #modalContent button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* 인증 코드 섹션 스타일 */
+    #emailVerificationSection {
+      background: rgba(78, 205, 196, 0.1);
+      border: 1px solid rgba(78, 205, 196, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    #emailVerificationSection input {
+      margin-bottom: 15px;
+    }
+
+    #verifyEmailBtn {
+      background: linear-gradient(45deg, #4ecdc4, #44a08d) !important;
+    }
+
+    #verifyEmailBtn:hover {
+      background: linear-gradient(45deg, #44a08d, #3d8b7a) !important;
+      box-shadow: 0 10px 25px rgba(78, 205, 196, 0.4) !important;
+    }
+
+    #sendVerificationBtn {
+      background: linear-gradient(45deg, #667eea, #764ba2) !important;
+      margin-bottom: 20px;
+    }
+
+    #sendVerificationBtn:hover {
+      background: linear-gradient(45deg, #5a6fd8, #6a4190) !important;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4) !important;
+    }
+
+    #sendVerificationBtn:disabled {
+      background: #666 !important;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
   </style>
 </head>
 <body>
@@ -516,12 +690,12 @@
       <h2>HJNF 서버 관리 시스템</h2>
       <p>로블록스 서버를 관리하고 친구들과 소통하세요!</p>
       <div id="loginButtons" style="margin-top: 20px;">
-        <button id="showLogin">로그인</button>
-        <button id="showSignup">회원가입</button>
+        <button id="showLogin" onclick="showLoginForm()">로그인</button>
+        <button id="showSignup" onclick="showSignupForm()">회원가입</button>
       </div>
       <div id="userInfo" style="display: none; margin-top: 20px;">
         <p id="welcomeMessage">환영합니다, <span id="userNickname"></span>님!</p>
-        <button id="logoutBtn">로그아웃</button>
+        <button id="logoutBtn" onclick="auth.signOut().then(() => showHomePanel())">로그아웃</button>
       </div>
     </div>
   </div>
@@ -1046,28 +1220,28 @@ function showFriendsPanel() {
 // 프로필(내 정보) 패널
 function showProfilePanel() {
   if (!auth.currentUser) {
-    document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
+    document.getElementById('formContainer').innerHTML = '<div style="color:red">' + getText('loginRequired') + '</div>';
     return;
   }
   const uid = auth.currentUser.uid;
   db.ref('users/' + uid).once('value').then(snap => {
     const user = snap.val() || {};
-    let html = '<h2>내 프로필</h2>';
+    let html = '<h2>' + getText('myProfile') + '</h2>';
     html += '<div style="background:#232428;padding:18px 22px;border-radius:10px;box-shadow:0 2px 8px #18191c;">';
-    html += '<b>로블록스 닉네임:</b> ' + (user.robloxNickname || '-') + '<br>';
-    html += '<b>가입 시기:</b> ' + (user.createdAt ? new Date(user.createdAt).toLocaleString() : '-') + '<br>';
+    html += '<b>' + getText('robloxNicknameLabel') + ':</b> ' + (user.robloxNickname || getText('dash')) + '<br>';
+    html += '<b>' + getText('joinDate') + ':</b> ' + (user.createdAt ? new Date(user.createdAt).toLocaleString() : getText('dash')) + '<br>';
     // 인벤토리
     const inv = (user.inventory && Array.isArray(user.inventory)) ? user.inventory : [];
-    html += '<b>인벤토리:</b> ' + (inv.length ? inv.join(', ') : '-') + '<br>';
+    html += '<b>' + getText('inventoryLabel') + ':</b> ' + (inv.length ? inv.join(', ') : getText('dash')) + '<br>';
     // 프리미엄
-    html += '<b>프리미엄:</b> ' + (user.premium || '-') + '<br>';
+    html += '<b>' + getText('premiumLabel') + ':</b> ' + (user.premium || getText('dash')) + '<br>';
     // 서버 정보
     if (user.server) {
-      html += '<b>서버 생성 여부:</b> O<br>';
-      html += '<b>서버 생성 시기:</b> ' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : '-') + '<br>';
+      html += '<b>' + getText('serverCreateStatus') + ':</b> ' + getText('yes') + '<br>';
+      html += '<b>' + getText('serverCreateDateLabel') + ':</b> ' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : getText('dash')) + '<br>';
     } else {
-    html += '<b>서버 생성 여부:</b> X<br>';
-    html += '<b>서버 생성 시기:</b> -<br>';
+    html += '<b>' + getText('serverCreateStatus') + ':</b> ' + getText('no') + '<br>';
+    html += '<b>' + getText('serverCreateDateLabel') + ':</b> ' + getText('dash') + '<br>';
     }
     html += '</div>';
     document.getElementById('formContainer').innerHTML = html;
@@ -1100,6 +1274,30 @@ const auth = firebase.auth();
 const db = firebase.database();
 const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
 
+// EmailJS 초기화
+emailjs.init("FPHsDmM92wD66S_U6");
+
+// 이메일 전송 함수
+function sendVerificationEmail(email, verificationCode) {
+  const templateParams = {
+    to_email: email,
+    verification_code: verificationCode,
+    from_name: 'HJNF 서버 관리 시스템',
+    subject: 'HJNF 이메일 인증 코드',
+    message: `안녕하세요!\n\nHJNF 서버 관리 시스템 회원가입을 위한 인증 코드입니다.\n\n인증 코드: ${verificationCode}\n\n이 코드는 5분간 유효합니다.\n\n감사합니다.`
+  };
+
+  emailjs.send('service_oqkmv1m', 'YOUR_TEMPLATE_ID', templateParams)
+    .then(function(response) {
+      console.log('이메일 전송 성공:', response.status, response.text);
+      // 성공 시에는 별도 알림 없이 조용히 처리
+    }, function(error) {
+      console.error('이메일 전송 실패:', error);
+      // 실패 시에도 코드를 화면에 보여주지 않음
+      alert('이메일 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.');
+    });
+}
+
     // 홈 패널 함수
     function showHomePanel() {
       if (!auth.currentUser) {
@@ -1107,8 +1305,8 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
           '<h2>HJNF ' + getText('serverManagement') + '</h2>' +
           '<p>' + getText('robloxServerManagement') + '</p>' +
           '<div id="loginButtons" style="margin-top: 20px;">' +
-          '<button id="showLogin">' + getText('login') + '</button>' +
-          '<button id="showSignup">' + getText('signup') + '</button>' +
+          '<button id="showLogin" onclick="showLoginForm()">' + getText('login') + '</button>' +
+          '<button id="showSignup" onclick="showSignupForm()">' + getText('signup') + '</button>' +
           '</div>';
         return;
       }
@@ -1652,11 +1850,11 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
     // 로그인 함수
     function showLoginForm() {
       const html = 
-        '<h2>로그인</h2>' +
+        '<h2>' + getText('login') + '</h2>' +
         '<form id="loginForm">' +
-        '<input type="email" id="loginEmail" placeholder="이메일" required>' +
-        '<input type="password" id="loginPassword" placeholder="비밀번호" required>' +
-        '<button type="submit">로그인</button>' +
+        '<input type="email" id="loginEmail" placeholder="' + getText('email') + '" required>' +
+        '<input type="password" id="loginPassword" placeholder="' + getText('password') + '" required>' +
+        '<button type="submit">' + getText('login') + '</button>' +
         '</form>';
       openModal(html);
       
@@ -1674,7 +1872,7 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
             }, 100);
           })
           .catch(error => {
-            alert('로그인 실패: ' + error.message);
+            alert(getText('login') + ' 실패: ' + error.message);
           });
       };
     }
@@ -1682,20 +1880,128 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
     // 회원가입 함수
     function showSignupForm() {
       const html = 
-        '<h2>회원가입</h2>' +
+        '<h2>' + getText('signup') + '</h2>' +
         '<form id="signupForm">' +
-        '<input type="email" id="signupEmail" placeholder="이메일" required>' +
-        '<input type="password" id="signupPassword" placeholder="비밀번호" required>' +
-        '<input type="text" id="robloxNickname" placeholder="로블록스 닉네임" required>' +
-        '<button type="submit">회원가입</button>' +
+        '<input type="email" id="signupEmail" placeholder="' + getText('email') + '" required>' +
+        '<input type="password" id="signupPassword" placeholder="' + getText('password') + '" required>' +
+        '<input type="password" id="confirmPassword" placeholder="' + getText('confirmPassword') + '" required>' +
+        '<input type="text" id="robloxNickname" placeholder="' + getText('robloxNickname') + '" required>' +
+        '<div id="emailVerificationSection" style="display:none; margin: 15px 0;">' +
+        '<input type="text" id="verificationCode" placeholder="' + getText('verificationCode') + '" style="width: 60%; margin-right: 10px;">' +
+        '<button type="button" id="verifyEmailBtn" style="width: 35%;">' + getText('verifyEmail') + '</button>' +
+        '</div>' +
+        '<button type="button" id="sendVerificationBtn" style="width: 100%; margin-bottom: 10px;">' + getText('sendVerification') + '</button>' +
+        '<button type="submit" id="signupBtn" disabled>' + getText('signup') + '</button>' +
         '</form>';
       openModal(html);
+      
+      // 인증 코드 전송 버튼
+      document.getElementById('sendVerificationBtn').onclick = function() {
+        const email = document.getElementById('signupEmail').value;
+        if (!email) {
+          alert(getText('email') + '을 입력해주세요.');
+          return;
+        }
+        
+        // 이메일 중복 체크
+        auth.fetchSignInMethodsForEmail(email).then(function(signInMethods) {
+          if (signInMethods.length > 0) {
+            alert('이미 사용 중인 이메일 주소입니다. 다른 이메일을 사용하거나 로그인해주세요.');
+            return;
+          }
+          
+          // 6자리 랜덤 인증 코드 생성
+          const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+          
+          // Firebase에 인증 코드 저장 (5분 유효)
+          const emailKey = email.replace(/\./g, '_').replace(/@/g, '_at_');
+          db.ref('emailVerifications/' + emailKey).set({
+            code: verificationCode,
+            timestamp: Date.now(),
+            used: false,
+            email: email
+          }).then(() => {
+            // 이메일 전송
+            sendVerificationEmail(email, verificationCode);
+            
+            // 성공 메시지 표시
+            alert('인증 코드가 이메일로 전송되었습니다.\n이메일을 확인해주세요.');
+            
+            // 인증 섹션 표시
+            document.getElementById('emailVerificationSection').style.display = 'block';
+            document.getElementById('sendVerificationBtn').disabled = true;
+            document.getElementById('sendVerificationBtn').textContent = '재전송 (60초 후 가능)';
+            
+            // 60초 후 재전송 버튼 활성화
+            let countdown = 60;
+            const countdownInterval = setInterval(() => {
+              countdown--;
+              if (countdown > 0) {
+                document.getElementById('sendVerificationBtn').textContent = '재전송 (' + countdown + '초 후 가능)';
+              } else {
+                document.getElementById('sendVerificationBtn').disabled = false;
+                document.getElementById('sendVerificationBtn').textContent = '인증 코드 재전송';
+                clearInterval(countdownInterval);
+              }
+            }, 1000);
+          }).catch(error => {
+            console.error('인증 코드 저장 오류:', error);
+            alert('인증 코드 전송에 실패했습니다. 다시 시도해주세요.');
+          });
+        }).catch(function(error) {
+          console.error('이메일 중복 체크 오류:', error);
+          alert('이메일 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
+        });
+      };
+      
+      // 이메일 인증 버튼
+      document.getElementById('verifyEmailBtn').onclick = function() {
+        const email = document.getElementById('signupEmail').value;
+        const inputCode = document.getElementById('verificationCode').value;
+        
+        if (!inputCode) {
+          alert(getText('verificationCode') + '를 입력해주세요.');
+          return;
+        }
+        
+        // Firebase에서 인증 코드 확인
+        const emailKey = email.replace(/\./g, '_').replace(/@/g, '_at_');
+        db.ref('emailVerifications/' + emailKey).once('value').then(snap => {
+          const verification = snap.val();
+          const currentTime = Date.now();
+          const codeAge = currentTime - verification.timestamp;
+          const fiveMinutes = 5 * 60 * 1000; // 5분을 밀리초로 변환
+          
+          if (verification && verification.code === inputCode && !verification.used && codeAge < fiveMinutes) {
+            // 인증 성공
+            db.ref('emailVerifications/' + emailKey).update({ used: true });
+            alert(getText('verificationSuccess'));
+            document.getElementById('signupBtn').disabled = false;
+            document.getElementById('emailVerificationSection').style.display = 'none';
+          } else if (codeAge >= fiveMinutes) {
+            alert('인증 코드가 만료되었습니다. 새로운 코드를 요청해주세요.');
+            document.getElementById('sendVerificationBtn').disabled = false;
+            document.getElementById('emailVerificationSection').style.display = 'none';
+          } else {
+            alert(getText('verificationFailed'));
+          }
+        }).catch(error => {
+          console.error('인증 코드 확인 오류:', error);
+          alert('인증 코드 확인에 실패했습니다. 다시 시도해주세요.');
+        });
+      };
       
       document.getElementById('signupForm').onsubmit = function(e) {
         e.preventDefault();
         const email = document.getElementById('signupEmail').value;
         const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
         const nickname = document.getElementById('robloxNickname').value;
+        
+        if (password !== confirmPassword) {
+          alert(getText('password') + '가 일치하지 않습니다.');
+          return;
+        }
         
         auth.createUserWithEmailAndPassword(email, password)
           .then(userCredential => {
@@ -1703,7 +2009,8 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
             return db.ref('users/' + user.uid).set({
               email: email,
               robloxNickname: nickname,
-              createdAt: Date.now()
+              createdAt: Date.now(),
+              emailVerified: true
             });
           })
           .then(() => {
@@ -1714,7 +2021,7 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
             }, 100);
           })
           .catch(error => {
-            alert('회원가입 실패: ' + error.message);
+            alert(getText('signup') + ' 실패: ' + error.message);
           });
       };
     }
@@ -2104,7 +2411,67 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
           'adminApproval': '사이트 관리자 승인 대기',
           'rejected': '거절됨',
           'enterServer': '서버 입장',
-          'noAddress': '주소 없음'
+          'noAddress': '주소 없음',
+          'email': '이메일',
+          'password': '비밀번호',
+          'confirmPassword': '비밀번호 확인',
+          'robloxNickname': '로블록스 닉네임',
+          'emailVerification': '이메일 인증',
+          'verificationCode': '인증 코드',
+          'sendVerification': '인증 코드 전송',
+          'verifyEmail': '이메일 인증',
+          'emailSent': '인증 코드가 이메일로 전송되었습니다.',
+          'verificationSuccess': '이메일 인증이 완료되었습니다.',
+          'verificationFailed': '인증 코드가 올바르지 않습니다.',
+          'emailNotVerified': '이메일 인증이 필요합니다.',
+          'serverCreateGuide': '서버 생성 안내',
+          'serverCreateGuide1': '서버 생성 요청 후 관리자 승인이 필요합니다',
+          'serverCreateGuide2': '승인되면 서버 주소가 제공됩니다',
+          'serverCreateGuide3': '서버는 24시간 운영됩니다',
+          'serverCreateGuide4': '규칙을 위반하면 서버가 정지될 수 있습니다',
+          'serverCreateGuide5': '승인되기 전에 HJNF000님에게 친구추가를 요청해주세요!',
+          'newServerCreate': '새 서버 생성',
+          'robloxServerCreate': '로블록스 서버를 생성하여 친구들과 함께 플레이하세요!',
+          'serverCreateRequestBtn': '서버 생성 요청',
+          'currentServerStatus': '현재 서버 상태',
+          'serverName': '서버 이름',
+          'serverDescription': '설명',
+          'serverUrl': '서버 주소',
+          'serverCreateDate': '생성일',
+          'serverPending': '서버 생성 요청이 대기중입니다.',
+          'serverPendingDesc': '관리자 승인을 기다려주세요.',
+          'serverApproved': '서버가 승인되었습니다!',
+          'serverApprovedDesc': '서버를 운영할 수 있습니다.',
+          'serverPaused': '서버가 일시정지되었습니다.',
+          'serverPausedDesc': '서버를 다시 시작할 수 있습니다.',
+          'serverResume': '서버 재개',
+          'serverStopped': '서버가 정지되었습니다.',
+          'serverStoppedDesc': '관리자에게 문의하세요.',
+          'myInventory': '내 인벤토리',
+          'ownedItems': '보유 아이템',
+          'noItems': '보유한 아이템이 없습니다.',
+          'serverAddItem': '서버 추가 아이템',
+          'serverAddDesc': '서버를 추가로 생성할 수 있습니다.',
+          'vipDesc': 'VIP 등급을 받을 수 있습니다.',
+          'vipPlusDesc': 'VIP+ 등급을 받을 수 있습니다.',
+          'mvpDesc': 'MVP 등급을 받을 수 있습니다.',
+          'mvpPlusDesc': 'MVP+ 등급을 받을 수 있습니다.',
+          'useItem': '사용하기',
+          'normalItem': '일반 아이템',
+          'adminItemManagement': '관리자 아이템 관리',
+          'adminItemDesc': '다른 멤버들에게 아이템을 추가할 수 있습니다.',
+          'itemManagement': '아이템 관리',
+          'myProfile': '내 프로필',
+          'robloxNicknameLabel': '로블록스 닉네임',
+          'joinDate': '가입 시기',
+          'inventoryLabel': '인벤토리',
+          'premiumLabel': '프리미엄',
+          'serverCreateStatus': '서버 생성 여부',
+          'serverCreateDateLabel': '서버 생성 시기',
+          'yes': 'O',
+          'no': 'X',
+          'dash': '-',
+          'userInfo': '사용자 정보'
         },
         'en': {
           'home': 'Home',
@@ -2168,7 +2535,67 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
           'adminApproval': 'Admin Approval Pending',
           'rejected': 'Rejected',
           'enterServer': 'Enter Server',
-          'noAddress': 'No Address'
+          'noAddress': 'No Address',
+          'email': 'Email',
+          'password': 'Password',
+          'confirmPassword': 'Confirm Password',
+          'robloxNickname': 'Roblox Nickname',
+          'emailVerification': 'Email Verification',
+          'verificationCode': 'Verification Code',
+          'sendVerification': 'Send Verification Code',
+          'verifyEmail': 'Verify Email',
+          'emailSent': 'Verification code has been sent to your email.',
+          'verificationSuccess': 'Email verification completed successfully.',
+          'verificationFailed': 'Invalid verification code.',
+          'emailNotVerified': 'Email verification is required.',
+          'serverCreateGuide': 'Server Creation Guide',
+          'serverCreateGuide1': 'Administrator approval is required after server creation request',
+          'serverCreateGuide2': 'Server address will be provided upon approval',
+          'serverCreateGuide3': 'Server runs for 24 hours',
+          'serverCreateGuide4': 'Server may be suspended if rules are violated',
+          'serverCreateGuide5': 'Please add HJNF000 as a friend before approval!',
+          'newServerCreate': 'Create New Server',
+          'robloxServerCreate': 'Create a Roblox server to play with friends!',
+          'serverCreateRequestBtn': 'Server Create Request',
+          'currentServerStatus': 'Current Server Status',
+          'serverName': 'Server Name',
+          'serverDescription': 'Description',
+          'serverUrl': 'Server Address',
+          'serverCreateDate': 'Created Date',
+          'serverPending': 'Server creation request is pending.',
+          'serverPendingDesc': 'Please wait for administrator approval.',
+          'serverApproved': 'Server has been approved!',
+          'serverApprovedDesc': 'You can now operate the server.',
+          'serverPaused': 'Server has been paused.',
+          'serverPausedDesc': 'You can resume the server.',
+          'serverResume': 'Resume Server',
+          'serverStopped': 'Server has been stopped.',
+          'serverStoppedDesc': 'Please contact administrator.',
+          'myInventory': 'My Inventory',
+          'ownedItems': 'Owned Items',
+          'noItems': 'No items owned.',
+          'serverAddItem': 'Server Add Item',
+          'serverAddDesc': 'Allows you to create additional servers.',
+          'vipDesc': 'Receive VIP grade.',
+          'vipPlusDesc': 'Receive VIP+ grade.',
+          'mvpDesc': 'Receive MVP grade.',
+          'mvpPlusDesc': 'Receive MVP+ grade.',
+          'useItem': 'Use',
+          'normalItem': 'Normal Item',
+          'adminItemManagement': 'Admin Item Management',
+          'adminItemDesc': 'Add items to other members.',
+          'itemManagement': 'Item Management',
+          'myProfile': 'My Profile',
+          'robloxNicknameLabel': 'Roblox Nickname',
+          'joinDate': 'Join Date',
+          'inventoryLabel': 'Inventory',
+          'premiumLabel': 'Premium',
+          'serverCreateStatus': 'Server Created',
+          'serverCreateDateLabel': 'Server Creation Date',
+          'yes': 'O',
+          'no': 'X',
+          'dash': '-',
+          'userInfo': 'User Information'
         },
         'zh': {
           'home': '首页',
@@ -2232,7 +2659,67 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
           'adminApproval': '等待管理员批准',
           'rejected': '已拒绝',
           'enterServer': '进入服务器',
-          'noAddress': '无地址'
+          'noAddress': '无地址',
+          'email': '邮箱',
+          'password': '密码',
+          'confirmPassword': '确认密码',
+          'robloxNickname': 'Roblox昵称',
+          'emailVerification': '邮箱验证',
+          'verificationCode': '验证码',
+          'sendVerification': '发送验证码',
+          'verifyEmail': '验证邮箱',
+          'emailSent': '验证码已发送到您的邮箱。',
+          'verificationSuccess': '邮箱验证完成。',
+          'verificationFailed': '验证码不正确。',
+          'emailNotVerified': '需要邮箱验证。',
+          'serverCreateGuide': '服务器创建指南',
+          'serverCreateGuide1': '服务器创建请求后需要管理员批准',
+          'serverCreateGuide2': '批准后将提供服务器地址',
+          'serverCreateGuide3': '服务器运行24小时',
+          'serverCreateGuide4': '违反规则可能导致服务器暂停',
+          'serverCreateGuide5': '批准前请先添加HJNF000为好友！',
+          'newServerCreate': '创建新服务器',
+          'robloxServerCreate': '创建Roblox服务器与朋友一起游戏！',
+          'serverCreateRequestBtn': '服务器创建请求',
+          'currentServerStatus': '当前服务器状态',
+          'serverName': '服务器名称',
+          'serverDescription': '描述',
+          'serverUrl': '服务器地址',
+          'serverCreateDate': '创建日期',
+          'serverPending': '服务器创建请求待处理。',
+          'serverPendingDesc': '请等待管理员批准。',
+          'serverApproved': '服务器已批准！',
+          'serverApprovedDesc': '您现在可以运营服务器。',
+          'serverPaused': '服务器已暂停。',
+          'serverPausedDesc': '您可以恢复服务器。',
+          'serverResume': '恢复服务器',
+          'serverStopped': '服务器已停止。',
+          'serverStoppedDesc': '请联系管理员。',
+          'myInventory': '我的库存',
+          'ownedItems': '拥有的物品',
+          'noItems': '没有物品。',
+          'serverAddItem': '服务器添加物品',
+          'serverAddDesc': '允许您创建额外的服务器。',
+          'vipDesc': '获得VIP等级。',
+          'vipPlusDesc': '获得VIP+等级。',
+          'mvpDesc': '获得MVP等级。',
+          'mvpPlusDesc': '获得MVP+等级。',
+          'useItem': '使用',
+          'normalItem': '普通物品',
+          'adminItemManagement': '管理员物品管理',
+          'adminItemDesc': '为其他成员添加物品。',
+          'itemManagement': '物品管理',
+          'myProfile': '我的个人资料',
+          'robloxNicknameLabel': 'Roblox昵称',
+          'joinDate': '加入日期',
+          'inventoryLabel': '库存',
+          'premiumLabel': '高级会员',
+          'serverCreateStatus': '服务器创建状态',
+          'serverCreateDateLabel': '服务器创建日期',
+          'yes': 'O',
+          'no': 'X',
+          'dash': '-',
+          'userInfo': '用户信息'
         },
         'ja': {
           'home': 'ホーム',
@@ -2296,7 +2783,67 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
           'adminApproval': '管理者承認待ち',
           'rejected': '拒否済み',
           'enterServer': 'サーバーに入る',
-          'noAddress': 'アドレスなし'
+          'noAddress': 'アドレスなし',
+          'email': 'メール',
+          'password': 'パスワード',
+          'confirmPassword': 'パスワード確認',
+          'robloxNickname': 'Robloxニックネーム',
+          'emailVerification': 'メール認証',
+          'verificationCode': '認証コード',
+          'sendVerification': '認証コード送信',
+          'verifyEmail': 'メール認証',
+          'emailSent': '認証コードがメールに送信されました。',
+          'verificationSuccess': 'メール認証が完了しました。',
+          'verificationFailed': '認証コードが正しくありません。',
+          'emailNotVerified': 'メール認証が必要です。',
+          'serverCreateGuide': 'サーバー作成ガイド',
+          'serverCreateGuide1': 'サーバー作成リクエスト後、管理者の承認が必要です',
+          'serverCreateGuide2': '承認後、サーバーアドレスが提供されます',
+          'serverCreateGuide3': 'サーバーは24時間稼働します',
+          'serverCreateGuide4': 'ルール違反によりサーバーが停止される場合があります',
+          'serverCreateGuide5': '承認前にHJNF000をフレンドに追加してください！',
+          'newServerCreate': '新しいサーバー作成',
+          'robloxServerCreate': 'Robloxサーバーを作成して友達と一緒にプレイしましょう！',
+          'serverCreateRequestBtn': 'サーバー作成リクエスト',
+          'currentServerStatus': '現在のサーバー状態',
+          'serverName': 'サーバー名',
+          'serverDescription': '説明',
+          'serverUrl': 'サーバーアドレス',
+          'serverCreateDate': '作成日',
+          'serverPending': 'サーバー作成リクエストが保留中です。',
+          'serverPendingDesc': '管理者の承認をお待ちください。',
+          'serverApproved': 'サーバーが承認されました！',
+          'serverApprovedDesc': 'サーバーを運営できます。',
+          'serverPaused': 'サーバーが一時停止されました。',
+          'serverPausedDesc': 'サーバーを再開できます。',
+          'serverResume': 'サーバー再開',
+          'serverStopped': 'サーバーが停止されました。',
+          'serverStoppedDesc': '管理者にお問い合わせください。',
+          'myInventory': 'マイインベントリ',
+          'ownedItems': '所有アイテム',
+          'noItems': '所有アイテムがありません。',
+          'serverAddItem': 'サーバー追加アイテム',
+          'serverAddDesc': '追加のサーバーを作成できます。',
+          'vipDesc': 'VIPグレードを取得できます。',
+          'vipPlusDesc': 'VIP+グレードを取得できます。',
+          'mvpDesc': 'MVPグレードを取得できます。',
+          'mvpPlusDesc': 'MVP+グレードを取得できます。',
+          'useItem': '使用',
+          'normalItem': '通常アイテム',
+          'adminItemManagement': '管理者アイテム管理',
+          'adminItemDesc': '他のメンバーにアイテムを追加できます。',
+          'itemManagement': 'アイテム管理',
+          'myProfile': 'マイプロフィール',
+          'robloxNicknameLabel': 'Robloxニックネーム',
+          'joinDate': '参加日',
+          'inventoryLabel': 'インベントリ',
+          'premiumLabel': 'プレミアム',
+          'serverCreateStatus': 'サーバー作成状態',
+          'serverCreateDateLabel': 'サーバー作成日',
+          'yes': 'O',
+          'no': 'X',
+          'dash': '-',
+          'userInfo': 'ユーザー情報'
         }
       };
       
@@ -3082,17 +3629,28 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
         showLanguagePanel();
       });
       // 로그인/회원가입 버튼 이벤트
-      document.getElementById('showLogin').onclick = function() {
-        showLoginForm();
-      };
-      document.getElementById('showSignup').onclick = function() {
-        showSignupForm();
-      };
-      document.getElementById('logoutBtn').onclick = function() {
-        auth.signOut().then(() => {
-          showHomePanel();
-        });
-      };
+      const showLoginBtn = document.getElementById('showLogin');
+      if (showLoginBtn) {
+        showLoginBtn.onclick = function() {
+          showLoginForm();
+        };
+      }
+      
+      const showSignupBtn = document.getElementById('showSignup');
+      if (showSignupBtn) {
+        showSignupBtn.onclick = function() {
+          showSignupForm();
+        };
+      }
+      
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.onclick = function() {
+          auth.signOut().then(() => {
+            showHomePanel();
+          });
+        };
+      }
 
       // 인증 상태 변경 감지
       auth.onAuthStateChanged(function(user) {
@@ -3116,10 +3674,13 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
               return;
             }
             
-            document.getElementById('loginButtons').style.display = 'none';
-            document.getElementById('userInfo').style.display = 'block';
-            const nickname = userData.robloxNickname || '사용자';
-            document.getElementById('userNickname').textContent = nickname;
+            const loginButtons = document.getElementById('loginButtons');
+            const userInfo = document.getElementById('userInfo');
+            const userNickname = document.getElementById('userNickname');
+            
+            if (loginButtons) loginButtons.style.display = 'none';
+            if (userInfo) userInfo.style.display = 'block';
+            if (userNickname) userNickname.textContent = userData.robloxNickname || '사용자';
             
             // 로그인 시 자동으로 홈으로 이동
             setTimeout(() => {
@@ -3127,8 +3688,11 @@ const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
             }, 100);
           });
         } else {
-          document.getElementById('loginButtons').style.display = 'block';
-          document.getElementById('userInfo').style.display = 'none';
+          const loginButtons = document.getElementById('loginButtons');
+          const userInfo = document.getElementById('userInfo');
+          
+          if (loginButtons) loginButtons.style.display = 'block';
+          if (userInfo) userInfo.style.display = 'none';
         }
       });
       
