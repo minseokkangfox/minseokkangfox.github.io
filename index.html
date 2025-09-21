@@ -1511,6 +1511,7 @@ function createMessageContainer() {
             case 'approved': statusKor = '운영중'; break;
             case 'stopped': statusKor = '정지됨'; break;
             case 'paused': statusKor = '일시정지'; break;
+            case 'rejected': statusKor = '거절됨'; break;
             default: statusKor = server.status;
           }
           
@@ -1542,6 +1543,12 @@ function createMessageContainer() {
             html += '<div style="background:#f44336;padding:15px;border-radius:10px;margin-top:15px;">';
             html += '<p><strong>서버가 정지되었습니다.</strong></p>';
             html += '<p>관리자에게 문의하세요.</p>';
+            html += '</div>';
+          } else if (server.status === 'rejected') {
+            html += '<div style="background:#f44336;padding:15px;border-radius:10px;margin-top:15px;">';
+            html += '<p><strong>서버 요청이 거절되었습니다.</strong></p>';
+            html += '<p>다시 요청할 수 있습니다.</p>';
+            html += '<button onclick="showServerRequestForm()" style="margin-top:10px;padding:10px 20px;background:#d32c2c;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 재요청</button>';
             html += '</div>';
           }
           
@@ -1607,8 +1614,11 @@ function createMessageContainer() {
     // 서버 요청 거절
     function rejectServerRequest(uid) {
       if (confirm('서버 요청을 거절하시겠습니까?')) {
-        db.ref('users/' + uid + '/server').remove().then(() => {
-          alert('서버 요청이 거절되었습니다.');
+        db.ref('users/' + uid + '/server').update({
+          status: 'rejected',
+          rejectedAt: Date.now()
+        }).then(() => {
+          showMessage('서버 요청이 거절되었습니다.', 'warning');
         });
       }
     }
@@ -3789,13 +3799,22 @@ function createMessageContainer() {
             const btn = document.getElementById('joinBtn-' + uid);
             if (btn) {
               btn.onclick = function() {
-                if (confirm('서버 참여를 신청하시겠습니까?')) {
+                const isReRequest = btn.textContent === '재신청';
+                const confirmMessage = isReRequest ? '서버 참여를 재신청하시겠습니까?' : '서버 참여를 신청하시겠습니까?';
+                
+                if (confirm(confirmMessage)) {
+                  // 재신청인 경우 기존 요청 삭제
+                  if (isReRequest) {
+                    db.ref('serverJoinRequests/' + uid + '/' + auth.currentUser.uid).remove();
+                    db.ref('serverJoinApprovals/' + uid + '/' + auth.currentUser.uid).remove();
+                  }
+                  
                   db.ref('serverJoinRequests/' + uid + '/' + auth.currentUser.uid).set({
                     status: 'pending',
                     requestedAt: Date.now(),
                     requesterUid: auth.currentUser.uid
                   }).then(() => {
-                    alert('서버 참여 신청이 완료되었습니다.');
+                    showMessage('서버 참여 신청이 완료되었습니다.', 'success');
                   });
                 }
               };
@@ -3820,7 +3839,8 @@ function createMessageContainer() {
                       btn.style.display = 'none';
                     } else if (approv && approv.status === 'rejected') {
                       document.getElementById('joinStatus-' + uid).innerText = '사이트 관리자 거절';
-                      btn.style.display = 'none';
+                      btn.disabled = false;
+                      btn.textContent = '재신청';
                     } else {
                       document.getElementById('joinStatus-' + uid).innerText = '사이트 관리자 승인 대기';
                       btn.style.display = 'none';
@@ -3828,7 +3848,8 @@ function createMessageContainer() {
                   });
                 } else if (req.status === 'rejected') {
                   document.getElementById('joinStatus-' + uid).innerText = '서버 소유자 거절';
-                  btn.style.display = 'none';
+                  btn.disabled = false;
+                  btn.textContent = '재신청';
                 }
               });
             }
