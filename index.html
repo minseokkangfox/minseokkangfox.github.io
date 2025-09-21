@@ -493,7 +493,7 @@
       <a href="#" id="navCommunityBtn">커뮤니티</a>
     </div>
     <div class="roblox-nav-search">
-      <input type="text" placeholder="검색..." />
+      <input type="text" id="searchInput" placeholder="검색..." />
     </div>
   </nav>
 
@@ -505,6 +505,8 @@
   <a href="#" class="sidebar-link">인벤토리</a>
   <a href="#" class="sidebar-link"><b>프리미엄</b></a>
     <a href="#" class="sidebar-link">이벤트</a>
+    <a href="#" class="sidebar-link" id="sidebarCustomerServiceLink">고객센터</a>
+    <a href="#" class="sidebar-link" id="sidebarLanguageLink">🌐 언어 설정</a>
     <a href="#" class="sidebar-link" id="sidebarMembersBtn" style="display:none">맴버 목록</a>
   </aside>
 
@@ -518,7 +520,7 @@
         <button id="showSignup">회원가입</button>
       </div>
       <div id="userInfo" style="display: none; margin-top: 20px;">
-        <p>환영합니다, <span id="userNickname"></span>님!</p>
+        <p id="welcomeMessage">환영합니다, <span id="userNickname"></span>님!</p>
         <button id="logoutBtn">로그아웃</button>
       </div>
     </div>
@@ -1064,8 +1066,8 @@ function showProfilePanel() {
       html += '<b>서버 생성 여부:</b> O<br>';
       html += '<b>서버 생성 시기:</b> ' + (user.server.requestedAt ? new Date(user.server.requestedAt).toLocaleString() : '-') + '<br>';
     } else {
-      html += '<b>서버 생성 여부:</b> X<br>';
-      html += '<b>서버 생성 시기:</b> -<br>';
+    html += '<b>서버 생성 여부:</b> X<br>';
+    html += '<b>서버 생성 시기:</b> -<br>';
     }
     html += '</div>';
     document.getElementById('formContainer').innerHTML = html;
@@ -1098,43 +1100,44 @@ const auth = firebase.auth();
 const db = firebase.database();
 const ADMIN_UID = "VDDnepBDUtMqoVv4z2pxIAoolV93";
 
-// 홈 패널 함수
-function showHomePanel() {
-  if (!auth.currentUser) {
-    document.getElementById('formContainer').innerHTML = 
-      '<h2>HJNF 서버 관리 시스템</h2>' +
-      '<p>로블록스 서버를 관리하고 친구들과 소통하세요!</p>' +
-      '<div id="loginButtons" style="margin-top: 20px;">' +
-      '<button id="showLogin">로그인</button>' +
-      '<button id="showSignup">회원가입</button>' +
-      '</div>';
-    return;
-  }
+    // 홈 패널 함수
+    function showHomePanel() {
+      if (!auth.currentUser) {
+        document.getElementById('formContainer').innerHTML = 
+          '<h2>HJNF ' + getText('serverManagement') + '</h2>' +
+          '<p>' + getText('robloxServerManagement') + '</p>' +
+          '<div id="loginButtons" style="margin-top: 20px;">' +
+          '<button id="showLogin">' + getText('login') + '</button>' +
+          '<button id="showSignup">' + getText('signup') + '</button>' +
+          '</div>';
+        return;
+      }
       
   db.ref('users/' + auth.currentUser.uid).once('value').then(snap => {
     const user = snap.val() || {};
-    let html = '<h2>홈</h2>';
+    let html = '<h2>' + getText('home') + '</h2>';
     html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
-    html += '<h3>환영합니다, ' + (user.robloxNickname || '사용자') + '님!</h3>';
-    html += '<p>서버 관리와 친구들과의 소통을 시작해보세요.</p>';
+    html += '<h3>' + getText('welcome') + ', ' + (user.robloxNickname || getText('user')) + '님!</h3>';
+    html += '<p>' + getText('startServerManagement') + '</p>';
+    html += '<p style="color:#ffd700;font-weight:600;margin-top:10px;">💡 HJNF000님에게 친구추가를 요청해보세요!</p>';
     html += '</div>';
     
     // 서버 상태 표시 (실시간 업데이트용 컨테이너)
     html += '<div id="serverStatusContainer" style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
-    html += '<h3>내 서버 상태</h3>';
-    html += '<div id="serverStatusContent">불러오는 중...</div>';
+    html += '<h3>' + getText('myServerStatus') + '</h3>';
+    html += '<div id="serverStatusContent">' + getText('loading') + '...</div>';
     html += '</div>';
     
     // 프리미엄 상태 표시
-    html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
-    html += '<h3>프리미엄 상태</h3>';
-    html += '<p><strong>등급:</strong> ' + (user.premium || '없음') + '</p>';
-    html += '</div>';
+        html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+        html += '<h3>' + getText('premiumStatus') + '</h3>';
+        html += '<p><strong>' + getText('grade') + ':</strong> ' + (user.premium || getText('none')) + '</p>';
+        html += '</div>';
     
     // 친구 요청 알림 표시
     html += '<div id="friendRequestNotifications" style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
-    html += '<h3>친구 요청 알림</h3>';
-    html += '<div id="pendingFriendRequests">불러오는 중...</div>';
+    html += '<h3>' + getText('friendRequestNotifications') + '</h3>';
+    html += '<div id="pendingFriendRequests">' + getText('loading') + '...</div>';
     html += '</div>';
     
     // 서버 소유자용 멤버 관리 패널
@@ -1254,6 +1257,7 @@ function showHomePanel() {
             html += '<div style="background:#4caf50;padding:15px;border-radius:10px;margin-top:15px;">';
             html += '<p><strong>서버가 승인되었습니다!</strong></p>';
             html += '<p>서버를 운영할 수 있습니다.</p>';
+            html += '<p style="color:#fff;font-weight:600;margin-top:10px;">💡 HJNF000님에게 친구추가를 요청해주세요!</p>';
             html += '</div>';
           } else if (server.status === 'paused') {
             html += '<div style="background:#ff9800;padding:15px;border-radius:10px;margin-top:15px;">';
@@ -1739,43 +1743,579 @@ function showHomePanel() {
         return;
       }
       
-      if (confirm('서버 생성 요청을 보내시겠습니까?')) {
-        db.ref('users/' + auth.currentUser.uid + '/server').set({
-          status: 'pending',
-          requestedAt: Date.now(),
-          requestedBy: auth.currentUser.uid
-        })
-        .then(() => {
-          // 관리자에게 실시간 알림 전송
-          db.ref('adminNotifications/serverRequests').push({
-            userId: auth.currentUser.uid,
-            userNickname: '', // 닉네임은 별도로 가져올 예정
-            timestamp: Date.now(),
-            type: 'serverRequest'
-          });
-          
-          showHomePanel();
-          alert('서버 생성 요청이 완료되었습니다. 관리자 승인을 기다려주세요.');
-        })
-        .catch(error => {
-          alert('요청 실패: ' + error.message);
-        });
-      }
+      // 커스텀 경고창 표시
+      showServerRequestWarning();
     }
 
-    // 커뮤니티 패널
-    function showCommunity() {
+    // 서버 요청 경고창
+    function showServerRequestWarning() {
+      const warningHtml = 
+        '<div style="text-align: center; padding: 20px;">' +
+        '<div style="font-size: 24px; margin-bottom: 20px;">⚠️</div>' +
+        '<h2 style="color: #ff6b6b; margin-bottom: 15px;">서버 생성 전 필수사항</h2>' +
+        '<div style="background: #fff3cd; border: 2px solid #ffeaa7; border-radius: 10px; padding: 15px; margin: 20px 0;">' +
+        '<p style="color: #856404; font-weight: bold; font-size: 16px; margin: 0;">HJNF000님에게 친구추가를 요청해주세요!</p>' +
+        '</div>' +
+        '<div style="background: #f8d7da; border: 2px solid #f5c6cb; border-radius: 10px; padding: 15px; margin: 20px 0;">' +
+        '<p style="color: #721c24; font-weight: bold; font-size: 16px; margin: 0;">친구추가 없이 서버요청하시면 거절됩니다!</p>' +
+        '</div>' +
+        '<p style="color: #e3e3e3; font-size: 14px; margin: 20px 0;">친구추가를 완료하신 후 서버 생성 요청을 진행해주세요.</p>' +
+        '<div style="background: #d1ecf1; border: 2px solid #bee5eb; border-radius: 10px; padding: 15px; margin: 20px 0;">' +
+        '<p style="color: #0c5460; font-weight: bold; font-size: 16px; margin: 0;">⏰ 요청하신 후 승인될려면 최소 5일은 걸릴 수 있습니다</p>' +
+        '</div>' +
+        '<div style="margin-top: 30px;">' +
+        '<button id="confirmServerRequest" style="background: #d32c2c; color: #fff; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; font-weight: bold; margin-right: 10px; cursor: pointer;">서버 요청하기</button>' +
+        '<button id="cancelServerRequest" style="background: #6c757d; color: #fff; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;">취소</button>' +
+        '</div>' +
+        '</div>';
+      
+      openModal(warningHtml);
+      
+      // 이벤트 리스너 등록
+      document.getElementById('confirmServerRequest').onclick = function() {
+        closeModal();
+        processServerRequest();
+      };
+      
+      document.getElementById('cancelServerRequest').onclick = function() {
+        closeModal();
+      };
+    }
+
+    // 서버 요청 처리
+    function processServerRequest() {
+      db.ref('users/' + auth.currentUser.uid + '/server').set({
+        status: 'pending',
+        requestedAt: Date.now(),
+        requestedBy: auth.currentUser.uid
+      })
+      .then(() => {
+        // 관리자에게 실시간 알림 전송
+        db.ref('adminNotifications/serverRequests').push({
+          userId: auth.currentUser.uid,
+          userNickname: '', // 닉네임은 별도로 가져올 예정
+          timestamp: Date.now(),
+          type: 'serverRequest'
+        });
+        
+        showHomePanel();
+        alert('서버 생성 요청이 완료되었습니다. 관리자 승인을 기다려주세요.\n\n서버가 승인되면 HJNF000님에게 친구추가를 요청해주세요!');
+      })
+      .catch(error => {
+        alert('요청 실패: ' + error.message);
+      });
+    }
+
+    // 고객센터 패널
+    function showCustomerServicePanel() {
       if (!auth.currentUser) {
         document.getElementById('formContainer').innerHTML = '<div style="color:red">로그인 후 이용 가능합니다.</div>';
         return;
       }
       
-      let html = '<h2>커뮤니티</h2>';
-      html += '<div style="margin-bottom: 20px;">';
-      html += '<textarea id="postContent" placeholder="게시글을 작성하세요..." rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>';
-      html += '<button onclick="submitPost()">게시하기</button>';
+      let html = '<h2>고객센터</h2>';
+      
+      // 문의하기 섹션
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+      html += '<h3>문의하기</h3>';
+      html += '<p>궁금한 점이나 문제가 있으시면 언제든 문의해주세요!</p>';
+      html += '<div style="margin-top:15px;">';
+      html += '<textarea id="inquiryContent" placeholder="문의 내용을 입력해주세요..." rows="4" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:14px;outline:none;margin-bottom:10px;"></textarea>';
+      html += '<button onclick="submitInquiry()" style="background:#2196f3;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;">문의하기</button>';
       html += '</div>';
-      html += '<div id="postsList">불러오는 중...</div>';
+      html += '</div>';
+      
+      // 자주 묻는 질문 섹션
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+      html += '<h3>자주 묻는 질문 (FAQ)</h3>';
+      
+      const faqs = [
+        {
+          question: '서버 생성 요청은 어떻게 하나요?',
+          answer: '만들기 → 서버 생성 요청 버튼을 클릭하여 요청하세요. 단, HJNF000님에게 먼저 친구추가를 요청해야 합니다.'
+        },
+        {
+          question: '서버 승인까지 얼마나 걸리나요?',
+          answer: '최소 5일에서 최대 2주 정도 소요될 수 있습니다. 관리자가 검토 후 승인합니다.'
+        },
+        {
+          question: '친구추가는 어떻게 하나요?',
+          answer: '친구 패널에서 다른 사용자를 검색하여 친구추가 요청을 보낼 수 있습니다.'
+        },
+        {
+          question: '프리미엄 등급은 무엇인가요?',
+          answer: 'VIP, VIP+, MVP, MVP+ 등급이 있으며, 각각 다른 혜택을 제공합니다.'
+        },
+        {
+          question: '서버가 거절된 이유를 알고 싶어요.',
+          answer: '친구추가를 하지 않았거나, 부적절한 내용이 포함된 경우 거절될 수 있습니다.'
+        }
+      ];
+      
+      faqs.forEach((faq, index) => {
+        html += '<div style="margin-bottom:15px;border:1px solid #333;border-radius:8px;overflow:hidden;">';
+        html += '<div onclick="toggleFAQ(' + index + ')" style="background:#333;padding:15px;cursor:pointer;font-weight:600;color:#fff;display:flex;justify-content:space-between;align-items:center;">';
+        html += '<span>' + faq.question + '</span>';
+        html += '<span id="faqArrow-' + index + '">▼</span>';
+        html += '</div>';
+        html += '<div id="faqAnswer-' + index + '" style="display:none;padding:15px;background:#2a2a2a;color:#e3e3e3;line-height:1.6;">';
+        html += faq.answer;
+        html += '</div>';
+        html += '</div>';
+      });
+      
+      html += '</div>';
+      
+      // 연락처 정보
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;">';
+      html += '<h3>연락처 정보</h3>';
+      html += '<div style="color:#e3e3e3;line-height:1.8;">';
+      html += '<p><strong>📧 이메일:</strong> hinf000mle@gmail.com</p>';
+      html += '<p><strong>💬 디스코드:</strong> <a href="https://discord.gg/VFcTXTW3sT" target="_blank" style="color:#2196f3;">https://discord.gg/VFcTXTW3sT</a></p>';
+      html += '<p><strong>📱 응답시간:</strong> 문의 후 10일 이내</p>';
+      html += '</div>';
+      html += '</div>';
+      
+      document.getElementById('formContainer').innerHTML = html;
+    }
+
+    // FAQ 토글 함수
+    function toggleFAQ(index) {
+      const answer = document.getElementById('faqAnswer-' + index);
+      const arrow = document.getElementById('faqArrow-' + index);
+      
+      if (answer.style.display === 'none') {
+        answer.style.display = 'block';
+        arrow.textContent = '▲';
+      } else {
+        answer.style.display = 'none';
+        arrow.textContent = '▼';
+      }
+    }
+
+    // 문의 제출 함수
+    function submitInquiry() {
+      const content = document.getElementById('inquiryContent').value.trim();
+      if (!content) {
+        alert(getText('inquiryContentRequired'));
+        return;
+      }
+      
+      if (!auth.currentUser) {
+        alert(getText('loginRequired'));
+        return;
+      }
+      
+      // 사용자 정보 가져오기
+      db.ref('users/' + auth.currentUser.uid + '/robloxNickname').once('value').then(snap => {
+        const nickname = snap.val() || getText('anonymous');
+        
+        // 문의 데이터 저장
+        db.ref('inquiries').push({
+          userId: auth.currentUser.uid,
+          nickname: nickname,
+          content: content,
+          timestamp: Date.now(),
+          status: 'pending',
+          timeStr: new Date().toLocaleString()
+        }).then(() => {
+          alert(getText('inquirySubmitted'));
+          document.getElementById('inquiryContent').value = '';
+        }).catch(error => {
+          alert(getText('inquiryFailed') + ': ' + error.message);
+        });
+      });
+    }
+
+    // 언어 설정 패널
+    function showLanguagePanel() {
+      let html = '<h2>🌐 언어 설정</h2>';
+      
+      // 현재 언어 표시
+      const currentLang = localStorage.getItem('selectedLanguage') || 'ko';
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+      html += '<h3>현재 언어 / Current Language / 当前语言 / 現在の言語</h3>';
+      html += '<p style="color:#e3e3e3;font-size:18px;font-weight:bold;">' + getLanguageName(currentLang) + '</p>';
+      html += '</div>';
+      
+      // 언어 선택
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;">';
+      html += '<h3>언어 선택 / Language Selection / 语言选择 / 言語選択</h3>';
+      
+      const languages = [
+        { code: 'ko', name: '한국어', flag: '🇰🇷' },
+        { code: 'en', name: 'English', flag: '🇺🇸' },
+        { code: 'zh', name: '中文', flag: '🇨🇳' },
+        { code: 'ja', name: '日本語', flag: '🇯🇵' }
+      ];
+      
+      languages.forEach(lang => {
+        const isSelected = currentLang === lang.code;
+        html += '<div style="margin:10px 0;padding:15px;border:2px solid ' + (isSelected ? '#2196f3' : '#333') + ';border-radius:8px;cursor:pointer;background:' + (isSelected ? '#1e3a5f' : '#2a2a2a') + ';" onclick="changeLanguage(\'' + lang.code + '\')">';
+        html += '<div style="display:flex;align-items:center;gap:10px;">';
+        html += '<span style="font-size:24px;">' + lang.flag + '</span>';
+        html += '<span style="font-size:18px;font-weight:bold;color:#fff;">' + lang.name + '</span>';
+        if (isSelected) {
+          html += '<span style="margin-left:auto;color:#2196f3;font-weight:bold;">✓ 선택됨</span>';
+        }
+        html += '</div>';
+        html += '</div>';
+      });
+      
+      html += '</div>';
+      
+      document.getElementById('formContainer').innerHTML = html;
+    }
+
+    // 언어 변경 함수
+    function changeLanguage(langCode) {
+      localStorage.setItem('selectedLanguage', langCode);
+      
+      // UI 텍스트 즉시 업데이트
+      updateUITexts();
+      
+      // 현재 패널 새로고침
+      const currentPanel = getCurrentPanel();
+      if (currentPanel) {
+        currentPanel();
+      }
+      
+      // 성공 메시지 표시
+      const successMessages = {
+        'ko': '언어가 변경되었습니다!',
+        'en': 'Language changed!',
+        'zh': '语言已更改！',
+        'ja': '言語が変更されました！'
+      };
+      
+      alert(successMessages[langCode] || successMessages['ko']);
+    }
+
+    // 현재 패널 확인 함수
+    function getCurrentPanel() {
+      const container = document.getElementById('formContainer');
+      if (!container) return null;
+      
+      const title = container.querySelector('h2');
+      if (!title) return null;
+      
+      const titleText = title.textContent;
+      
+      // 패널별 함수 매핑
+      if (titleText.includes('홈') || titleText.includes('Home') || titleText.includes('首页') || titleText.includes('ホーム')) {
+        return showHomePanel;
+      } else if (titleText.includes('서버 차트') || titleText.includes('Server Chart') || titleText.includes('服务器图表') || titleText.includes('サーバーチャート')) {
+        return showServerChart;
+      } else if (titleText.includes('만들기') || titleText.includes('Create') || titleText.includes('创建') || titleText.includes('作成')) {
+        return showCreatePanel;
+      } else if (titleText.includes('커뮤니티') || titleText.includes('Community') || titleText.includes('社区') || titleText.includes('コミュニティ')) {
+        return showCommunity;
+      } else if (titleText.includes('프로필') || titleText.includes('Profile') || titleText.includes('个人资料') || titleText.includes('プロフィール')) {
+        return showProfilePanel;
+      } else if (titleText.includes('메시지') || titleText.includes('Message') || titleText.includes('消息') || titleText.includes('メッセージ')) {
+        return showMessagePanel;
+      } else if (titleText.includes('친구') || titleText.includes('Friends') || titleText.includes('朋友') || titleText.includes('フレンド')) {
+        return showFriendsPanel;
+      } else if (titleText.includes('인벤토리') || titleText.includes('Inventory') || titleText.includes('库存') || titleText.includes('インベントリ')) {
+        return showInventoryPanel;
+      } else if (titleText.includes('고객센터') || titleText.includes('Customer Service') || titleText.includes('客户服务') || titleText.includes('カスタマーサービス')) {
+        return showCustomerServicePanel;
+      } else if (titleText.includes('언어 설정') || titleText.includes('Language Settings') || titleText.includes('语言设置') || titleText.includes('言語設定')) {
+        return showLanguagePanel;
+      }
+      
+      return null;
+    }
+
+    // 언어 이름 가져오기
+    function getLanguageName(code) {
+      const names = {
+        'ko': '한국어 🇰🇷',
+        'en': 'English 🇺🇸',
+        'zh': '中文 🇨🇳',
+        'ja': '日本語 🇯🇵'
+      };
+      return names[code] || '한국어 🇰🇷';
+    }
+
+    // 다국어 텍스트 가져오기
+    function getText(key) {
+      const currentLang = localStorage.getItem('selectedLanguage') || 'ko';
+      const texts = {
+        'ko': {
+          'home': '홈',
+          'serverChart': '서버 차트',
+          'create': '만들기',
+          'community': '커뮤니티',
+          'profile': '프로필',
+          'message': '메시지',
+          'friends': '친구',
+          'inventory': '인벤토리',
+          'premium': '프리미엄',
+          'event': '이벤트',
+          'customerService': '고객센터',
+          'languageSettings': '언어 설정',
+          'membersList': '맴버 목록',
+          'loginRequired': '로그인 후 이용 가능합니다.',
+          'anonymous': '익명',
+          'inquiryContentRequired': '문의 내용을 입력해주세요.',
+          'inquirySubmitted': '문의가 성공적으로 전송되었습니다. 빠른 시일 내에 답변드리겠습니다.',
+          'inquiryFailed': '문의 전송 실패',
+          'search': '검색...',
+          'welcome': '환영합니다',
+          'serverManagement': '서버 관리 시스템',
+          'robloxServerManagement': '로블록스 서버를 관리하고 친구들과 소통하세요!',
+          'login': '로그인',
+          'signup': '회원가입',
+          'logout': '로그아웃',
+          'user': '사용자',
+          'startServerManagement': '서버 관리와 친구들과의 소통을 시작해보세요.',
+          'myServerStatus': '내 서버 상태',
+          'premiumStatus': '프리미엄 상태',
+          'friendRequestNotifications': '친구 요청 알림',
+          'noPendingFriendRequests': '대기중인 친구 요청이 없습니다.',
+          'noServerYet': '아직 서버가 없습니다. 서버를 생성해보세요!',
+          'serverCreateRequest': '서버 생성 요청',
+          'grade': '등급',
+          'none': '없음',
+          'loading': '불러오는 중...',
+          'serverChart': '서버 차트',
+          'create': '만들기',
+          'community': '커뮤니티',
+          'profile': '프로필',
+          'message': '메시지',
+          'friends': '친구',
+          'inventory': '인벤토리',
+          'premium': '프리미엄',
+          'event': '이벤트',
+          'customerService': '고객센터',
+          'languageSettings': '언어 설정',
+          'membersList': '맴버 목록',
+          'writePost': '게시글을 작성하세요',
+          'post': '게시하기',
+          'noPosts': '게시글이 없습니다.',
+          'nickname': '닉네임',
+          'status': '상태',
+          'createdDate': '생성일',
+          'join': '참여',
+          'joinRequest': '참여 신청',
+          'requested': '신청됨',
+          'serverOwnerApproval': '서버 소유자 승인 대기',
+          'adminApproval': '사이트 관리자 승인 대기',
+          'rejected': '거절됨',
+          'enterServer': '서버 입장',
+          'noAddress': '주소 없음'
+        },
+        'en': {
+          'home': 'Home',
+          'serverChart': 'Server Chart',
+          'create': 'Create',
+          'community': 'Community',
+          'profile': 'Profile',
+          'message': 'Message',
+          'friends': 'Friends',
+          'inventory': 'Inventory',
+          'premium': 'Premium',
+          'event': 'Event',
+          'customerService': 'Customer Service',
+          'languageSettings': 'Language Settings',
+          'membersList': 'Members List',
+          'loginRequired': 'Please log in to use this feature.',
+          'anonymous': 'Anonymous',
+          'inquiryContentRequired': 'Please enter your inquiry content.',
+          'inquirySubmitted': 'Your inquiry has been submitted successfully. We will respond as soon as possible.',
+          'inquiryFailed': 'Inquiry submission failed',
+          'search': 'Search...',
+          'welcome': 'Welcome',
+          'serverManagement': 'Server Management System',
+          'robloxServerManagement': 'Manage Roblox servers and communicate with friends!',
+          'login': 'Login',
+          'signup': 'Sign Up',
+          'logout': 'Logout',
+          'user': 'User',
+          'startServerManagement': 'Start managing servers and communicating with friends.',
+          'myServerStatus': 'My Server Status',
+          'premiumStatus': 'Premium Status',
+          'friendRequestNotifications': 'Friend Request Notifications',
+          'noPendingFriendRequests': 'No pending friend requests.',
+          'noServerYet': 'No server yet. Create a server!',
+          'serverCreateRequest': 'Server Create Request',
+          'grade': 'Grade',
+          'none': 'None',
+          'loading': 'Loading...',
+          'serverChart': 'Server Chart',
+          'create': 'Create',
+          'community': 'Community',
+          'profile': 'Profile',
+          'message': 'Message',
+          'friends': 'Friends',
+          'inventory': 'Inventory',
+          'premium': 'Premium',
+          'event': 'Event',
+          'customerService': 'Customer Service',
+          'languageSettings': 'Language Settings',
+          'membersList': 'Members List',
+          'writePost': 'Write a post',
+          'post': 'Post',
+          'noPosts': 'No posts available.',
+          'nickname': 'Nickname',
+          'status': 'Status',
+          'createdDate': 'Created Date',
+          'join': 'Join',
+          'joinRequest': 'Join Request',
+          'requested': 'Requested',
+          'serverOwnerApproval': 'Server Owner Approval Pending',
+          'adminApproval': 'Admin Approval Pending',
+          'rejected': 'Rejected',
+          'enterServer': 'Enter Server',
+          'noAddress': 'No Address'
+        },
+        'zh': {
+          'home': '首页',
+          'serverChart': '服务器图表',
+          'create': '创建',
+          'community': '社区',
+          'profile': '个人资料',
+          'message': '消息',
+          'friends': '朋友',
+          'inventory': '库存',
+          'premium': '高级会员',
+          'event': '活动',
+          'customerService': '客户服务',
+          'languageSettings': '语言设置',
+          'membersList': '成员列表',
+          'loginRequired': '请先登录以使用此功能。',
+          'anonymous': '匿名',
+          'inquiryContentRequired': '请输入您的咨询内容。',
+          'inquirySubmitted': '您的咨询已成功提交。我们将尽快回复。',
+          'inquiryFailed': '咨询提交失败',
+          'search': '搜索...',
+          'welcome': '欢迎',
+          'serverManagement': '服务器管理系统',
+          'robloxServerManagement': '管理Roblox服务器并与朋友交流！',
+          'login': '登录',
+          'signup': '注册',
+          'logout': '登出',
+          'user': '用户',
+          'startServerManagement': '开始管理服务器并与朋友交流。',
+          'myServerStatus': '我的服务器状态',
+          'premiumStatus': '高级会员状态',
+          'friendRequestNotifications': '好友请求通知',
+          'noPendingFriendRequests': '没有待处理的好友请求。',
+          'noServerYet': '还没有服务器。创建一个服务器！',
+          'serverCreateRequest': '服务器创建请求',
+          'grade': '等级',
+          'none': '无',
+          'loading': '加载中...',
+          'serverChart': '服务器图表',
+          'create': '创建',
+          'community': '社区',
+          'profile': '个人资料',
+          'message': '消息',
+          'friends': '朋友',
+          'inventory': '库存',
+          'premium': '高级会员',
+          'event': '活动',
+          'customerService': '客户服务',
+          'languageSettings': '语言设置',
+          'membersList': '成员列表',
+          'writePost': '写帖子',
+          'post': '发布',
+          'noPosts': '没有帖子。',
+          'nickname': '昵称',
+          'status': '状态',
+          'createdDate': '创建日期',
+          'join': '加入',
+          'joinRequest': '加入请求',
+          'requested': '已请求',
+          'serverOwnerApproval': '等待服务器所有者批准',
+          'adminApproval': '等待管理员批准',
+          'rejected': '已拒绝',
+          'enterServer': '进入服务器',
+          'noAddress': '无地址'
+        },
+        'ja': {
+          'home': 'ホーム',
+          'serverChart': 'サーバーチャート',
+          'create': '作成',
+          'community': 'コミュニティ',
+          'profile': 'プロフィール',
+          'message': 'メッセージ',
+          'friends': 'フレンド',
+          'inventory': 'インベントリ',
+          'premium': 'プレミアム',
+          'event': 'イベント',
+          'customerService': 'カスタマーサービス',
+          'languageSettings': '言語設定',
+          'membersList': 'メンバーリスト',
+          'loginRequired': 'この機能を使用するにはログインしてください。',
+          'anonymous': '匿名',
+          'inquiryContentRequired': 'お問い合わせ内容を入力してください。',
+          'inquirySubmitted': 'お問い合わせが正常に送信されました。できるだけ早く回答いたします。',
+          'inquiryFailed': 'お問い合わせの送信に失敗しました',
+          'search': '検索...',
+          'welcome': 'ようこそ',
+          'serverManagement': 'サーバー管理システム',
+          'robloxServerManagement': 'Robloxサーバーを管理し、友達と交流しましょう！',
+          'login': 'ログイン',
+          'signup': 'サインアップ',
+          'logout': 'ログアウト',
+          'user': 'ユーザー',
+          'startServerManagement': 'サーバー管理と友達との交流を始めましょう。',
+          'myServerStatus': 'マイサーバー状態',
+          'premiumStatus': 'プレミアム状態',
+          'friendRequestNotifications': 'フレンドリクエスト通知',
+          'noPendingFriendRequests': '保留中のフレンドリクエストはありません。',
+          'noServerYet': 'まだサーバーがありません。サーバーを作成しましょう！',
+          'serverCreateRequest': 'サーバー作成リクエスト',
+          'grade': 'グレード',
+          'none': 'なし',
+          'loading': '読み込み中...',
+          'serverChart': 'サーバーチャート',
+          'create': '作成',
+          'community': 'コミュニティ',
+          'profile': 'プロフィール',
+          'message': 'メッセージ',
+          'friends': 'フレンド',
+          'inventory': 'インベントリ',
+          'premium': 'プレミアム',
+          'event': 'イベント',
+          'customerService': 'カスタマーサービス',
+          'languageSettings': '言語設定',
+          'membersList': 'メンバーリスト',
+          'writePost': '投稿を書く',
+          'post': '投稿',
+          'noPosts': '投稿がありません。',
+          'nickname': 'ニックネーム',
+          'status': 'ステータス',
+          'createdDate': '作成日',
+          'join': '参加',
+          'joinRequest': '参加リクエスト',
+          'requested': 'リクエスト済み',
+          'serverOwnerApproval': 'サーバーオーナー承認待ち',
+          'adminApproval': '管理者承認待ち',
+          'rejected': '拒否済み',
+          'enterServer': 'サーバーに入る',
+          'noAddress': 'アドレスなし'
+        }
+      };
+      
+      return texts[currentLang] && texts[currentLang][key] ? texts[currentLang][key] : texts['ko'][key];
+    }
+
+    // 커뮤니티 패널
+    function showCommunity() {
+      if (!auth.currentUser) {
+        document.getElementById('formContainer').innerHTML = '<div style="color:red">' + getText('loginRequired') + '</div>';
+        return;
+      }
+      
+      let html = '<h2>' + getText('community') + '</h2>';
+      html += '<div style="margin-bottom: 20px;">';
+      html += '<textarea id="postContent" placeholder="' + getText('writePost') + '..." rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>';
+      html += '<button onclick="submitPost()">' + getText('post') + '</button>';
+      html += '</div>';
+      html += '<div id="postsList">' + getText('loading') + '...</div>';
       
       document.getElementById('formContainer').innerHTML = html;
       
@@ -2266,6 +2806,7 @@ function showHomePanel() {
             html += '<div style="background:#4caf50;padding:15px;border-radius:10px;margin-bottom:20px;">';
             html += '<p><strong>서버가 승인되었습니다!</strong></p>';
             html += '<p>서버를 운영할 수 있습니다.</p>';
+            html += '<p style="color:#fff;font-weight:600;margin-top:10px;">💡 HJNF000님에게 친구추가를 요청해주세요!</p>';
             html += '</div>';
           } else if (user.server.status === 'paused') {
             html += '<div style="background:#ff9800;padding:15px;border-radius:10px;margin-bottom:20px;">';
@@ -2281,11 +2822,12 @@ function showHomePanel() {
           }
         } else {
           // 서버가 없는 경우
-          html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
-          html += '<h3>새 서버 생성</h3>';
-          html += '<p>로블록스 서버를 생성하여 친구들과 함께 플레이하세요!</p>';
-          html += '<button onclick="showServerRequestForm()" style="margin-top:15px;padding:12px 24px;background:#d32c2c;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 생성 요청</button>';
-          html += '</div>';
+      html += '<div style="background:#232428;padding:20px;border-radius:10px;margin-bottom:20px;">';
+      html += '<h3>새 서버 생성</h3>';
+      html += '<p>로블록스 서버를 생성하여 친구들과 함께 플레이하세요!</p>';
+      html += '<p style="color:#ffd700;font-weight:600;margin-top:10px;">💡승인되기 전에 HJNF000님에게 친구추가를 요청해주세요!</p>';
+      html += '<button onclick="showServerRequestForm()" style="margin-top:15px;padding:12px 24px;background:#d32c2c;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">서버 생성 요청</button>';
+      html += '</div>';
           
           html += '<div style="background:#232428;padding:20px;border-radius:10px;">';
           html += '<h3>서버 생성 안내</h3>';
@@ -2294,6 +2836,7 @@ function showHomePanel() {
           html += '<li>승인되면 서버 주소가 제공됩니다</li>';
           html += '<li>서버는 24시간 운영됩니다</li>';
           html += '<li>규칙을 위반하면 서버가 정지될 수 있습니다</li>';
+          html += '<li style="color:#ffd700;font-weight:600;">💡 승인되기 전에 HJNF000님에게 친구추가를 요청해주세요!</li>';
           html += '</ul>';
           html += '</div>';
         }
@@ -2402,8 +2945,83 @@ function showHomePanel() {
       });
     }
 
+    // UI 텍스트 업데이트 함수
+    function updateUITexts() {
+      const currentLang = localStorage.getItem('selectedLanguage') || 'ko';
+      
+      // 네비게이션 바 텍스트 업데이트
+      const navHomeBtn = document.getElementById('navHomeBtn');
+      if (navHomeBtn) navHomeBtn.textContent = getText('home');
+      
+      const navServerChartBtn = document.getElementById('navServerChartBtn');
+      if (navServerChartBtn) navServerChartBtn.textContent = getText('serverChart');
+      
+      const navCreateBtn = document.getElementById('navCreateBtn');
+      if (navCreateBtn) navCreateBtn.textContent = getText('create');
+      
+      const navCommunityBtn = document.getElementById('navCommunityBtn');
+      if (navCommunityBtn) navCommunityBtn.textContent = getText('community');
+      
+      // 사이드바 텍스트 업데이트
+      const sidebarProfileLink = document.getElementById('sidebarProfileLink');
+      if (sidebarProfileLink) sidebarProfileLink.textContent = getText('profile');
+      
+      const sidebarMessageLink = document.getElementById('sidebarMessageLink');
+      if (sidebarMessageLink) sidebarMessageLink.textContent = getText('message');
+      
+      const sidebarFriendsLink = document.getElementById('sidebarFriendsLink');
+      if (sidebarFriendsLink) sidebarFriendsLink.textContent = getText('friends');
+      
+      const sidebarCustomerServiceLink = document.getElementById('sidebarCustomerServiceLink');
+      if (sidebarCustomerServiceLink) sidebarCustomerServiceLink.textContent = getText('customerService');
+      
+      const sidebarLanguageLink = document.getElementById('sidebarLanguageLink');
+      if (sidebarLanguageLink) sidebarLanguageLink.textContent = '🌐 ' + getText('languageSettings');
+      
+      const sidebarMembersBtn = document.getElementById('sidebarMembersBtn');
+      if (sidebarMembersBtn) sidebarMembersBtn.textContent = getText('membersList');
+      
+      // 프리미엄 링크 찾기 및 업데이트
+      const sidebarPremiumLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.includes('프리미엄') || a.textContent.includes('Premium') || a.textContent.includes('高级会员') || a.textContent.includes('プレミアム'));
+      if (sidebarPremiumLink) sidebarPremiumLink.innerHTML = '<b>' + getText('premium') + '</b>';
+      
+      // 인벤토리 링크 찾기 및 업데이트
+      const sidebarInventoryLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.includes('인벤토리') || a.textContent.includes('Inventory') || a.textContent.includes('库存') || a.textContent.includes('インベントリ'));
+      if (sidebarInventoryLink) sidebarInventoryLink.textContent = getText('inventory');
+      
+      // 이벤트 링크 찾기 및 업데이트
+      const sidebarEventLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.includes('이벤트') || a.textContent.includes('Event') || a.textContent.includes('活动') || a.textContent.includes('イベント'));
+      if (sidebarEventLink) sidebarEventLink.textContent = getText('event');
+      
+      // 검색 입력창 업데이트
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) searchInput.placeholder = getText('search');
+      
+      // 로그인/회원가입 버튼 업데이트
+      const showLoginBtn = document.getElementById('showLogin');
+      if (showLoginBtn) showLoginBtn.textContent = getText('login');
+      
+      const showSignupBtn = document.getElementById('showSignup');
+      if (showSignupBtn) showSignupBtn.textContent = getText('signup');
+      
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) logoutBtn.textContent = getText('logout');
+      
+      // 환영 메시지 업데이트
+      const welcomeMessage = document.getElementById('welcomeMessage');
+      if (welcomeMessage) {
+        const userNickname = document.getElementById('userNickname');
+        if (userNickname) {
+          welcomeMessage.innerHTML = getText('welcome') + ', <span id="userNickname">' + userNickname.textContent + '</span>님!';
+        }
+      }
+    }
+
     // 모든 버튼/이벤트 등록은 DOMContentLoaded 이후에만 실행
     document.addEventListener('DOMContentLoaded', function() {
+      // 페이지 로드 시 UI 텍스트 업데이트
+      updateUITexts();
+      
       document.getElementById('closeModal').onclick = closeModal;
       document.getElementById('modalBg').onclick = function(e) {
         if (e.target === this) closeModal();
@@ -2438,12 +3056,12 @@ function showHomePanel() {
         e.preventDefault();
         showMessagePanel();
       });
-      var sidebarPremiumLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.replace(/\s/g,'') === '프리미엄');
+      var sidebarPremiumLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.includes('프리미엄') || a.textContent.includes('Premium') || a.textContent.includes('高级会员') || a.textContent.includes('プレミアム'));
       if (sidebarPremiumLink) sidebarPremiumLink.addEventListener('click', function(e) {
         e.preventDefault();
         showPremiumPanel();
       });
-      var sidebarInventoryLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.replace(/\s/g,'') === '인벤토리');
+      var sidebarInventoryLink = Array.from(document.querySelectorAll('.sidebar-link')).find(a => a.textContent.includes('인벤토리') || a.textContent.includes('Inventory') || a.textContent.includes('库存') || a.textContent.includes('インベントリ'));
       if (sidebarInventoryLink) sidebarInventoryLink.addEventListener('click', function(e) {
         e.preventDefault();
         showInventoryPanel();
@@ -2452,6 +3070,16 @@ function showHomePanel() {
       if (sidebarProfileLink) sidebarProfileLink.addEventListener('click', function(e) {
         e.preventDefault();
         showProfilePanel();
+      });
+      var sidebarCustomerServiceLink = document.getElementById('sidebarCustomerServiceLink');
+      if (sidebarCustomerServiceLink) sidebarCustomerServiceLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showCustomerServicePanel();
+      });
+      var sidebarLanguageLink = document.getElementById('sidebarLanguageLink');
+      if (sidebarLanguageLink) sidebarLanguageLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showLanguagePanel();
       });
       // 로그인/회원가입 버튼 이벤트
       document.getElementById('showLogin').onclick = function() {
@@ -2511,9 +3139,9 @@ function showHomePanel() {
 
     function showServerChart() {
       // 서버 차트 검색 입력 추가
-      document.getElementById('formContainer').innerHTML = '<h2>서버 차트</h2>' +
-        '<input type="text" id="serverSearchInput" placeholder="닉네임/서버 상태 검색..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">' +
-        '<div id="serverChartList">불러오는 중...</div>';
+      document.getElementById('formContainer').innerHTML = '<h2>' + getText('serverChart') + '</h2>' +
+        '<input type="text" id="serverSearchInput" placeholder="' + getText('search') + '..." style="width:60%;padding:8px 12px;margin-bottom:12px;border-radius:8px;border:1.5px solid #232428;background:#18191c;color:#fff;font-size:1rem;outline:none;">' +
+        '<div id="serverChartList">' + getText('loading') + '...</div>';
       db.ref('users').once('value').then(snap => {
         const users = snap.val();
         let html = '<table id="serverChartTable" style="width:100%;background:#232428;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #18191c;font-size:16px;color:#e3e3e3;">';
