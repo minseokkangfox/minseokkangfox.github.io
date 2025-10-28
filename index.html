@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>YOUR SERVER NAME | 마인크래프트 서버</title>
-  <meta name="description" content="마인크래프트 서버 공식 웹사이트" />
+  <title>MindMinL | 마인크래프트 서버</title>
+  <meta name="description" content="MindMinL 마인크래프트 서버 공식 웹사이트" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
       --card: #121a2b;
       --text: #e9f0ff;
       --muted: #9bb0d1;
-      --accent: #7c5cff; /* 메인 포인트 */
-      --accent-2: #2fd8ff; /* 보조 포인트 */
+      --accent: #7c5cff;
+      --accent-2: #2fd8ff;
       --success: #2ee6a6;
       --danger: #ff6b6b;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
@@ -37,17 +37,12 @@
     a{color:var(--accent-2); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:1100px; margin:0 auto; padding:0 20px}
-    header{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter:saturate(140%) blur(8px);
-      background:linear-gradient(0deg, transparent, rgba(11,15,23,.65));
-      border-bottom:1px solid var(--glass-border);
-    }
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(8px); background:linear-gradient(0deg, transparent, rgba(11,15,23,.65)); border-bottom:1px solid var(--glass-border)}
     .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
     .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.5px}
     .brand .dot{width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 0 12px rgba(124,92,255,.8)}
     .nav a{font-weight:600; margin-left:18px; opacity:.9}
-    .btn{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:10px 16px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text); box-shadow:var(--shadow)}
+    .btn{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:10px 16px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text); box-shadow:var(--shadow); cursor:pointer}
     .btn:hover{transform:translateY(-1px); transition:.15s ease-in-out}
 
     /* Hero */
@@ -88,15 +83,9 @@
     /* Footer */
     footer{padding:50px 0; color:#b7c6e6; border-top:1px solid var(--glass-border); background:linear-gradient(180deg, transparent, rgba(255,255,255,.03))}
 
-    /* Responsive */
-    @media (max-width: 900px){
-      .hero-inner{grid-template-columns:1fr}
-      .grid{grid-template-columns:1fr}
-      .stats{grid-template-columns:1fr 1fr}
-    }
-    /* ===== Auth Modal ===== */
+    /* Auth Modal */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:60}
-    .modal{width:min(520px, 92vw); background:var(--card); border:1px solid var(--glass-border); border-radius:20px; box-shadow:var(--shadow); padding:22px}
+    .modal{width:min(560px, 92vw); background:var(--card); border:1px solid var(--glass-border); border-radius:20px; box-shadow:var(--shadow); padding:22px}
     .modal h3{margin:0 0 10px}
     .modal .tabs{display:flex; gap:8px; margin-bottom:12px}
     .modal .tab{flex:1; text-align:center; padding:10px; border:1px solid var(--glass-border); background:var(--glass); border-radius:10px; cursor:pointer; user-select:none}
@@ -107,12 +96,21 @@
     .modal .row{display:flex; gap:8px}
     .chip{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--glass-border); background:var(--glass); font-size:12px}
     .chip .avatar{width:22px; height:22px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent-2))}
+    .muted{color:var(--muted)}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    pre{white-space:pre-wrap; background:rgba(255,255,255,.04); border:1px solid var(--glass-border); padding:12px; border-radius:12px}
+
+    @media (max-width: 900px){
+      .hero-inner{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr 1fr}
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="container nav">
-      <div class="brand"><span class="dot"></span> <span id="brand-name">YOUR SERVER NAME</span></div>
+      <div class="brand"><span class="dot"></span> <span id="brand-name">MindMinL</span></div>
       <nav>
         <a href="#status">상태</a>
         <a href="#about">정보</a>
@@ -130,13 +128,13 @@
       <div class="container hero-inner">
         <div>
           <span class="pill">✔ 공식 사이트 · 빠른 접속 안내</span>
-          <h1 id="hero-title">YOUR SERVER NAME</h1>
+          <h1 id="hero-title">MindMinL</h1>
           <p id="hero-desc">생존 · 경제 · 미니게임 · 이벤트! 함께 즐기는 마인크래프트 커뮤니티 서버</p>
           <div class="copy" style="margin:14px 0 6px">
-            <input class="input" id="server-ip-input" value="play.example.net" readonly />
+            <input class="input" id="server-ip-input" value="mindminl.kro.kr" readonly />
             <button class="btn" id="copy-btn">IP 복사</button>
           </div>
-          <small id="copy-msg" style="color:var(--muted)">* 위 IP를 마인크래프트에서 서버 추가에 붙여넣기</small>
+          <small id="copy-msg" class="muted">* 위 IP를 마인크래프트에서 서버 추가에 붙여넣기</small>
 
           <div class="stats">
             <div class="stat">
@@ -169,12 +167,12 @@
               <div id="status-dot" class="dot" style="background: #888"></div>
               <div>
                 <div id="status-text" style="font-weight:700">확인 중…</div>
-                <div id="status-motd" style="font-size:12px; color:var(--muted)">모티브(서버 소개)가 여기에 표시됩니다</div>
+                <div id="status-motd" class="muted" style="font-size:12px">모티브(서버 소개)가 여기에 표시됩니다</div>
               </div>
             </div>
             <div style="text-align:right">
               <div><strong id="status-players">0/0</strong> online</div>
-              <small id="status-last" style="color:var(--muted)">—</small>
+              <small id="status-last" class="muted">—</small>
             </div>
           </div>
         </div>
@@ -186,18 +184,9 @@
       <div class="container">
         <h2 class="section-title">무엇이 특별한가요?</h2>
         <div class="grid">
-          <div class="card feature">
-            <h3>안정적인 운영</h3>
-            <p>지속적인 백업과 최적화로 렉 최소화.</p>
-          </div>
-          <div class="card feature">
-            <h3>경제 & 상점</h3>
-            <p>서바이벌 경제 시스템, 플레이 보상, 경매장.</p>
-          </div>
-          <div class="card feature">
-            <h3>커뮤니티 이벤트</h3>
-            <p>주말 이벤트·건축 대회·PVP 토너먼트 진행.</p>
-          </div>
+          <div class="card feature"><h3>안정적인 운영</h3><p>지속적인 백업과 최적화로 렉 최소화.</p></div>
+          <div class="card feature"><h3>경제 & 상점</h3><p>서바이벌 경제 시스템, 플레이 보상, 경매장.</p></div>
+          <div class="card feature"><h3>커뮤니티 이벤트</h3><p>주말 이벤트·건축 대회·PVP 토너먼트 진행.</p></div>
         </div>
       </div>
     </section>
@@ -207,24 +196,9 @@
       <div class="container">
         <h2 class="section-title">서버 등급</h2>
         <div class="grid">
-          <div class="card rank">
-            <h3>VIP</h3>
-            <div class="price">₩5,000</div>
-            <p>홈 3개 · 파티클 · /hat</p>
-            <a class="btn" href="#">구매 문의</a>
-          </div>
-          <div class="card rank" style="border:2px solid var(--accent); box-shadow:0 0 0 6px rgba(124,92,255,.1)">
-            <h3>MVP</h3>
-            <div class="price">₩10,000</div>
-            <p>홈 5개 · 색채팅 · 개인 워프</p>
-            <a class="btn" href="#">구매 문의</a>
-          </div>
-          <div class="card rank">
-            <h3>LEGEND</h3>
-            <div class="price">₩20,000</div>
-            <p>홈 무제한 · 이펙트 · /fly</p>
-            <a class="btn" href="#">구매 문의</a>
-          </div>
+          <div class="card rank"><h3>VIP</h3><div class="price">₩5,000</div><p>홈 3개 · 파티클 · /hat</p><a class="btn" href="#">구매 문의</a></div>
+          <div class="card rank" style="border:2px solid var(--accent); box-shadow:0 0 0 6px rgba(124,92,255,.1)"><h3>MVP</h3><div class="price">₩10,000</div><p>홈 5개 · 색채팅 · 개인 워프</p><a class="btn" href="#">구매 문의</a></div>
+          <div class="card rank"><h3>LEGEND</h3><div class="price">₩20,000</div><p>홈 무제한 · 이펙트 · /fly</p><a class="btn" href="#">구매 문의</a></div>
         </div>
       </div>
     </section>
@@ -234,17 +208,27 @@
       <div class="container">
         <h2 class="section-title">어떻게 접속하나요?</h2>
         <div class="grid">
-          <div class="card feature">
-            <h3>JAVA 에디션</h3>
-            <p>멀티플레이 → 서버 추가 → IP에 <code id="java-ip">play.example.net</code> 입력</p>
+          <div class="card feature"><h3>JAVA 에디션</h3><p>멀티플레이 → 서버 추가 → IP에 <code id="java-ip">mindminl.kro.kr</code> 입력</p></div>
+          <div class="card feature"><h3>베드락(모바일/콘솔)</h3><p>서버 탭 → 서버 추가 → 주소 <code id="bedrock-ip">mindminl.kro.kr</code> · 포트 <code id="bedrock-port">19132</code></p></div>
+          <div class="card feature"><h3>지도로 보기</h3><p><a href="#map">사이트 안에서 바로 보기</a> · <a id="dynmap-link" href="#" target="_blank">Dynmap/BlueMap 새창</a></p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section id="map">
+      <div class="container">
+        <h2 class="section-title">라이브 지도</h2>
+        <div class="card" style="padding:16px">
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px">
+            <button id="btn-map-dynmap" class="btn" type="button">Dynmap</button>
+            <button id="btn-map-bluemap" class="btn" type="button">BlueMap</button>
+            <a id="btn-map-open" class="btn" href="#" target="_blank" rel="noopener">새 창에서 열기</a>
+            <span id="map-hint" class="muted">주소가 없으면 관리자 설정이 필요합니다.</span>
           </div>
-          <div class="card feature">
-            <h3>베드락(모바일/콘솔)</h3>
-            <p>서버 탭 → 서버 추가 → 주소 <code id="bedrock-ip">play.example.net</code> · 포트 <code id="bedrock-port">19132</code></p>
-          </div>
-          <div class="card feature">
-            <h3>지도로 보기</h3>
-            <p><a id="dynmap-link" href="#" target="_blank">Dynmap/BlueMap</a> 연결 가능</p>
+          <div id="map-frame-wrap" style="position:relative; width:100%; aspect-ratio:16/9; border:1px solid var(--glass-border); border-radius:16px; overflow:hidden; background:rgba(255,255,255,.03)">
+            <iframe id="map-frame" title="서버 지도" src="about:blank" style="position:absolute; inset:0; width:100%; height:100%; border:0;" allowfullscreen referrerpolicy="no-referrer"></iframe>
+            <div id="map-empty" class="muted" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center">지도 URL이 설정되지 않았습니다.</div>
           </div>
         </div>
       </div>
@@ -255,93 +239,142 @@
       <div class="container">
         <h2 class="section-title">커뮤니티</h2>
         <div class="grid">
-          <div class="card feature">
-            <h3>디스코드</h3>
-            <p>문의/신고/공지 확인은 디스코드에서!</p>
-            <a id="discord-btn" class="btn" href="#" target="_blank">서버 참여</a>
-          </div>
-          <div class="card feature">
-            <h3>공지 & 업데이트</h3>
-            <p id="news-list">- 서버 오픈 준비 중…</p>
-          </div>
-          <div class="card feature">
-            <h3>투표 & 순위</h3>
-            <p><a href="#">Vote 링크</a>를 연결해 보상을 지급하세요.</p>
-          </div>
+          <div class="card feature"><h3>디스코드</h3><p>문의/신고/공지 확인은 디스코드에서!</p><a id="discord-btn" class="btn" href="https://discord.gg/wjq4wbHhSw" target="_blank">서버 참여</a></div>
+          <div class="card feature"><h3>공지 & 업데이트</h3><p id="news-list">- 서버 오픈 준비 중…</p></div>
+          <div class="card feature"><h3>투표 & 순위</h3><p><a href="#">Vote 링크</a>를 연결해 보상을 지급하세요.</p></div>
         </div>
       </div>
     </section>
-
-    <!-- Auth Modal -->
-    <div id="auth-backdrop" class="modal-backdrop" aria-hidden="true">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px">
-          <h3 id="auth-title">회원가입 / 로그인</h3>
-          <button class="btn" id="auth-close">닫기</button>
-        </div>
-        <div id="user-chip" class="chip" style="display:none; margin-bottom:10px"><span class="avatar"></span><span id="chip-name">User</span></div>
-        <div class="tabs">
-          <div id="tab-login" class="tab active">로그인</div>
-          <div id="tab-signup" class="tab">회원가입</div>
-        </div>
-
-        <form id="form-login">
-          <div>
-            <label>이메일</label>
-            <input id="login-email" type="email" placeholder="you@example.com" required />
-          </div>
-          <div>
-            <label>비밀번호</label>
-            <input id="login-password" type="password" placeholder="••••••••" required />
-          </div>
-          <button class="btn" type="submit">로그인</button>
-        </form>
-
-        <form id="form-signup" style="display:none">
-          <div class="row">
-            <div style="flex:1">
-              <label>닉네임 (표시명)</label>
-              <input id="signup-name" type="text" placeholder="닉네임" />
-            </div>
-            <div style="flex:1">
-              <label>이메일</label>
-              <input id="signup-email" type="email" placeholder="you@example.com" required />
-            </div>
-          </div>
-          <div>
-            <label>비밀번호</label>
-            <input id="signup-password" type="password" minlength="6" placeholder="최소 6자" required />
-          </div>
-          <button class="btn" type="submit">회원가입</button>
-        </form>
-
-        <div id="auth-msg" style="margin-top:8px; font-size:13px; color:var(--muted)"></div>
-      </div>
-    </div>
-
   </main>
 
   <footer>
     <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap">
-      <div>© <span id="year"></span> <strong id="footer-name">YOUR SERVER NAME</strong>. All rights reserved.</div>
-      <div style="opacity:.7; font-size:14px">문의: <a href="mailto:admin@example.net">admin@example.net</a></div>
+      <div>© <span id="year"></span> <strong id="footer-name">MindMinL</strong>. All rights reserved. · <a href="http://www.mindminl.kro.kr/" target="_blank">공식 사이트</a></div>
+      <div style="opacity:.7; font-size:14px">문의: <a href="mailto:admin@mindminl.kro.kr">admin@mindminl.kro.kr</a></div>
     </div>
   </footer>
+
+  <!-- Auth Modal Markup (login/signup + MC 닉네임 + 본인확인) -->
+  <div id="auth-backdrop" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px">
+        <h3 id="auth-title">회원가입 / 로그인</h3>
+        <button class="btn" id="auth-close">닫기</button>
+      </div>
+      <div id="user-chip" class="chip" style="display:none; margin-bottom:10px">
+        <span class="avatar"></span>
+        <span id="chip-name">User</span>
+        <span id="chip-verified" class="muted" style="margin-left:6px"></span>
+      </div>
+      <div class="tabs">
+        <div id="tab-login" class="tab active">로그인</div>
+        <div id="tab-signup" class="tab">회원가입</div>
+      </div>
+
+      <form id="form-login">
+        <div>
+          <label>이메일</label>
+          <input id="login-email" type="email" placeholder="you@example.com" required />
+        </div>
+        <div>
+          <label>비밀번호</label>
+          <input id="login-password" type="password" placeholder="••••••••" required />
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap">
+          <button class="btn" type="submit">로그인</button>
+        </div>
+        <div id="auth-msg" class="muted" style="margin-top:8px; font-size:13px"></div>
+      </form>
+
+      <form id="form-signup" style="display:none">
+        <div class="row">
+          <div style="flex:1">
+            <label>표시명</label>
+            <input id="signup-name" type="text" placeholder="사이트에 표시될 이름" required />
+          </div>
+          <div style="flex:1">
+            <label>이메일</label>
+            <input id="signup-email" type="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <label>비밀번호</label>
+            <input id="signup-password" type="password" minlength="6" placeholder="최소 6자" required />
+          </div>
+          <div style="flex:1">
+            <label>마인크래프트 닉네임</label>
+            <input id="signup-mcname" type="text" placeholder="Minecraft ID (예: Steve)" required />
+          </div>
+        </div>
+        <button class="btn" type="submit">회원가입</button>
+      </form>
+
+      <!-- 로그인 후 닉네임 누락 시 보정용 -->
+      <form id="form-mc-fix" style="display:none; margin-top:10px">
+        <div class="row">
+          <div style="flex:1">
+            <label>표시명</label>
+            <input id="fix-name" type="text" placeholder="표시명" />
+          </div>
+          <div style="flex:1">
+            <label>마인크래프트 닉네임</label>
+            <input id="fix-mcname" type="text" placeholder="Minecraft ID" />
+          </div>
+        </div>
+        <button class="btn" type="submit">저장</button>
+      </form>
+
+      <!-- 닉네임 본인확인(인게임 코드) -->
+      <div id="verify-block" style="display:none; margin-top:14px">
+        <h4 style="margin:8px 0 6px">마인크래프트 닉네임 본인확인</h4>
+        <p class="muted" style="margin:0 0 8px">버튼을 눌러 5분짜리 인증 코드를 만들고, 게임 안에서 <span class="mono">/verify &lt;코드&gt;</span> 를 입력하세요.</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+          <button class="btn" id="mk-code">코드 생성</button>
+          <span id="code-pill" class="pill mono" style="display:none"></span>
+          <span id="code-timer" class="muted"></span>
+        </div>
+        <div id="verify-msg" class="muted" style="margin-top:8px"></div>
+        <details style="margin-top:8px"><summary class="muted">서버에 연결하는 방법(스피곳/페이퍼)</summary>
+          <p class="muted">옵션 A) <strong>Skript</strong> 사용 (skBee 등 HTTP 애드온 필요)</p>
+<pre>command /verify &lt;code&gt;:
+  trigger:
+    set {_c} to argument 1
+    set {_url} to "https://sample-firebase-ai-app-28523-default-rtdb.firebaseio.com/verify/%{_c}%/confirm.json"
+    # 아래 한 줄은 skBee의 http 기능 예시입니다. 사용 플러그인에 맞게 변경하세요
+    http post {_url} with body "true" type "application/json"
+    send "&a인증 요청을 전송했습니다! 웹에 반영되기까지 1-2초 걸릴 수 있어요." to player</pre>
+          <p class="muted">옵션 B) <strong>Paper 플러그인(Java)</strong> 사용 (간단 예시)</p>
+<pre class="mono">// build.gradle: implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+// plugin.yml: name: MindVerify, main: me.mindminl.VerifyPlugin, api-version: 1.20, commands: { verify: {} }
+public class VerifyPlugin extends JavaPlugin implements CommandExecutor {
+  private final OkHttpClient http = new OkHttpClient();
+  @Override public void onEnable(){ getCommand("verify").setExecutor(this); }
+  @Override public boolean onCommand(CommandSender s, Command c, String l, String[] a){
+    if(!(s instanceof Player) || a.length!=1) return false;
+    String code=a[0];
+    Request req=new Request.Builder()
+      .url("https://sample-firebase-ai-app-28523-default-rtdb.firebaseio.com/verify/"+code+"/confirm.json")
+      .put(RequestBody.create("true", MediaType.parse("application/json"))).build();
+    http.newCall(req).enqueue(new Callback(){ public void onFailure(Call call, IOException e){}
+      public void onResponse(Call call, Response r) throws IOException {} });
+    s.sendMessage(ChatColor.GREEN+"인증 요청을 전송했습니다!");
+    return true;
+  }
+}</pre>
+          <p class="muted">※ 위 URL은 예시입니다. 아래 "설정 가이드"의 RTDB URL로 바꿔주세요.</p>
+        </details>
+      </div>
+    </div>
+  </div>
 
   <script>
     // ======= 간단 설정 =======
     const CONFIG = {
-      name: "YOUR SERVER NAME",
+      name: "MindMinL",
       description: "생존 · 경제 · 미니게임 · 이벤트! 함께 즐기는 마인크래프트 커뮤니티 서버",
-      server: {
-        address: "play.example.net", // 서버 주소 (도메인 또는 IP)
-        platform: "java",            // 'java' 또는 'bedrock'
-        bedrockPort: 19132           // 베드락 포트 (기본 19132)
-      },
-      links: {
-        discord: "https://discord.gg/wjq4wbHhSw",
-        dynmap: "#" // 지도 링크가 있다면 넣기
-      },
+      server: { address: "mindminl.kro.kr", platform: "java", bedrockPort: 19132 },
+      links: { discord: "https://discord.gg/wjq4wbHhSw", dynmap: "#", bluemap: "#" },
       news: [
         { title: "[공지] 오픈 베타 시작", date: "2025-10-01", body: "첫 베타 시즌을 시작합니다. 피드백 환영!"},
         { title: "[업데이트] 상점 리뉴얼", date: "2025-10-10", body: "경제 밸런스 조정 및 경매장 추가."}
@@ -361,7 +394,15 @@
     document.getElementById('footer-name').textContent = CONFIG.name;
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 뉴스 렌더
+    // 지도 버튼 가시성
+    const btnDyn = document.getElementById('btn-map-dynmap');
+    const btnBlue = document.getElementById('btn-map-bluemap');
+    btnDyn.style.display  = CONFIG.links.dynmap && CONFIG.links.dynmap !== '#' ? '' : 'none';
+    btnBlue.style.display = CONFIG.links.bluemap && CONFIG.links.bluemap !== '#' ? '' : 'none';
+    if(btnDyn.style.display==='none' && btnBlue.style.display==='none'){
+      document.getElementById('btn-map-open').style.display='none';
+    }
+
     const newsEl = document.getElementById('news-list');
     if (CONFIG.news?.length){
       newsEl.innerHTML = CONFIG.news.map(n => `• <strong>${n.title}</strong> <small style="color:var(--muted)">${n.date}</small><br>${n.body}`).join('<br><br>');
@@ -370,32 +411,16 @@
     // ======= IP 복사 =======
     document.getElementById('copy-btn').addEventListener('click', async () => {
       const ip = CONFIG.server.address;
-      try{
-        await navigator.clipboard.writeText(ip);
-        const msg = document.getElementById('copy-msg');
-        const old = msg.textContent;
-        msg.textContent = `✅ 복사됨: ${ip}`;
-        setTimeout(()=>{ msg.textContent = old; }, 1500);
-      }catch(e){ alert('복사 실패. 수동으로 복사해 주세요.'); }
+      try{ await navigator.clipboard.writeText(ip); const msg = document.getElementById('copy-msg'); const old = msg.textContent; msg.textContent = `✅ 복사됨: ${ip}`; setTimeout(()=>{ msg.textContent = old; }, 1500);}catch(e){ alert('복사 실패. 수동으로 복사해 주세요.'); }
     });
 
     // ======= 서버 상태 조회 =======
     async function fetchStatus(){
       const addr = CONFIG.server.address.trim();
-      const endpoint = CONFIG.server.platform === 'bedrock'
-        ? `https://api.mcsrvstat.us/bedrock/3/${addr}`
-        : `https://api.mcsrvstat.us/3/${addr}`;
-
+      const endpoint = CONFIG.server.platform === 'bedrock' ? `https://api.mcsrvstat.us/bedrock/3/${addr}` : `https://api.mcsrvstat.us/3/${addr}`;
       const last = new Date();
-      try{
-        const res = await fetch(endpoint, { cache: 'no-store' });
-        const data = await res.json();
-        renderStatus(data, last);
-      }catch(err){
-        renderStatus(null, last, err);
-      }
+      try{ const res = await fetch(endpoint, { cache: 'no-store' }); const data = await res.json(); renderStatus(data, last);}catch(err){ renderStatus(null, last, err); }
     }
-
     function renderStatus(data, last, err){
       const dot = document.getElementById('status-dot');
       const text = document.getElementById('status-text');
@@ -405,111 +430,64 @@
       const statPlayers = document.getElementById('stat-players');
       const statVersion = document.getElementById('stat-version');
       const lastEl = document.getElementById('status-last');
-
       lastEl.textContent = `${last.toLocaleTimeString()} 기준`;
-
-      if(err || !data){
-        dot.style.background = '#888';
-        text.textContent = '상태 확인 실패';
-        motd.textContent = '잠시 후 다시 시도해 주세요';
-        players.textContent = '0/0';
-        statOnline.textContent = '오프라인?';
-        statPlayers.textContent = '—';
-        statVersion.textContent = '—';
-        return;
-      }
-
+      if(err || !data){ dot.style.background = '#888'; text.textContent = '상태 확인 실패'; motd.textContent = '잠시 후 다시 시도해 주세요'; players.textContent = '0/0'; statOnline.textContent = '오프라인?'; statPlayers.textContent = '—'; statVersion.textContent = '—'; return; }
       const online = !!data.online;
       dot.style.background = online ? 'var(--success)' : 'var(--danger)';
       text.textContent = online ? '온라인' : '오프라인';
       motd.textContent = (data.motd?.clean?.join(' ') || data.motd?.clean || '');
-
       const now = `${data.players?.online || 0}/${data.players?.max || 0}`;
-      players.textContent = now;
-      statOnline.textContent = online ? '온라인' : '오프라인';
-      statPlayers.textContent = now;
-      statVersion.textContent = data.version || (data.software ? `${data.software}` : '—');
+      players.textContent = now; statOnline.textContent = online ? '온라인' : '오프라인'; statPlayers.textContent = now; statVersion.textContent = data.version || (data.software ? `${data.software}` : '—');
+      if(data.icon){ const link = document.querySelector('link[rel="icon"]') || document.createElement('link'); link.rel = 'icon'; link.href = data.icon; document.head.appendChild(link); }
+    }
+    fetchStatus(); setInterval(fetchStatus, 30000);
 
-      // 파비콘 적용 (있으면)
-      if(data.icon){
-        const link = document.querySelector('link[rel="icon"]') || document.createElement('link');
-        link.rel = 'icon';
-        link.href = data.icon; // base64 data URL
-        document.head.appendChild(link);
+    // ======= 지도 임베드 로직 =======
+    const mapFrame = document.getElementById('map-frame');
+    const mapEmpty = document.getElementById('map-empty');
+    const btnOpen = document.getElementById('btn-map-open');
+    function loadMap(url){
+      if(url && url !== '#'){
+        mapFrame.src = url;
+        mapEmpty.style.display='none';
+        btnOpen.href = url;
+      } else {
+        mapFrame.src = 'about:blank';
+        mapEmpty.style.display='flex';
+        btnOpen.href = '#';
       }
     }
-
-    // 초기 실행 + 주기 갱신(30초)
-    fetchStatus();
-    setInterval(fetchStatus, 30000);
+    // 초기: dynmap 우선, 없으면 bluemap
+    loadMap(CONFIG.links.dynmap && CONFIG.links.dynmap !== '#' ? CONFIG.links.dynmap : CONFIG.links.bluemap);
+    document.getElementById('btn-map-dynmap')?.addEventListener('click',()=>loadMap(CONFIG.links.dynmap));
+    document.getElementById('btn-map-bluemap')?.addEventListener('click',()=>loadMap(CONFIG.links.bluemap));
 
     // ======= 히어로 캔버스: 심플 파티클 =======
-    (function(){
-      const cvs = document.getElementById('hero-canvas');
-      const ctx = cvs.getContext('2d');
-      const W = () => cvs.width = cvs.clientWidth * devicePixelRatio;
-      const H = () => cvs.height = cvs.clientHeight * devicePixelRatio;
-      W(); H();
-      window.addEventListener('resize', () => { W(); H(); });
-      const R = (min,max)=>Math.random()*(max-min)+min;
-      const dots = Array.from({length: 36}, () => ({
-        x: R(0, cvs.width), y: R(0, cvs.height),
-        vx: R(-0.2, 0.2), vy: R(-0.2, 0.2), r: R(1.2, 2.6)
-      }));
-      function step(){
-        ctx.clearRect(0,0,cvs.width,cvs.height);
-        for(const d of dots){
-          d.x+=d.vx; d.y+=d.vy;
-          if(d.x<0||d.x>cvs.width) d.vx*=-1;
-          if(d.y<0||d.y>cvs.height) d.vy*=-1;
-        }
-        for(const d of dots){
-          ctx.beginPath();
-          ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-          ctx.fillStyle = 'rgba(255,255,255,.7)';
-          ctx.fill();
-        }
-        // lines
-        for(let i=0;i<dots.length;i++){
-          for(let j=i+1;j<dots.length;j++){
-            const a=dots[i], b=dots[j];
-            const dx=a.x-b.x, dy=a.y-b.y; const dist=Math.hypot(dx,dy);
-            if(dist<150*devicePixelRatio){
-              ctx.globalAlpha = 1 - (dist/(150*devicePixelRatio));
-              const g = ctx.createLinearGradient(a.x,a.y,b.x,b.y);
-              g.addColorStop(0,'#7c5cff'); g.addColorStop(1,'#2fd8ff');
-              ctx.strokeStyle = g; ctx.lineWidth = 1.2*devicePixelRatio;
-              ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-              ctx.globalAlpha = 1;
-            }
-          }
-        }
-        requestAnimationFrame(step);
-      }
-      step();
-    })();
+    (function(){ const cvs = document.getElementById('hero-canvas'); const ctx = cvs.getContext('2d'); const W = () => cvs.width = cvs.clientWidth * devicePixelRatio; const H = () => cvs.height = cvs.clientHeight * devicePixelRatio; W(); H(); window.addEventListener('resize', () => { W(); H(); }); const R = (min,max)=>Math.random()*(max-min)+min; const dots = Array.from({length: 36}, () => ({ x: R(0, cvs.width), y: R(0, cvs.height), vx: R(-0.2, 0.2), vy: R(-0.2, 0.2), r: R(1.2, 2.6) })); function step(){ ctx.clearRect(0,0,cvs.width,cvs.height); for(const d of dots){ d.x+=d.vx; d.y+=d.vy; if(d.x<0||d.x>cvs.width) d.vx*=-1; if(d.y<0||d.y>cvs.height) d.vy*=-1; } for(const d of dots){ ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fill(); } for(let i=0;i<dots.length;i++){ for(let j=i+1;j<dots.length;j++){ const a=dots[i], b=dots[j]; const dx=a.x-b.x, dy=a.y-b.y; const dist=Math.hypot(dx,dy); if(dist<150*devicePixelRatio){ ctx.globalAlpha = 1 - (dist/(150*devicePixelRatio)); const g = ctx.createLinearGradient(a.x,a.y,b.x,b.y); g.addColorStop(0,'#7c5cff'); g.addColorStop(1,'#2fd8ff'); ctx.strokeStyle = g; ctx.lineWidth = 1.2*devicePixelRatio; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); ctx.globalAlpha = 1; } } } requestAnimationFrame(step);} step(); })();
   </script>
 
-  <!-- Firebase Auth (모듈) -->
+  <!-- Firebase Auth + Realtime DB (본인확인) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut, setPersistence, browserLocalPersistence, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+    import { getDatabase, ref, set, onValue, serverTimestamp, remove } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
-    // === 여기에 본인이 제공한 Firebase 구성값을 사용합니다 ===
     const firebaseConfig = {
       apiKey: "AIzaSyBmdGbZ-YWu6XqexM9TWfU0vUia8oa70t4",
       authDomain: "sample-firebase-ai-app-28523.firebaseapp.com",
       projectId: "sample-firebase-ai-app-28523",
       storageBucket: "sample-firebase-ai-app-28523.firebasestorage.app",
       messagingSenderId: "805722312176",
-      appId: "1:805722312176:web:b86d3ce965e3eab31ea135"
+      appId: "1:805722312176:web:b86d3ce965e3eab31ea135",
+      databaseURL: "https://sample-firebase-ai-app-28523-default-rtdb.firebaseio.com"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getDatabase(app);
     await setPersistence(auth, browserLocalPersistence);
 
-    // UI 엘리먼트
+    // UI refs
     const openBtn = document.getElementById('auth-open');
     const closeBtn = document.getElementById('auth-close');
     const backdrop = document.getElementById('auth-backdrop');
@@ -517,91 +495,166 @@
     const tabSignup = document.getElementById('tab-signup');
     const formLogin = document.getElementById('form-login');
     const formSignup = document.getElementById('form-signup');
+    const formFix = document.getElementById('form-mc-fix');
+    const fixName = document.getElementById('fix-name');
+    const fixMC = document.getElementById('fix-mcname');
     const msg = document.getElementById('auth-msg');
     const userChip = document.getElementById('user-chip');
     const chipName = document.getElementById('chip-name');
+    const chipVerified = document.getElementById('chip-verified');
+
+    // Verify block
+    const verifyBlock = document.getElementById('verify-block');
+    const mkCodeBtn = document.getElementById('mk-code');
+    const codePill = document.getElementById('code-pill');
+    const codeTimer = document.getElementById('code-timer');
+    const verifyMsg = document.getElementById('verify-msg');
+    let currentCode = null, timerId = null, expireAt = 0, unsubConfirm = null;
 
     function showModal(){ backdrop.style.display='flex'; }
-    function hideModal(){ backdrop.style.display='none'; msg.textContent=''; }
+    function hideModal(){ backdrop.style.display='none'; msg.textContent=''; formFix.style.display='none'; }
 
-    openBtn?.addEventListener('click', async (e)=>{
-      e.preventDefault();
-      if(auth.currentUser){
-        await signOut(auth);
-      }else{
-        showModal();
-      }
-    });
+    openBtn?.addEventListener('click', async (e)=>{ e.preventDefault(); if(auth.currentUser){ await signOut(auth); } else { showModal(); }});
     closeBtn?.addEventListener('click', (e)=>{ e.preventDefault(); hideModal(); });
-    backdrop.addEventListener('click', (e)=>{ if(e.target===backdrop) hideModal(); });
+    backdrop?.addEventListener('click', (e)=>{ if(e.target===backdrop) hideModal(); });
 
-    function setTab(which){
-      const loginActive = which==='login';
-      tabLogin.classList.toggle('active', loginActive);
-      tabSignup.classList.toggle('active', !loginActive);
-      formLogin.style.display = loginActive ? '' : 'none';
-      formSignup.style.display = loginActive ? 'none' : '';
-    }
-    tabLogin.addEventListener('click', ()=>setTab('login'));
-    tabSignup.addEventListener('click', ()=>setTab('signup'));
+    function setTab(which){ const loginActive = which==='login'; tabLogin.classList.toggle('active', loginActive); tabSignup.classList.toggle('active', !loginActive); formLogin.style.display = loginActive ? '' : 'none'; formSignup.style.display = loginActive ? 'none' : ''; formFix.style.display = 'none'; }
+    tabLogin?.addEventListener('click', ()=>setTab('login'));
+    tabSignup?.addEventListener('click', ()=>setTab('signup'));
+
+    // Helpers
+    const rand = (n=6)=> Array.from({length:n},()=>"ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random()*32)]).join('');
+    const parseDN = (dn='')=>{ const [name, mc] = dn.split('|').map(s=> (s||'').trim()); return { name, mc }; };
+
+    // 회원가입 (표시명 + MC닉 필수)
+    formSignup?.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const pw = document.getElementById('signup-password').value;
+      const mc = document.getElementById('signup-mcname').value.trim();
+      msg.textContent = '계정 생성 중…';
+      try{
+        const cred = await createUserWithEmailAndPassword(auth, email, pw);
+        await updateProfile(cred.user, { displayName: `${name} | ${mc}` });
+        try{ await sendEmailVerification(cred.user); }catch(_){/*ignore*/}
+        msg.textContent = '✅ 가입 완료 · 이메일 인증 링크를 확인해 주세요';
+        setTab('login');
+      }catch(err){ msg.textContent = '❌ ' + (err.message || '가입 실패'); }
+    });
 
     // 로그인
-    formLogin.addEventListener('submit', async (e)=>{
+    formLogin?.addEventListener('submit', async (e)=>{
       e.preventDefault();
       const email = document.getElementById('login-email').value.trim();
       const pw = document.getElementById('login-password').value;
       msg.textContent = '로그인 중…';
       try{
         const cred = await signInWithEmailAndPassword(auth, email, pw);
-        if(cred.user && !cred.user.emailVerified){
-          msg.textContent = '✉ 이메일 인증 후 이용해 주세요. 인증 메일을 다시 보냈습니다.';
-          try{ await sendEmailVerification(cred.user); }catch(_){/* ignore */}
-        }else{
-          msg.textContent = '✅ 로그인 성공';
-          setTimeout(hideModal, 600);
-        }
-      }catch(err){
-        msg.textContent = '❌ ' + (err.message || '로그인 실패');
-      }
+        if(cred.user && !cred.user.emailVerified){ msg.textContent = '✉ 이메일 인증 후 이용해 주세요. 인증 메일을 확인해주세요.'; }
+        const { name, mc } = parseDN(cred.user.displayName || '');
+        if(!mc){ fixName.value = name || (cred.user.email?cred.user.email.split('@')[0]:'Player'); formFix.style.display = ''; msg.textContent = '⚠ 마인크래프트 닉네임이 필요해요. 아래에 입력하고 저장을 눌러주세요.'; }
+        else { msg.textContent = '✅ 로그인 완료'; setTimeout(hideModal, 600); }
+      }catch(err){ msg.textContent = '❌ ' + (err.message || '로그인 실패'); }
     });
 
-    // 회원가입
-    formSignup.addEventListener('submit', async (e)=>{
+    // 로그인 후 닉네임 보정 저장
+    formFix?.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      const name = document.getElementById('signup-name').value.trim();
-      const email = document.getElementById('signup-email').value.trim();
-      const pw = document.getElementById('signup-password').value;
-      msg.textContent = '계정 생성 중…';
-      try{
-        const cred = await createUserWithEmailAndPassword(auth, email, pw);
-        if(name){ await updateProfile(cred.user, { displayName: name }); }
-        try{ await sendEmailVerification(cred.user); }catch(_){/* ignore */}
-        msg.textContent = '✅ 가입 완료 · 이메일 인증 링크를 확인해 주세요';
-        setTab('login');
-      }catch(err){
-        msg.textContent = '❌ ' + (err.message || '가입 실패');
-      }
+      const u = auth.currentUser; if(!u){ showModal(); msg.textContent='먼저 로그인해 주세요.'; return; }
+      const name = (fixName.value || (u.email?u.email.split('@')[0]:'Player')).trim();
+      const mc = (fixMC.value||'').trim();
+      if(!mc){ msg.textContent='마인크래프트 닉네임을 입력해 주세요.'; return; }
+      try{ await updateProfile(u, { displayName: `${name} | ${mc}` }); msg.textContent='✅ 저장 완료'; setTimeout(hideModal, 600);}catch(err){ msg.textContent='❌ 저장 실패: ' + (err.message||'오류'); }
     });
 
-    // 상태 변화 반영
+    // 인증 코드 생성/감시
+    mkCodeBtn?.addEventListener('click', async ()=>{
+      const u = auth.currentUser; if(!u){ msg.textContent='먼저 로그인해 주세요.'; return; }
+      const { mc } = parseDN(u.displayName||''); if(!mc){ formFix.style.display=''; msg.textContent='닉네임을 먼저 등록해 주세요.'; return; }
+      // 생성
+      currentCode = rand(6);
+      const codeRef = ref(db, `verify/${currentCode}`);
+      await set(codeRef, { uid: u.uid, mcname: mc, status: 'pending', createdAt: serverTimestamp() });
+      verifyMsg.textContent = '서버에서 /verify ' + currentCode + ' 를 입력하세요 (5분 내).';
+      codePill.textContent = currentCode; codePill.style.display='inline-flex';
+      // 타이머 5분
+      expireAt = Date.now() + 5*60*1000; clearInterval(timerId);
+      timerId = setInterval(()=>{ const left = Math.max(0, expireAt - Date.now()); const mm = String(Math.floor(left/60000)).padStart(2,'0'); const ss = String(Math.floor((left%60000)/1000)).padStart(2,'0'); codeTimer.textContent = `만료까지 ${mm}:${ss}`; if(left<=0){ clearInterval(timerId); codeTimer.textContent = '만료됨'; codePill.style.display='none'; verifyMsg.textContent='코드가 만료되었어요. 다시 생성해 주세요.'; remove(codeRef); if(unsubConfirm){unsubConfirm(); unsubConfirm=null;} } }, 250);
+      // 감시
+      if(unsubConfirm){unsubConfirm();}
+      unsubConfirm = onValue(ref(db, `verify/${currentCode}/confirm`), async (snap)=>{
+        if(snap.exists() && snap.val()===true){
+          // 최종 등록
+          await set(ref(db, `verifiedUsers/${u.uid}`), { mcname: mc, verifiedAt: serverTimestamp() });
+          verifyMsg.textContent = '✅ 본인확인 완료!';
+          clearInterval(timerId); codeTimer.textContent='완료';
+          chipVerified.textContent = '· 인증됨';
+          // 사용한 코드 제거(정리)
+          remove(ref(db, `verify/${currentCode}`));
+          if(unsubConfirm){unsubConfirm(); unsubConfirm=null;}
+        }
+      });
+    });
+
+    // 상태 변화 반영 + verified badge
+    function watchVerified(u){
+      chipVerified.textContent = '';
+      if(!u) return;
+      onValue(ref(db, `verifiedUsers/${u.uid}`), (snap)=>{ chipVerified.textContent = snap.exists()? '· 인증됨' : ''; });
+    }
+
     onAuthStateChanged(auth, (user)=>{
-      if(user){
-        const display = user.displayName || (user.email ? user.email.split('@')[0] : 'Player');
-        chipName.textContent = display;
-        userChip.style.display = '';
-        if(openBtn) openBtn.textContent = '로그아웃';
-      }else{
-        userChip.style.display = 'none';
-        if(openBtn) openBtn.textContent = '로그인';
-      }
+      verifyBlock.style.display = user? '' : 'none';
+      if(user){ const display = user.displayName || (user.email ? user.email.split('@')[0] : 'Player'); chipName.textContent = display; userChip.style.display = ''; if(openBtn) openBtn.textContent = '로그아웃'; watchVerified(user); }
+      else { userChip.style.display = 'none'; if(openBtn) openBtn.textContent = '로그인'; chipVerified.textContent=''; }
     });
 
-    // 보호 예시: 로그인 필요
+    // 보호: 로그인 + 인증(선택) + MC 닉네임 필요
     document.querySelectorAll('#ranks .rank .btn').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        if(!auth.currentUser){ e.preventDefault(); showModal(); msg.textContent='등급 구매 문의는 로그인 후 이용해 주세요.' }
+      btn.addEventListener('click', async (e)=>{
+        const u = auth.currentUser; if(!u){ e.preventDefault(); showModal(); msg.textContent='로그인 후 이용해 주세요.'; return; }
+        await u.reload(); const dn = u.displayName||''; const hasMC = dn.includes('|') && dn.split('|')[1]?.trim();
+        if(!hasMC){ e.preventDefault(); showModal(); formFix.style.display=''; msg.textContent='마인크래프트 닉네임을 먼저 등록해 주세요.'; return; }
+        // (선택) 인증 필수로 만들고 싶으면 아래 주석 해제
+        // const verSnap = await (await fetch(`${firebaseConfig.databaseURL}/verifiedUsers/${u.uid}.json`)).json();
+        // if(!verSnap){ e.preventDefault(); showModal(); msg.textContent='본인확인이 필요합니다. 코드 생성 후 인게임에서 /verify &lt;코드&gt; 를 입력해 주세요.'; }
       });
     });
   </script>
+
+  <!-- ===== 운영자용: Realtime Database 보안 규칙 예시 =====
+  Firebase 콘솔 → Realtime Database → 규칙에 아래를 설정하세요.
+  잠금 모드에서 시작했다면 아래처럼 특정 경로만 제한적으로 허용합니다.
+
+  {
+    "rules": {
+      ".read": false,
+      ".write": false,
+      "verify": {
+        "$code": {
+          ".read": false,
+          // 웹에서 사전 생성(set)만 허용
+          ".write": "auth != null && (!data.exists() && newData.child('uid').val() == auth.uid)",
+          "confirm": {
+            // 누구나 true 로만 쓸 수 있게 (코드 유출 위험이 낮도록 코드 무작위/만료/정리 필수)
+            ".write": "newData.val() === true && data.parent().child('status').exists()"
+          }
+        }
+      },
+      "verifiedUsers": {
+        "$uid": {
+          ".read": false,
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    }
+  }
+
+  ※ 보안 강화 팁
+  - 코드 노드에 createdAt(serverTimestamp)를 저장하고, Cloud Functions가 있다면 만료(5분) 지난 코드 자동 삭제 권장
+  - 운영 단계에서는 confirm을 완전 공개 대신 플러그인에서 Admin SDK(서버키)로 쓰도록 전환
+  - 코드 길이를 8~10자로 늘리면 유추 공격에 더 안전
+  -->
 </body>
 </html>
