@@ -439,6 +439,7 @@
                 <img id="user-avatar" class="user-avatar" src="" alt="User">
                 <span id="user-name">PLAYER</span>
             </div>
+            <button id="music-btn" class="login-btn" style="margin-right: 10px;">Music: ON</button>
             <button id="login-btn" class="login-btn">로그인</button>
         </div>
 
@@ -741,8 +742,21 @@
 
         function playRandomMusic() {
             const randomSong = songList[Math.floor(Math.random() * songList.length)];
-            bgMusic.src = "노래/" + randomSong;
-            bgMusic.play().catch(e => console.log("Audio play failed (user interaction needed):", e));
+            bgMusic.src = "노래/" + encodeURIComponent(randomSong);
+            bgMusic.play().then(() => {
+                const btn = document.getElementById('music-btn');
+                if (btn) {
+                    btn.innerText = "Music: ON";
+                    btn.classList.add('active');
+                }
+            }).catch(e => {
+                console.log("Audio play failed (user interaction needed):", e);
+                const btn = document.getElementById('music-btn');
+                if (btn) {
+                    btn.innerText = "Music: OFF";
+                    btn.classList.remove('active');
+                }
+            });
         }
 
         if (bgMusic) {
