@@ -763,6 +763,22 @@
             bgMusic.addEventListener('ended', playRandomMusic);
         }
 
+        const musicBtn = document.getElementById('music-btn');
+        if (musicBtn) {
+            musicBtn.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    if (!bgMusic.src) playRandomMusic();
+                    else bgMusic.play();
+                    musicBtn.innerText = "Music: ON";
+                    musicBtn.classList.add('active');
+                } else {
+                    bgMusic.pause();
+                    musicBtn.innerText = "Music: OFF";
+                    musicBtn.classList.remove('active');
+                }
+            });
+        }
+
         window.setMission = function (type) {
             mission = type;
             document.querySelector('.mission-select').style.display = 'none';
