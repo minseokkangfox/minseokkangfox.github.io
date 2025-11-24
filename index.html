@@ -742,7 +742,7 @@
 
         function playRandomMusic() {
             const randomSong = songList[Math.floor(Math.random() * songList.length)];
-            bgMusic.src = "노래/" + encodeURIComponent(randomSong);
+            bgMusic.src = "songs/" + encodeURIComponent(randomSong);
             bgMusic.play().then(() => {
                 const btn = document.getElementById('music-btn');
                 if (btn) {
