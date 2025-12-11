@@ -1,2 +1,0 @@
-# minseokkangfox.github.io
-YX
