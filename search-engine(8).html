@@ -1,0 +1,3701 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSearch - 인터넷 검색</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --surface: rgba(255, 255, 255, 0.05);
+            --text: #e8e8e8;
+            --text-secondary: #a8a8a8;
+            --glow: rgba(233, 69, 96, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(15, 52, 96, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px var(--glow);
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .search-container {
+            margin: 0 auto 50px;
+            max-width: 700px;
+            width: 100%;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .search-box {
+            position: relative;
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.4),
+                0 0 0 1px var(--highlight),
+                0 0 20px var(--glow);
+            border-color: var(--highlight);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 60px 20px 30px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-size: 1.1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px var(--glow);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 6px 20px var(--glow);
+        }
+
+        .search-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--surface);
+            border-top-color: var(--highlight);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .results {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .result-item {
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            animation: slideInLeft 0.5s ease-out both;
+        }
+
+        .result-item:nth-child(1) { animation-delay: 0.1s; }
+        .result-item:nth-child(2) { animation-delay: 0.2s; }
+        .result-item:nth-child(3) { animation-delay: 0.3s; }
+        .result-item:nth-child(4) { animation-delay: 0.4s; }
+        .result-item:nth-child(5) { animation-delay: 0.5s; }
+
+        .result-item:hover {
+            transform: translateX(8px);
+            border-color: rgba(233, 69, 96, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.3),
+                -4px 0 0 var(--highlight);
+        }
+
+        .result-url {
+            color: var(--highlight);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .result-url::before {
+            content: '🔗';
+            font-size: 0.9rem;
+        }
+
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1.3;
+        }
+
+        .result-title:hover {
+            color: var(--highlight);
+        }
+
+        .result-snippet {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid var(--highlight);
+            border-radius: 8px;
+            color: var(--highlight);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .view-btn:hover {
+            background: var(--highlight);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--glow);
+        }
+
+        .search-more-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-width: 180px;
+        }
+
+        .search-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-more-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* 게임 스토어 카드 스타일 */
+        .gamestore-card {
+            backdrop-filter: blur(30px);
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(15, 52, 96, 0.15) 100%);
+            border: 2px solid rgba(233, 69, 96, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .gamestore-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--highlight);
+            box-shadow: 0 15px 50px rgba(233, 69, 96, 0.4);
+        }
+
+        .gamestore-icon {
+            font-size: 5rem;
+            min-width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px var(--glow);
+        }
+
+        .gamestore-content {
+            flex: 1;
+        }
+
+        .gamestore-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .gamestore-snippet {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .gamestore-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-tag {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid var(--highlight);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--highlight);
+            font-weight: 500;
+        }
+
+        .gamestore-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px var(--glow);
+        }
+
+        .gamestore-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--glow);
+        }
+
+        /* .io 게임 그리드 스타일 */
+        .iogame-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .iogame-card {
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .iogame-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--highlight) 0%, #ff6b9d 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .iogame-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(233, 69, 96, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .iogame-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .iogame-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .iogame-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .iogame-players {
+            font-size: 0.85rem;
+            color: var(--highlight);
+            font-weight: 500;
+            background: rgba(233, 69, 96, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .iogame-snippet {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .iogame-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .iogame-genre {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+
+        .iogame-play {
+            font-size: 0.9rem;
+            color: var(--highlight);
+            font-weight: 600;
+        }
+
+        /* 게임 포털 스타일 */
+        .game-portals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .game-portal-card {
+            backdrop-filter: blur(30px);
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.08) 0%, rgba(15, 52, 96, 0.12) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--highlight) 0%, #ff6b9d 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .game-portal-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.15) 0%, rgba(15, 52, 96, 0.18) 100%);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .game-portal-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .portal-icon {
+            font-size: 4rem;
+            min-width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(15, 52, 96, 0.2) 100%);
+            border-radius: 16px;
+        }
+
+        .portal-content {
+            flex: 1;
+        }
+
+        .portal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .portal-category {
+            font-size: 0.85rem;
+            color: var(--highlight);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .portal-snippet {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .portal-arrow {
+            font-size: 2rem;
+            color: var(--highlight);
+            transition: transform 0.3s ease;
+        }
+
+        .game-portal-card:hover .portal-arrow {
+            transform: translateX(10px);
+        }
+
+        /* 번역 도구 스타일 */
+        .translate-container {
+            backdrop-filter: blur(30px);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .translate-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .translate-service-btn {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(15, 52, 96, 0.1) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .translate-service-btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--highlight);
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(15, 52, 96, 0.2) 100%);
+        }
+
+        .translate-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .translate-input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .translate-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .translate-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .translate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--glow);
+        }
+
+        /* 도구 그리드 스타일 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .tool-card {
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+        }
+
+        .tool-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .tool-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* 음악 차트 스타일 */
+        .music-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .music-service-card {
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .music-service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .music-service-card img,
+        .music-service-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 3rem;
+        }
+
+        .music-service-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .chart-container {
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+
+        .chart-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chart-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .chart-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+            gap: 16px;
+        }
+
+        .chart-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(233, 69, 96, 0.3);
+            transform: translateX(8px);
+        }
+
+        .chart-rank {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--highlight);
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .chart-rank.top3 {
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+        }
+
+        .chart-info {
+            flex: 1;
+            margin-left: 16px;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .chart-artist {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .music-service-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 8px;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            min-width: 180px;
+        }
+
+        .music-service-menu.show {
+            display: block;
+        }
+
+        .music-service-option {
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .music-service-option:hover {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--highlight);
+        }
+
+        /* AI 서비스 스타일 */
+        .ai-services-container {
+            margin-bottom: 40px;
+        }
+
+        .ai-top-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .ai-service-card {
+            backdrop-filter: blur(30px);
+            background: var(--surface);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-service-card.top-ranked {
+            border-width: 3px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .ai-service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .ai-rank-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px var(--glow);
+        }
+
+        .ai-rank-badge.gold {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .ai-rank-badge.silver {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+            box-shadow: 0 4px 20px rgba(192, 192, 192, 0.5);
+        }
+
+        .ai-rank-badge.bronze {
+            background: linear-gradient(135deg, #cd7f32 0%, #e6a25e 100%);
+            box-shadow: 0 4px 20px rgba(205, 127, 50, 0.5);
+        }
+
+        .ai-service-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .ai-service-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .ai-service-company {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .ai-service-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .ai-other-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .ai-service-card-small {
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ai-service-card-small:hover {
+            transform: translateY(-4px);
+            border-color: rgba(233, 69, 96, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .ai-service-header-small {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-service-icon-small {
+            font-size: 2rem;
+        }
+
+        .ai-service-name-small {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .error {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid var(--highlight);
+            border-radius: 12px;
+            padding: 20px;
+            color: var(--highlight);
+            text-align: center;
+            margin: 20px 0;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+
+            .header {
+                padding: 40px 20px 30px;
+            }
+
+            .result-title {
+                font-size: 1.2rem;
+            }
+
+            .result-item {
+                padding: 20px;
+            }
+
+            .search-more-btn {
+                font-size: 0.9rem;
+                padding: 12px 16px;
+                min-width: auto;
+            }
+
+            .search-more-btn svg {
+                width: 16px;
+                height: 16px;
+                margin-right: 6px;
+            }
+
+            /* 게임 스토어 모바일 */
+            .gamestore-card {
+                flex-direction: column;
+                padding: 30px 20px;
+                text-align: center;
+            }
+
+            .gamestore-icon {
+                font-size: 4rem;
+                min-width: 100px;
+                height: 100px;
+            }
+
+            .gamestore-title {
+                font-size: 1.5rem;
+            }
+
+            .gamestore-snippet {
+                font-size: 1rem;
+            }
+
+            .gamestore-features {
+                justify-content: center;
+            }
+
+            /* .io 게임 모바일 */
+            .iogame-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .iogame-card {
+                padding: 20px;
+            }
+
+            .iogame-title {
+                font-size: 1.1rem;
+            }
+
+            /* AI 서비스 모바일 */
+            .ai-top-services {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .ai-service-card {
+                padding: 25px;
+            }
+
+            .ai-service-icon {
+                font-size: 3rem;
+            }
+
+            .ai-service-name {
+                font-size: 1.3rem;
+            }
+
+            .ai-other-services {
+                grid-template-columns: 1fr;
+            }
+
+            /* 게임 포털 모바일 */
+            .game-portals-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .game-portal-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 25px;
+            }
+
+            .portal-icon {
+                font-size: 3.5rem;
+                min-width: 70px;
+                height: 70px;
+            }
+
+            .portal-title {
+                font-size: 1.3rem;
+            }
+
+            .portal-arrow {
+                font-size: 1.5rem;
+            }
+
+            /* 번역 모바일 */
+            .translate-box {
+                grid-template-columns: 1fr;
+            }
+
+            .translate-services {
+                grid-template-columns: 1fr;
+            }
+
+            /* 도구 모바일 */
+            .tools-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">WebSearch</div>
+            <div class="tagline">세상의 모든 정보를 찾아보세요</div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="검색어를 입력하세요..."
+                    id="searchInput"
+                    autocomplete="off"
+                />
+                <button class="search-btn" id="searchBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="content">
+            <div class="empty-state">
+                <div class="empty-state-icon">🔍</div>
+                <div class="empty-state-text">검색어를 입력하고 엔터를 눌러 검색을 시작하세요</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const content = document.getElementById('content');
+
+        // 검색 기록 저장
+        let searchHistory = [];
+
+        // 마인크래프트 도구 데이터
+        function getMinecraftTools() {
+            return [
+                { name: "MCStacker", url: "https://mcstacker.net/", description: "커맨드 생성기" },
+                { name: "Modrinth", url: "https://modrinth.com/", description: "모드 다운로드" },
+                { name: "Block Display", url: "https://block-display.com/", description: "블록 디스플레이 도구" },
+                { name: "IntelliJ", url: "https://www.jetbrains.com/idea/", description: "모드 개발 IDE" },
+                { name: "MCPEDL", url: "https://mcpedl.com/", description: "PE 애드온/모드" },
+                { name: "MinecraftJSON", url: "https://www.minecraftjson.com/", description: "JSON 생성기" },
+                { name: "Chunkbase", url: "https://www.chunkbase.com/", description: "시드 파인더" },
+                { name: "MinecraftArt", url: "https://minecraftart.com/", description: "픽셀 아트 변환" },
+                { name: "Haselkern", url: "https://haselkern.com/Minecraft-ArmorStand/", description: "아머 스탠드 에디터" },
+                { name: "Minecraft.tools", url: "https://minecraft.tools/", description: "다양한 도구 모음" },
+                { name: "VanillaTweaks", url: "https://vanillatweaks.net/", description: "데이터팩/리소스팩" },
+                { name: "ArmorTrims", url: "https://armortrims.com/", description: "갑옷 장식 도구" }
+            ];
+        }
+
+        // 로블록스 도구 데이터
+        function getRobloxTools() {
+            return [
+                { name: "FishTrap", url: "https://fishtrap.gg/", description: "로블록스 통계 추적" },
+                { name: "Bloxstrap", url: "https://bloxstrap.pizzaboxer.xyz/", description: "로블록스 커스텀 런처" },
+                { name: "Roblox", url: "https://www.roblox.com/", description: "로블록스 공식 사이트" }
+            ];
+        }
+
+        // 로블록스 인기 게임 데이터
+        function getRobloxGames() {
+            return [
+                { name: "Blox Fruits", players: "400K", icon: "🍎", url: "https://www.roblox.com/games/2753915549/" },
+                { name: "Adopt Me!", players: "300K", icon: "🐾", url: "https://www.roblox.com/games/920587237/" },
+                { name: "Brookhaven", players: "250K", icon: "🏘️", url: "https://www.roblox.com/games/4924922222/" },
+                { name: "Tower of Hell", players: "200K", icon: "🗼", url: "https://www.roblox.com/games/1962086868/" },
+                { name: "Murder Mystery 2", players: "150K", icon: "🔪", url: "https://www.roblox.com/games/142823291/" },
+                { name: "Jailbreak", players: "120K", icon: "🚔", url: "https://www.roblox.com/games/606849621/" },
+                { name: "Arsenal", players: "100K", icon: "🔫", url: "https://www.roblox.com/games/286090429/" },
+                { name: "Royale High", players: "90K", icon: "👑", url: "https://www.roblox.com/games/735030788/" }
+            ];
+        }
+
+        // 마인크래프트 인기 서버 데이터
+        function getMinecraftServers() {
+            return [
+                { name: "Hypixel", ip: "mc.hypixel.net", players: "50,000+", description: "최대 미니게임 서버", icon: "⭐" },
+                { name: "Mineplex", ip: "us.mineplex.com", players: "10,000+", description: "다양한 미니게임", icon: "🎮" },
+                { name: "CubeCraft", ip: "play.cubecraft.net", players: "8,000+", description: "미니게임과 스카이워즈", icon: "🎲" },
+                { name: "The Hive", ip: "play.hivemc.com", players: "7,000+", description: "모바일 친화적", icon: "🐝" },
+                { name: "2B2T", ip: "2b2t.org", players: "1,000+", description: "가장 오래된 아나키 서버", icon: "💀" },
+                { name: "Wynncraft", ip: "play.wynncraft.com", players: "3,000+", description: "MMORPG 서버", icon: "⚔️" }
+            ];
+        }
+
+        // 스팀 인기 게임 데이터
+        function getSteamGames() {
+            return [
+                { rank: 1, name: "Counter-Strike 2", players: "1.5M", url: "https://store.steampowered.com/app/730/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/730/header.jpg" },
+                { rank: 2, name: "Dota 2", players: "800K", url: "https://store.steampowered.com/app/570/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/570/header.jpg" },
+                { rank: 3, name: "PUBG: BATTLEGROUNDS", players: "600K", url: "https://store.steampowered.com/app/578080/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/578080/header.jpg" },
+                { rank: 4, name: "Apex Legends", players: "500K", url: "https://store.steampowered.com/app/1172470/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1172470/header.jpg" },
+                { rank: 5, name: "Grand Theft Auto V", players: "400K", url: "https://store.steampowered.com/app/271590/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/271590/header.jpg" },
+                { rank: 6, name: "Rust", players: "200K", url: "https://store.steampowered.com/app/252490/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/252490/header.jpg" },
+                { rank: 7, name: "Team Fortress 2", players: "180K", url: "https://store.steampowered.com/app/440/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/440/header.jpg" },
+                { rank: 8, name: "ARK: Survival Evolved", players: "150K", url: "https://store.steampowered.com/app/346110/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/346110/header.jpg" },
+                { rank: 9, name: "Lost Ark", players: "140K", url: "https://store.steampowered.com/app/1599340/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1599340/header.jpg" },
+                { rank: 10, name: "Warframe", players: "130K", url: "https://store.steampowered.com/app/230410/", image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/230410/header.jpg" }
+            ];
+        }
+
+        // 에픽게임즈 인기 게임 데이터
+        function getEpicGames() {
+            return [
+                { rank: 1, name: "Fortnite", players: "5M", url: "https://www.epicgames.com/fortnite/", image: "https://cdn2.unrealengine.com/14br-consoles-3840x2160-wlogo-3840x2160-b1e501774432.jpg" },
+                { rank: 2, name: "Rocket League", players: "1M", url: "https://www.epicgames.com/store/en-US/p/rocket-league", image: "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_RocketLeague_PsyonixLLC_S2_1200x1600-694655170d939a59f0480f68c5b6f6d8" },
+                { rank: 3, name: "Fall Guys", players: "500K", url: "https://www.epicgames.com/store/en-US/p/fall-guys", image: "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_FallGuys_Mediatonic_S2_1200x1600-6eb3242f93e66e94bb9844b3247c58aa" },
+                { rank: 4, name: "Valorant", players: "400K", url: "https://playvalorant.com/", image: "https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt5c61ad3d4a9d0e9b/5eb7cdc1ee88132e6d490971/V_AGENTS_587x330_ALL.jpg" },
+                { rank: 5, name: "Among Us", players: "300K", url: "https://www.epicgames.com/store/en-US/p/among-us", image: "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_AmongUs_InnerslothLLC_S2_1200x1600-2c2c9f2272b80e02c3cd91eace093b71" }
+            ];
+        }
+
+        // 동영상 플랫폼 데이터
+        function getVideoPlatforms() {
+            // 사용자 위치 확인 (한국인지)
+            const isKorea = true; // 한국 사용자
+            
+            return {
+                youtube: [
+                    { name: 'YouTube', url: 'https://www.youtube.com/', description: '동영상 공유 플랫폼', needsWarning: false },
+                    { name: 'YouTube 쇼츠', url: 'https://www.youtube.com/shorts/', description: '짧은 동영상', needsWarning: false },
+                    { name: 'YouTube 스튜디오', url: 'https://studio.youtube.com/', description: '크리에이터 도구', needsWarning: false },
+                    { name: 'YouTube Music', url: 'https://music.youtube.com/', description: '음악 스트리밍', needsWarning: false }
+                ],
+                others: [
+                    { name: 'TikTok', url: 'https://www.tiktok.com/', description: '숏폼 동영상', needsWarning: true, warningType: 'privacy' },
+                    { name: 'Twitch', url: 'https://www.twitch.tv/', description: '라이브 스트리밍', needsWarning: isKorea, warningType: isKorea ? 'korea' : null },
+                    { name: '치지직', url: 'https://chzzk.naver.com/', description: '네이버 라이브', needsWarning: false },
+                    { name: 'Kick', url: 'https://kick.com/', description: '스트리밍 플랫폼', needsWarning: false },
+                    { name: '숲 (아프리카TV)', url: 'https://www.afreecatv.com/', description: '라이브 방송', needsWarning: false },
+                    { name: 'Instagram Reels', url: 'https://www.instagram.com/reels/', description: '인스타그램 숏폼', needsWarning: false },
+                    { name: 'Bilibili', url: 'https://www.bilibili.com/', description: '중국 동영상 사이트', needsWarning: true, warningType: 'privacy' },
+                    { name: 'ニコニコ動画', url: 'https://www.nicovideo.jp/', description: '일본 동영상 사이트', needsWarning: false }
+                ]
+            };
+        }
+
+        // AI 서비스 데이터 생성
+        function getAIServices() {
+            const aiServices = [
+                { 
+                    rank: 1, 
+                    name: "Gemini", 
+                    company: "Google", 
+                    url: "https://gemini.google.com/",
+                    description: "구글의 최첨단 멀티모달 AI",
+                    logo: "https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128",
+                    color: "#4285f4"
+                },
+                { 
+                    rank: 2, 
+                    name: "ChatGPT", 
+                    company: "OpenAI", 
+                    url: "https://chat.openai.com/",
+                    description: "가장 유명한 대화형 AI",
+                    logo: "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
+                    color: "#10a37f"
+                },
+                { 
+                    rank: 3, 
+                    name: "Claude", 
+                    company: "Anthropic", 
+                    url: "https://claude.ai/",
+                    description: "안전하고 정확한 AI 어시스턴트",
+                    logo: "https://www.google.com/s2/favicons?domain=claude.ai&sz=128",
+                    color: "#d97757"
+                },
+                { 
+                    rank: 4, 
+                    name: "Perplexity", 
+                    company: "Perplexity AI", 
+                    url: "https://www.perplexity.ai/",
+                    description: "AI 기반 검색 엔진",
+                    logo: "https://www.google.com/s2/favicons?domain=perplexity.ai&sz=128",
+                    color: "#20808d"
+                },
+                { 
+                    rank: 5, 
+                    name: "Copilot", 
+                    company: "Microsoft", 
+                    url: "https://copilot.microsoft.com/",
+                    description: "Microsoft의 AI 어시스턴트",
+                    logo: "https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=128",
+                    color: "#0078d4"
+                },
+                { 
+                    rank: null, 
+                    name: "뤼튼", 
+                    company: "Wrtn Technologies", 
+                    url: "https://wrtn.ai/",
+                    description: "한국형 AI 플랫폼",
+                    logo: "https://www.google.com/s2/favicons?domain=wrtn.ai&sz=128",
+                    color: "#6c5ce7"
+                },
+                { 
+                    rank: null, 
+                    name: "마음AI", 
+                    company: "Scatter Lab", 
+                    url: "https://maum.ai/",
+                    description: "감성 대화 AI",
+                    logo: "https://www.google.com/s2/favicons?domain=maum.ai&sz=128",
+                    color: "#667eea"
+                },
+                { 
+                    rank: null, 
+                    name: "다글로", 
+                    company: "42Maru", 
+                    url: "https://daglo.ai/",
+                    description: "기업용 AI 솔루션",
+                    logo: "https://www.google.com/s2/favicons?domain=daglo.ai&sz=128",
+                    color: "#48bb78"
+                },
+                { 
+                    rank: null, 
+                    name: "Grok", 
+                    company: "xAI", 
+                    url: "https://grok.com/",
+                    description: "X(트위터)의 AI",
+                    logo: "https://www.google.com/s2/favicons?domain=grok.com&sz=128",
+                    color: "#1da1f2"
+                },
+                { 
+                    rank: null, 
+                    name: "X.AI", 
+                    company: "xAI", 
+                    url: "https://x.ai/",
+                    description: "Elon Musk의 AI 회사",
+                    logo: "https://www.google.com/s2/favicons?domain=x.ai&sz=128",
+                    color: "#000000"
+                }
+            ];
+            return aiServices;
+        }
+
+        // 음악 차트 데이터 생성 (2025년 1월 최신 차트)
+        function getMusicChart() {
+            const koreanChart = [
+                { rank: 1, title: "Whiplash", artist: "aespa", album: "Whiplash - The 5th Mini Album", albumArt: "https://i.scdn.co/image/ab67616d0000b273e6a782d6d8eb8e5c8a58a6e8" },
+                { rank: 2, title: "Mantra", artist: "제니 (JENNIE)", album: "Mantra", albumArt: "https://i.scdn.co/image/ab67616d0000b27340a7e47034dfcf13f78f14b4" },
+                { rank: 3, title: "POWER", artist: "G-DRAGON", album: "POWER", albumArt: "https://i.scdn.co/image/ab67616d0000b273c4dee0c5ca0941e5b346e7d6" },
+                { rank: 4, title: "number one girl", artist: "로제 (ROSÉ)", album: "rosie", albumArt: "https://i.scdn.co/image/ab67616d0000b273b61d6f3c04d6ed2e9c69b198" },
+                { rank: 5, title: "Toxic till the end", artist: "로제 (ROSÉ)", album: "rosie", albumArt: "https://i.scdn.co/image/ab67616d0000b273b61d6f3c04d6ed2e9c69b198" },
+                { rank: 6, title: "HAPPY", artist: "DAY6 (데이식스)", album: "Fourever", albumArt: "https://i.scdn.co/image/ab67616d0000b273c4fe004f420061f8aeb15c23" },
+                { rank: 7, title: "up (Karina Solo)", artist: "aespa", album: "Whiplash", albumArt: "https://i.scdn.co/image/ab67616d0000b273e6a782d6d8eb8e5c8a58a6e8" },
+                { rank: 8, title: "청춘만화", artist: "이무진", album: "청춘만화", albumArt: "https://i.scdn.co/image/ab67616d0000b27357adbdd5d8b0ac18a7765c76" },
+                { rank: 9, title: "나는 반딧불", artist: "우디 (Woody)", album: "나는 반딧불", albumArt: "https://i.scdn.co/image/ab67616d0000b273d63a5287e4022ebb3e5e07f8" },
+                { rank: 10, title: "Drowning", artist: "우디 (Woody)", album: "Drowning", albumArt: "https://i.scdn.co/image/ab67616d0000b273c0f330362d5d36244d2e6db7" },
+                { rank: 11, title: "Supernova", artist: "aespa", album: "Armageddon", albumArt: "https://i.scdn.co/image/ab67616d0000b273e886a44e75c0185d5428b9dc" },
+                { rank: 12, title: "첫 눈", artist: "정준일", album: "첫 눈", albumArt: "https://i.scdn.co/image/ab67616d0000b273c93a4dd6c0bfd7c2e1c4c6b3" },
+                { rank: 13, title: "예뻤어", artist: "DAY6 (데이식스)", album: "Every DAY6 February", albumArt: "https://i.scdn.co/image/ab67616d0000b273b5c0cbd0eca6e4bd2e8e8d3a" },
+                { rank: 14, title: "How Sweet", artist: "NewJeans", album: "How Sweet", albumArt: "https://i.scdn.co/image/ab67616d0000b273b48aa696e6b26d5cdbfac14c" },
+                { rank: 15, title: "내 이름 맑음", artist: "QWER", album: "MANITO", albumArt: "https://i.scdn.co/image/ab67616d0000b273f5b2fe6b47d37dd5c5e3f3fb" },
+                { rank: 16, title: "한 페이지가 될 수 있게", artist: "DAY6 (데이식스)", album: "The Book of Us : Gravity", albumArt: "https://i.scdn.co/image/ab67616d0000b273a5fcce4f35e0e8ab8ae4d5e8" },
+                { rank: 17, title: "Welcome to the Show", artist: "DAY6 (데이식스)", album: "Fourever", albumArt: "https://i.scdn.co/image/ab67616d0000b273c4fe004f420061f8aeb15c23" },
+                { rank: 18, title: "소나기", artist: "이클립스 (ECLIPSE)", album: "선재 업고 튀어 OST", albumArt: "https://i.scdn.co/image/ab67616d0000b27364097776229840d3ebab67f1" },
+                { rank: 19, title: "Supernatural", artist: "NewJeans", album: "Supernatural", albumArt: "https://i.scdn.co/image/ab67616d0000b273b657fbb27b17e7bd4691c2b2" },
+                { rank: 20, title: "Armageddon", artist: "aespa", album: "Armageddon", albumArt: "https://i.scdn.co/image/ab67616d0000b273e886a44e75c0185d5428b9dc" },
+                { rank: 21, title: "Magnetic", artist: "ILLIT", album: "SUPER REAL ME", albumArt: "https://i.scdn.co/image/ab67616d0000b273841292c1316c4bf47509e4e7" },
+                { rank: 22, title: "첫 만남은 계획대로 되지 않아", artist: "TWS (투어스)", album: "SUMMER BEAT!", albumArt: "https://i.scdn.co/image/ab67616d0000b273e4bd9085ec456942c6477f47" },
+                { rank: 23, title: "고민중독", artist: "QWER", album: "MANITO", albumArt: "https://i.scdn.co/image/ab67616d0000b273f5b2fe6b47d37dd5c5e3f3fb" },
+                { rank: 24, title: "Die With A Smile", artist: "Lady Gaga, Bruno Mars", album: "Die With A Smile", albumArt: "https://i.scdn.co/image/ab67616d0000b27380f5f085ba749b194ede4497" },
+                { rank: 25, title: "사랑은 늘 도망가", artist: "임영웅", album: "IM HERO", albumArt: "https://i.scdn.co/image/ab67616d0000b273925c6dea3a7ae65b8e3fe9bc" },
+                { rank: 26, title: "Candy", artist: "NCT DREAM", album: "Candy", albumArt: "https://i.scdn.co/image/ab67616d0000b2737a691437c9b8e2119e8fc5e1" },
+                { rank: 27, title: "SPOT!", artist: "지코, 제니", album: "SPOT!", albumArt: "https://i.scdn.co/image/ab67616d0000b27320b1e48c47f0d7b3ec82a995" },
+                { rank: 28, title: "Small girl (feat. D.O.)", artist: "이영지", album: "16 Fantasy", albumArt: "https://i.scdn.co/image/ab67616d0000b273f5d4c52309e68a8e28a1f5eb" },
+                { rank: 29, title: "Drama", artist: "aespa", album: "Drama", albumArt: "https://i.scdn.co/image/ab67616d0000b273fa2d89d5be5069bb783c4499" },
+                { rank: 30, title: "Love wins all", artist: "아이유 (IU)", album: "The Winning", albumArt: "https://i.scdn.co/image/ab67616d0000b27370509072cf1f26ce88f96d52" },
+                { rank: 31, title: "Ditto", artist: "NewJeans", album: "OMG", albumArt: "https://i.scdn.co/image/ab67616d0000b273b17b5e7d9e3f6f2c87f9b7e9" },
+                { rank: 32, title: "Bubble Gum", artist: "NewJeans", album: "How Sweet", albumArt: "https://i.scdn.co/image/ab67616d0000b273b48aa696e6b26d5cdbfac14c" },
+                { rank: 33, title: "Sticky", artist: "KISS OF LIFE", album: "Sticky", albumArt: "https://i.scdn.co/image/ab67616d0000b2737fac6c7d7297f7da07ba7c75" },
+                { rank: 34, title: "Dynamite", artist: "방탄소년단", album: "Dynamite", albumArt: "https://i.scdn.co/image/ab67616d0000b273e1a12119e9b73e1a8fb8c246" },
+                { rank: 35, title: "I AM", artist: "IVE", album: "I've IVE", albumArt: "https://i.scdn.co/image/ab67616d0000b273a0923e2c3dc4c35384a1d7b5" },
+                { rank: 36, title: "NIGHT DANCER", artist: "imase", album: "NIGHT DANCER", albumArt: "https://i.scdn.co/image/ab67616d0000b273c2628c0d4c3e0c8e0f0e5e5e" },
+                { rank: 37, title: "건물 사이에 피어난 장미", artist: "우디", album: "건물 사이에 피어난 장미", albumArt: "https://i.scdn.co/image/ab67616d0000b2731dd7703cc6e1d8b3e49b3c3a" },
+                { rank: 38, title: "Kitsch", artist: "IVE", album: "I've IVE", albumArt: "https://i.scdn.co/image/ab67616d0000b273a0923e2c3dc4c35384a1d7b5" },
+                { rank: 39, title: "Perfect Night", artist: "LE SSERAFIM", album: "Perfect Night", albumArt: "https://i.scdn.co/image/ab67616d0000b273e95be4e3bf1b630c4fe01e90" },
+                { rank: 40, title: "클락션 (Klaxon)", artist: "BABYMONSTER", album: "BABYMONS7ER", albumArt: "https://i.scdn.co/image/ab67616d0000b273e1e5e7e5e5e5e5e5e5e5e5e5" },
+                { rank: 41, title: "Seven (feat. Latto)", artist: "정국", album: "GOLDEN", albumArt: "https://i.scdn.co/image/ab67616d0000b2734e0362c225863f6ae2432651" },
+                { rank: 42, title: "헤어지자 말해요", artist: "박재정", album: "헤어지자 말해요", albumArt: "https://i.scdn.co/image/ab67616d0000b273e3d1c3e3e3e3e3e3e3e3e3e3" },
+                { rank: 43, title: "To. X", artist: "태연 (TAEYEON)", album: "To. X", albumArt: "https://i.scdn.co/image/ab67616d0000b2737b9e8b8b8b8b8b8b8b8b8b8b" },
+                { rank: 44, title: "천상연", artist: "이창섭", album: "웨딩 임파서블 OST", albumArt: "https://i.scdn.co/image/ab67616d0000b2734d4d4d4d4d4d4d4d4d4d4d4d" },
+                { rank: 45, title: "Hype Boy", artist: "NewJeans", album: "NewJeans 1st EP", albumArt: "https://i.scdn.co/image/ab67616d0000b273b17b5e7d9e3f6f2c87f9b7e9" },
+                { rank: 46, title: "모래 알갱이", artist: "임영웅", album: "IM HERO", albumArt: "https://i.scdn.co/image/ab67616d0000b273925c6dea3a7ae65b8e3fe9bc" },
+                { rank: 47, title: "OMG", artist: "NewJeans", album: "OMG", albumArt: "https://i.scdn.co/image/ab67616d0000b273b17b5e7d9e3f6f2c87f9b7e9" },
+                { rank: 48, title: "나의 어깨에 기대어요", artist: "10CM", album: "5.1", albumArt: "https://i.scdn.co/image/ab67616d0000b2731e1e1e1e1e1e1e1e1e1e1e1e" },
+                { rank: 49, title: "Dalla Dalla", artist: "ITZY", album: "IT'z Different", albumArt: "https://i.scdn.co/image/ab67616d0000b2732f2f2f2f2f2f2f2f2f2f2f2f" },
+                { rank: 50, title: "우리들의 블루스", artist: "임영웅", album: "IM HERO", albumArt: "https://i.scdn.co/image/ab67616d0000b273925c6dea3a7ae65b8e3fe9bc" }
+            ];
+
+            return koreanChart;
+        }
+
+        async function performSearch(query) {
+            if (!query.trim()) return;
+
+            // URL 패턴 감지
+            const urlPattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+            
+            if (urlPattern.test(query.trim())) {
+                // URL인 경우 직접 이동
+                let url = query.trim();
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'https://' + url;
+                }
+                window.open(url, '_blank');
+                
+                // 검색창 표시
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">🔗</div>
+                        <h2 style="color: var(--text); font-size: 1.5rem; margin-bottom: 10px;">링크로 이동했습니다</h2>
+                        <p style="color: var(--text-secondary);">${url}</p>
+                    </div>
+                `;
+                
+                // 검색 기록에 추가
+                searchHistory.unshift({ query, timestamp: new Date() });
+                if (searchHistory.length > 10) searchHistory.pop();
+                return;
+            }
+
+            content.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div style="color: var(--text-secondary);">검색 중...</div>
+                </div>
+            `;
+
+            // 실제 검색을 위해 여러 소스 시뮬레이션
+            setTimeout(() => {
+                const results = generateSearchResults(query);
+                displayResults(results, query);
+                
+                // 검색 기록에 추가
+                searchHistory.unshift({ query, timestamp: new Date() });
+                if (searchHistory.length > 10) searchHistory.pop();
+            }, 800);
+        }
+
+        function generateSearchResults(query) {
+            // 쿼리 정규화 (한 번만 선언)
+            const lowerQuery = query.toLowerCase();
+            const normalizedQuery = lowerQuery.replace(/\s+/g, '');
+            
+            // 이스터 에그: 오석바이러스
+            if (normalizedQuery.includes('오석바이러스') || normalizedQuery.includes('oseokbirus')) {
+                window.open('https://gangminseok.neocities.org/zxzx/ko-kr/windows-----60b01860-58f2-be66-7516-5c45a66ae3c6', '_blank');
+                return [{
+                    url: 'https://gangminseok.neocities.org/',
+                    title: '🎉 이스터 에그를 발견했습니다!',
+                    snippet: '숨겨진 페이지로 이동했습니다...'
+                }];
+            }
+            
+            // 동영상 플랫폼 검색
+            const videoKeywords = ['유튜브', 'youtube', '틱톡', 'tiktok', '트위치', 'twitch', '치지직', 'chzzk', '킥', 'kick', '숲', 'afreecatv', '아프리카', 'bilibili', 'ニコニコ', 'niconico', '릴스', 'reels'];
+            for (const keyword of videoKeywords) {
+                if (normalizedQuery === keyword.replace(/\s+/g, '')) {
+                    return [{
+                        special: 'video',
+                        mainPlatform: keyword,
+                        platforms: getVideoPlatforms()
+                    }];
+                }
+            }
+            
+            // 게임 통합 검색
+            const gameKeywords = ['게임', 'game', 'games'];
+            for (const keyword of gameKeywords) {
+                if (normalizedQuery === keyword.replace(/\s+/g, '')) {
+                    return [{
+                        special: 'games',
+                        stores: [
+                            { name: 'Steam', url: 'https://store.steampowered.com/', description: '3만+ 게임' },
+                            { name: 'Epic Games', url: 'https://www.epicgames.com/store/', description: '매주 무료 게임' },
+                            { name: 'GOG', url: 'https://www.gog.com/', description: 'DRM 프리' },
+                            { name: 'Xbox', url: 'https://www.xbox.com/', description: 'Game Pass' }
+                        ],
+                        ioGames: [
+                            { title: 'Slither.io', url: 'https://slither.io', players: '10만+', genre: '액션' },
+                            { title: 'Agar.io', url: 'https://agar.io', players: '50만+', genre: '전략' },
+                            { title: 'Diep.io', url: 'https://diep.io', players: '20만+', genre: '슈팅' },
+                            { title: 'Krunker.io', url: 'https://krunker.io', players: '15만+', genre: 'FPS' }
+                        ],
+                        topGames: getSteamGames().slice(0, 5)
+                    }];
+                }
+            }
+            
+            // 맞춤법 검색 체크
+            const spellcheckKeywords = ['맞춤법', 'spellcheck', '맞춤법검사', '문법'];
+            for (const keyword of spellcheckKeywords) {
+                if (normalizedQuery.includes(keyword.replace(/\s+/g, ''))) {
+                    return [{
+                        special: 'spellcheck'
+                    }];
+                }
+            }
+            
+            // 스팀 검색 체크
+            const steamKeywords = ['스팀', 'steam'];
+            for (const keyword of steamKeywords) {
+                if (normalizedQuery === keyword.replace(/\s+/g, '')) {
+                    return [{
+                        special: 'steam',
+                        games: getSteamGames()
+                    }];
+                }
+            }
+            
+            // 에픽게임즈 검색 체크
+            const epicKeywords = ['에픽게임즈', 'epicgames', 'epic'];
+            for (const keyword of epicKeywords) {
+                if (normalizedQuery === keyword.replace(/\s+/g, '')) {
+                    return [{
+                        special: 'epic',
+                        games: getEpicGames()
+                    }];
+                }
+            }
+            
+            // 번역 검색 체크 (오타 포함)
+            const translateKeywords = ['번역', 'translate', '번역기', 'translator', '변역', '변역기'];
+            for (const keyword of translateKeywords) {
+                if (normalizedQuery.includes(keyword.replace(/\s+/g, ''))) {
+                    return [{
+                        special: 'translate'
+                    }];
+                }
+            }
+            
+            // 마인크래프트 도구 검색 체크
+            const mcToolsKeywords = ['마인크래프트도구', 'minecraft도구', 'minecrafttools', 'mc도구'];
+            for (const keyword of mcToolsKeywords) {
+                if (normalizedQuery.includes(keyword.replace(/\s+/g, ''))) {
+                    return [{
+                        special: 'mctools',
+                        tools: getMinecraftTools()
+                    }];
+                }
+            }
+            
+            // 로블록스 도구 검색 체크
+            const robloxToolsKeywords = ['로블록스도구', 'roblox도구', 'robloxtools'];
+            for (const keyword of robloxToolsKeywords) {
+                if (normalizedQuery.includes(keyword.replace(/\s+/g, ''))) {
+                    return [{
+                        special: 'robloxtools',
+                        tools: getRobloxTools()
+                    }];
+                }
+            }
+            
+            // AI 검색 체크
+            const aiKeywords = ['ai', '인공지능', 'artificial intelligence', 'chatbot', '챗봇'];
+            for (const keyword of aiKeywords) {
+                if (normalizedQuery.includes(keyword.replace(/\s+/g, ''))) {
+                    return [{
+                        special: 'ai',
+                        services: getAIServices()
+                    }];
+                }
+            }
+            
+            // 음악 검색 체크
+            const musicKeywords = ['음악', 'music', '노래', 'song', '차트', 'chart'];
+            
+            for (const keyword of musicKeywords) {
+                if (normalizedQuery.includes(keyword)) {
+                    return [{
+                        special: 'music',
+                        chart: getMusicChart()
+                    }];
+                }
+            }
+            
+            // 실제 검색 결과를 시뮬레이션하는 함수
+            const searchKeywords = {
+                '마인크래프트': [
+                    {
+                        url: 'https://www.minecraft.net/',
+                        title: 'Minecraft - 공식 웹사이트',
+                        snippet: '블록으로 이루어진 무한한 세계에서 모험을 떠나세요',
+                        special: 'minecraft'
+                    }
+                ],
+                'minecraft': [
+                    {
+                        url: 'https://www.minecraft.net/',
+                        title: 'Minecraft - Official Website',
+                        snippet: 'Explore infinite worlds and build everything from simple homes to grand castles',
+                        special: 'minecraft'
+                    }
+                ],
+                '구글': [
+                    {
+                        url: 'https://www.google.com',
+                        title: 'Google',
+                        snippet: '전 세계에서 가장 많이 사용되는 검색 엔진입니다. 웹, 이미지, 뉴스, 동영상 등을 검색할 수 있습니다.'
+                    },
+                    {
+                        url: 'https://about.google/',
+                        title: 'Google 소개',
+                        snippet: 'Google의 미션은 전 세계의 정보를 체계화하여 모두가 편리하게 이용할 수 있도록 하는 것입니다.'
+                    },
+                    {
+                        url: 'https://www.google.com/intl/ko/gmail/about/',
+                        title: 'Gmail - 무료 이메일 서비스',
+                        snippet: 'Google의 무료 이메일 서비스로 강력한 스팸 필터링과 15GB의 저장공간을 제공합니다.'
+                    }
+                ],
+                'youtube': [
+                    {
+                        url: 'https://www.youtube.com',
+                        title: 'YouTube',
+                        snippet: '수십억 명의 사용자가 YouTube에서 좋아하는 동영상을 시청하고, 원본 콘텐츠를 업로드하고, 친구, 가족, 전 세계 사람들과 공유합니다.'
+                    },
+                    {
+                        url: 'https://studio.youtube.com/',
+                        title: 'YouTube Studio',
+                        snippet: '크리에이터를 위한 YouTube 채널 관리 도구입니다.'
+                    },
+                    {
+                        url: 'https://www.youtube.com/creators/',
+                        title: 'YouTube 크리에이터',
+                        snippet: 'YouTube 크리에이터를 위한 리소스, 도구 및 팁을 확인하세요.'
+                    }
+                ],
+                '파이썬': [
+                    {
+                        url: 'https://www.python.org/',
+                        title: 'Python 공식 웹사이트',
+                        snippet: 'Python은 강력한 프로그래밍 언어로, 배우기 쉽고 효율적입니다. 공식 사이트에서 다운로드하고 문서를 확인하세요.'
+                    },
+                    {
+                        url: 'https://docs.python.org/ko/3/',
+                        title: 'Python 3 문서',
+                        snippet: 'Python 프로그래밍 언어의 공식 문서입니다. 튜토리얼, 라이브러리 레퍼런스 등을 확인할 수 있습니다.'
+                    },
+                    {
+                        url: 'https://www.python.org/downloads/',
+                        title: 'Python 다운로드',
+                        snippet: '최신 버전의 Python을 다운로드하세요. Windows, Mac, Linux 모두 지원합니다.'
+                    }
+                ],
+                '네이버': [
+                    {
+                        url: 'https://www.naver.com',
+                        title: 'NAVER',
+                        snippet: '네이버는 대한민국 최대 포털 사이트입니다. 검색, 뉴스, 쇼핑, 웹툰 등 다양한 서비스를 제공합니다.'
+                    },
+                    {
+                        url: 'https://blog.naver.com',
+                        title: '네이버 블로그',
+                        snippet: '네이버 블로그에서 일상을 공유하고 다양한 이야기를 만나보세요.'
+                    },
+                    {
+                        url: 'https://www.navercorp.com/',
+                        title: '네이버 소개',
+                        snippet: '네이버 기업 정보, 채용, IR 정보를 확인할 수 있습니다.'
+                    }
+                ],
+                '넷플릭스': [
+                    {
+                        url: 'https://www.netflix.com',
+                        title: 'Netflix 대한민국 - 인터넷으로 TV 프로그램 및 영화 시청',
+                        snippet: 'Netflix에서 영화와 TV 프로그램을 스트리밍하세요. 좋아하는 콘텐츠를 언제 어디서나 시청할 수 있습니다.'
+                    },
+                    {
+                        url: 'https://help.netflix.com/ko',
+                        title: 'Netflix 고객 센터',
+                        snippet: 'Netflix 사용에 관한 도움말, 결제 정보, 계정 관리 방법을 확인하세요.'
+                    },
+                    {
+                        url: 'https://www.netflix.com/kr/browse/genre/34399',
+                        title: 'Netflix 한국 영화 및 드라마',
+                        snippet: 'Netflix에서 인기 있는 한국 드라마와 영화를 만나보세요.'
+                    }
+                ],
+                '리그오브레전드': [
+                    {
+                        url: 'https://www.leagueoflegends.com/ko-kr/',
+                        title: '리그 오브 레전드',
+                        snippet: 'League of Legends 공식 웹사이트. 챔피언 정보, 패치 노트, e스포츠 대회 일정을 확인하세요.'
+                    },
+                    {
+                        url: 'https://signup.leagueoflegends.com/ko-kr',
+                        title: 'LoL - 무료 계정 생성',
+                        snippet: '무료로 리그 오브 레전드 계정을 만들고 게임을 시작하세요.'
+                    },
+                    {
+                        url: 'https://www.leagueoflegends.com/ko-kr/champions/',
+                        title: '챔피언 목록',
+                        snippet: '160개 이상의 챔피언을 확인하고 각 챔피언의 능력을 알아보세요.'
+                    }
+                ],
+                '인스타그램': [
+                    {
+                        url: 'https://www.instagram.com',
+                        title: 'Instagram',
+                        snippet: '사진과 동영상을 만들고, 편집하고, 공유하며 친구와 가족과 연결되세요.'
+                    },
+                    {
+                        url: 'https://help.instagram.com/ko',
+                        title: 'Instagram 고객센터',
+                        snippet: 'Instagram 사용에 관한 도움말과 지원을 받으세요.'
+                    },
+                    {
+                        url: 'https://about.instagram.com/ko-kr',
+                        title: 'Instagram 소개',
+                        snippet: 'Instagram의 스토리, 팀, 브랜드 리소스에 대해 알아보세요.'
+                    }
+                ],
+                '페이스북': [
+                    {
+                        url: 'https://www.facebook.com',
+                        title: 'Facebook',
+                        snippet: 'Facebook에 로그인해서 친구, 가족, 지인들과 함께 교류하고 공유하세요.'
+                    },
+                    {
+                        url: 'https://www.facebook.com/help',
+                        title: 'Facebook 고객센터',
+                        snippet: 'Facebook 사용에 관한 도움말을 확인하세요.'
+                    },
+                    {
+                        url: 'https://about.facebook.com/',
+                        title: 'Meta | 소셜 메타버스 회사',
+                        snippet: 'Facebook을 운영하는 Meta에 대해 알아보세요.'
+                    }
+                ],
+                '아마존': [
+                    {
+                        url: 'https://www.amazon.com',
+                        title: 'Amazon.com: Online Shopping',
+                        snippet: '아마존에서 수백만 개의 제품을 검색하고 구매하세요. 빠른 배송과 우수한 고객 서비스를 제공합니다.'
+                    },
+                    {
+                        url: 'https://www.amazon.com/prime',
+                        title: 'Amazon Prime',
+                        snippet: 'Amazon Prime 멤버십으로 무료 배송, 비디오 스트리밍 등 다양한 혜택을 누리세요.'
+                    },
+                    {
+                        url: 'https://www.aboutamazon.com/',
+                        title: 'About Amazon',
+                        snippet: 'Amazon의 혁신, 기술, 기업 문화에 대해 알아보세요.'
+                    }
+                ],
+                '쿠팡': [
+                    {
+                        url: 'https://www.coupang.com',
+                        title: '쿠팡!',
+                        snippet: '대한민국 No.1 온라인 쇼핑. 로켓배송으로 다음날 바로 받아보세요.'
+                    },
+                    {
+                        url: 'https://www.coupang.com/np/search?component=&q=',
+                        title: '쿠팡 검색',
+                        snippet: '쿠팡에서 원하는 상품을 검색하고 최저가로 구매하세요.'
+                    },
+                    {
+                        url: 'https://www.coupang.com/np/campaigns/82',
+                        title: '로켓배송',
+                        snippet: '쿠팡 로켓배송으로 오늘 주문하고 내일 받으세요.'
+                    }
+                ],
+                '깃허브': [
+                    {
+                        url: 'https://github.com',
+                        title: 'GitHub: Let\'s build from here',
+                        snippet: 'GitHub는 8천만 명 이상의 개발자가 사용하는 세계 최대 소스코드 호스팅 플랫폼입니다.'
+                    },
+                    {
+                        url: 'https://docs.github.com/',
+                        title: 'GitHub Docs',
+                        snippet: 'GitHub 사용법, API, 워크플로우에 대한 공식 문서입니다.'
+                    },
+                    {
+                        url: 'https://github.com/explore',
+                        title: 'GitHub Explore',
+                        snippet: '인기 있는 오픈소스 프로젝트와 트렌딩 레포지토리를 탐색하세요.'
+                    }
+                ],
+                '스포티파이': [
+                    {
+                        url: 'https://www.spotify.com',
+                        title: 'Spotify - 음악 스트리밍',
+                        snippet: 'Spotify에서 수백만 곡의 음악과 팟캐스트를 무료로 들어보세요.'
+                    },
+                    {
+                        url: 'https://www.spotify.com/kr-ko/premium/',
+                        title: 'Spotify Premium',
+                        snippet: '광고 없이 음악을 듣고, 오프라인으로 재생하세요. Spotify Premium을 시작하세요.'
+                    },
+                    {
+                        url: 'https://support.spotify.com/',
+                        title: 'Spotify 고객지원',
+                        snippet: 'Spotify 사용에 관한 도움말과 문제 해결 방법을 확인하세요.'
+                    }
+                ],
+                '디스코드': [
+                    {
+                        url: 'https://discord.com',
+                        title: 'Discord | 대화, 채팅, 어울리기',
+                        snippet: 'Discord는 커뮤니티와 친구들이 모이고, 함께 시간을 보내고, 더 자주 이야기를 나누는 곳입니다.'
+                    },
+                    {
+                        url: 'https://discord.com/download',
+                        title: 'Discord 다운로드',
+                        snippet: 'Windows, Mac, Linux, iOS, Android용 Discord 앱을 다운로드하세요.'
+                    },
+                    {
+                        url: 'https://support.discord.com/',
+                        title: 'Discord 지원',
+                        snippet: 'Discord 사용 가이드, FAQ, 문제 해결 방법을 확인하세요.'
+                    }
+                ],
+                '트위치': [
+                    {
+                        url: 'https://www.twitch.tv',
+                        title: 'Twitch',
+                        snippet: 'Twitch에서 라이브 스트리밍을 시청하고 좋아하는 게임, 크리에이터와 소통하세요.'
+                    },
+                    {
+                        url: 'https://www.twitch.tv/directory',
+                        title: 'Twitch 카테고리',
+                        snippet: '인기 게임과 라이브 스트림을 탐색하세요.'
+                    },
+                    {
+                        url: 'https://help.twitch.tv/',
+                        title: 'Twitch 고객지원',
+                        snippet: 'Twitch 사용에 관한 도움말을 확인하세요.'
+                    }
+                ],
+                '애플': [
+                    {
+                        url: 'https://www.apple.com',
+                        title: 'Apple',
+                        snippet: 'iPhone, iPad, Mac, Apple Watch 등 Apple 제품을 만나보세요.'
+                    },
+                    {
+                        url: 'https://www.apple.com/kr/store',
+                        title: 'Apple Store',
+                        snippet: 'Apple 온라인 스토어에서 최신 제품을 구매하세요.'
+                    },
+                    {
+                        url: 'https://support.apple.com/ko-kr',
+                        title: 'Apple 지원',
+                        snippet: 'Apple 제품 및 서비스에 관한 도움말을 확인하세요.'
+                    }
+                ],
+                '로블록스': [
+                    {
+                        url: 'https://www.roblox.com/',
+                        title: 'Roblox - 공식 웹사이트',
+                        snippet: '전 세계 사람들과 함께 게임을 만들고 플레이하세요',
+                        special: 'roblox'
+                    }
+                ],
+                'roblox': [
+                    {
+                        url: 'https://www.roblox.com/',
+                        title: 'Roblox - Official Website',
+                        snippet: 'Create and play games with people around the world',
+                        special: 'roblox'
+                    }
+                ],
+                '포트나이트': [
+                    {
+                        url: 'https://www.fortnite.com',
+                        title: 'Fortnite',
+                        snippet: 'Epic Games의 무료 배틀로얄 게임 Fortnite. 100명의 플레이어가 마지막 1인이 될 때까지 싸웁니다.'
+                    },
+                    {
+                        url: 'https://www.epicgames.com/fortnite/ko/download',
+                        title: 'Fortnite 다운로드',
+                        snippet: 'PC, PlayStation, Xbox, Nintendo Switch, 모바일에서 무료로 플레이하세요.'
+                    },
+                    {
+                        url: 'https://www.fortnite.com/news',
+                        title: 'Fortnite 뉴스',
+                        snippet: '최신 업데이트, 이벤트, 시즌 정보를 확인하세요.'
+                    }
+                ],
+                '오버워치': [
+                    {
+                        url: 'https://overwatch.blizzard.com/ko-kr/',
+                        title: 'Overwatch 2',
+                        snippet: 'Blizzard의 팀 기반 슈팅 게임. 다양한 영웅들과 함께 전투에 참여하세요.'
+                    },
+                    {
+                        url: 'https://overwatch.blizzard.com/ko-kr/heroes/',
+                        title: 'Overwatch 영웅',
+                        snippet: '30명 이상의 독특한 영웅들을 만나보세요.'
+                    },
+                    {
+                        url: 'https://overwatch.blizzard.com/ko-kr/news/',
+                        title: 'Overwatch 뉴스',
+                        snippet: '최신 패치 노트와 이벤트 정보를 확인하세요.'
+                    }
+                ],
+                '배틀그라운드': [
+                    {
+                        url: 'https://pubg.com/ko',
+                        title: 'PUBG: BATTLEGROUNDS',
+                        snippet: '배틀로얄 장르를 개척한 PUBG. 치열한 생존 전투에서 최후의 1인이 되세요.'
+                    },
+                    {
+                        url: 'https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/',
+                        title: 'PUBG Steam',
+                        snippet: 'Steam에서 PUBG를 구매하고 다운로드하세요.'
+                    },
+                    {
+                        url: 'https://pubg.com/ko/news',
+                        title: 'PUBG 뉴스',
+                        snippet: '최신 업데이트와 이벤트를 확인하세요.'
+                    }
+                ],
+                '발로란트': [
+                    {
+                        url: 'https://playvalorant.com/ko-kr/',
+                        title: 'VALORANT',
+                        snippet: 'Riot Games의 5v5 캐릭터 기반 전술 FPS. 정확한 슈팅과 독특한 능력으로 승리하세요.'
+                    },
+                    {
+                        url: 'https://playvalorant.com/ko-kr/agents/',
+                        title: 'VALORANT 요원',
+                        snippet: '각기 다른 능력을 가진 요원들을 확인하세요.'
+                    },
+                    {
+                        url: 'https://playvalorant.com/ko-kr/news/',
+                        title: 'VALORANT 뉴스',
+                        snippet: '최신 패치 노트와 이벤트 소식을 받아보세요.'
+                    }
+                ],
+                '카트라이더': [
+                    {
+                        url: 'https://kart.nexon.com/',
+                        title: '카트라이더: 드리프트',
+                        snippet: 'NEXON의 인기 레이싱 게임. 짜릿한 드리프트와 아이템 대전을 즐기세요.'
+                    },
+                    {
+                        url: 'https://kart.nexon.com/Kart/News',
+                        title: '카트라이더 뉴스',
+                        snippet: '최신 업데이트와 이벤트 정보를 확인하세요.'
+                    },
+                    {
+                        url: 'https://kart.nexon.com/Kart/Gameinfo',
+                        title: '카트라이더 게임 정보',
+                        snippet: '게임 방법, 아이템, 캐릭터 정보를 알아보세요.'
+                    }
+                ],
+                '메이플스토리': [
+                    {
+                        url: 'https://maplestory.nexon.com/',
+                        title: '메이플스토리',
+                        snippet: 'NEXON의 대표 2D 횡스크롤 MMORPG. 메이플 월드에서 모험을 시작하세요.'
+                    },
+                    {
+                        url: 'https://maplestory.nexon.com/News/Update',
+                        title: '메이플스토리 업데이트',
+                        snippet: '최신 업데이트와 신규 콘텐츠를 확인하세요.'
+                    },
+                    {
+                        url: 'https://maplestory.nexon.com/Guide/GameGuide',
+                        title: '메이플스토리 가이드',
+                        snippet: '초보자를 위한 게임 가이드와 팁을 확인하세요.'
+                    }
+                ],
+                '던전앤파이터': [
+                    {
+                        url: 'https://dunfaoff.neople.com/',
+                        title: '던전앤파이터',
+                        snippet: 'NEOPLE의 액션 RPG 게임. 아라드 대륙에서 펼쳐지는 화려한 액션을 경험하세요.'
+                    },
+                    {
+                        url: 'https://dunfaoff.neople.com/news',
+                        title: '던파 뉴스',
+                        snippet: '최신 업데이트와 이벤트 소식을 확인하세요.'
+                    },
+                    {
+                        url: 'https://dunfaoff.neople.com/guide',
+                        title: '던파 가이드',
+                        snippet: '직업별 가이드와 게임 팁을 알아보세요.'
+                    }
+                ],
+                '원신': [
+                    {
+                        url: 'https://genshin.hoyoverse.com/ko',
+                        title: '원신',
+                        snippet: 'miHoYo의 오픈월드 액션 RPG. 환상적인 테이바트 대륙을 모험하세요.'
+                    },
+                    {
+                        url: 'https://genshin.hoyoverse.com/ko/character',
+                        title: '원신 캐릭터',
+                        snippet: '다양한 원소 능력을 가진 캐릭터들을 만나보세요.'
+                    },
+                    {
+                        url: 'https://genshin.hoyoverse.com/ko/news',
+                        title: '원신 뉴스',
+                        snippet: '최신 버전 업데이트와 이벤트 정보를 확인하세요.'
+                    }
+                ],
+                '스타크래프트': [
+                    {
+                        url: 'https://starcraft2.blizzard.com/ko-kr/',
+                        title: 'StarCraft II',
+                        snippet: 'Blizzard의 전설적인 RTS 게임. 3개 종족의 치열한 전략 대결을 즐기세요.'
+                    },
+                    {
+                        url: 'https://starcraft2.blizzard.com/ko-kr/game',
+                        title: 'StarCraft II 게임 가이드',
+                        snippet: '종족별 특징과 전략을 알아보세요.'
+                    },
+                    {
+                        url: 'https://starcraft2.blizzard.com/ko-kr/news/',
+                        title: 'StarCraft II 뉴스',
+                        snippet: 'e스포츠 대회와 패치 소식을 확인하세요.'
+                    }
+                ],
+                '디아블로': [
+                    {
+                        url: 'https://diablo4.blizzard.com/ko-kr',
+                        title: 'Diablo IV',
+                        snippet: 'Blizzard의 액션 RPG 걸작. 어둠의 세계 생츄어리에서 악마를 처단하세요.'
+                    },
+                    {
+                        url: 'https://diablo4.blizzard.com/ko-kr/game/classes',
+                        title: 'Diablo IV 클래스',
+                        snippet: '5가지 독특한 클래스를 확인하세요.'
+                    },
+                    {
+                        url: 'https://news.blizzard.com/ko-kr/diablo4',
+                        title: 'Diablo IV 뉴스',
+                        snippet: '시즌 업데이트와 새로운 콘텐츠를 확인하세요.'
+                    }
+                ],
+                'gta': [
+                    {
+                        url: 'https://www.rockstargames.com/gta-v',
+                        title: 'Grand Theft Auto V',
+                        snippet: 'Rockstar Games의 오픈월드 액션 게임. 로스 산토스에서 자유로운 범죄 생활을 즐기세요.'
+                    },
+                    {
+                        url: 'https://www.rockstargames.com/GTAOnline',
+                        title: 'GTA Online',
+                        snippet: 'GTA 온라인에서 친구들과 함께 미션과 강도를 즐기세요.'
+                    },
+                    {
+                        url: 'https://socialclub.rockstargames.com/',
+                        title: 'Social Club',
+                        snippet: 'Rockstar Social Club에 가입하고 보너스를 받으세요.'
+                    }
+                ],
+                '피파': [
+                    {
+                        url: 'https://www.ea.com/ko-kr/games/ea-sports-fc',
+                        title: 'EA SPORTS FC',
+                        snippet: 'EA의 축구 시뮬레이션 게임. 세계 최고의 축구 경험을 즐기세요.'
+                    },
+                    {
+                        url: 'https://www.ea.com/ko-kr/games/ea-sports-fc/fc-mobile',
+                        title: 'FC Mobile',
+                        snippet: '모바일에서 즐기는 EA SPORTS FC.'
+                    },
+                    {
+                        url: 'https://www.ea.com/ko-kr/games/ea-sports-fc/ultimate-team',
+                        title: 'FC Ultimate Team',
+                        snippet: 'FC Ultimate Team에서 꿈의 팀을 만들어보세요.'
+                    }
+                ],
+                '콜오브듀티': [
+                    {
+                        url: 'https://www.callofduty.com/ko',
+                        title: 'Call of Duty',
+                        snippet: 'Activision의 FPS 게임 시리즈. 현대전과 워존에서 치열한 전투를 펼치세요.'
+                    },
+                    {
+                        url: 'https://www.callofduty.com/ko/warzone',
+                        title: 'Call of Duty: Warzone',
+                        snippet: '무료 배틀로얄 게임 워존을 플레이하세요.'
+                    },
+                    {
+                        url: 'https://www.callofduty.com/ko/blog',
+                        title: 'Call of Duty 블로그',
+                        snippet: '최신 뉴스와 업데이트를 확인하세요.'
+                    }
+                ],
+                '팰월드': [
+                    {
+                        url: 'https://www.pocketpair.jp/palworld',
+                        title: 'Palworld',
+                        snippet: 'Pocketpair의 몬스터 수집 오픈월드 서바이벌 게임. 팰과 함께 모험을 떠나세요.'
+                    },
+                    {
+                        url: 'https://store.steampowered.com/app/1623730/Palworld/',
+                        title: 'Palworld - Steam',
+                        snippet: 'Steam에서 팰월드를 구매하고 플레이하세요.'
+                    },
+                    {
+                        url: 'https://palworld.gg/',
+                        title: 'Palworld Wiki',
+                        snippet: '팰월드 공략, 팰 정보, 아이템 가이드를 확인하세요.'
+                    }
+                ],
+                '에이펙스': [
+                    {
+                        url: 'https://www.ea.com/ko-kr/games/apex-legends',
+                        title: 'Apex Legends',
+                        snippet: 'Respawn Entertainment의 무료 배틀로얄 히어로 슈터. 레전드를 선택하고 승리하세요.'
+                    },
+                    {
+                        url: 'https://www.ea.com/ko-kr/games/apex-legends/about/characters',
+                        title: 'Apex Legends 레전드',
+                        snippet: '독특한 능력을 가진 레전드들을 만나보세요.'
+                    },
+                    {
+                        url: 'https://www.ea.com/ko-kr/games/apex-legends/news',
+                        title: 'Apex Legends 뉴스',
+                        snippet: '최신 시즌과 이벤트 정보를 확인하세요.'
+                    }
+                ],
+                '하스스톤': [
+                    {
+                        url: 'https://playhearthstone.com/ko-kr',
+                        title: 'Hearthstone',
+                        snippet: 'Blizzard의 디지털 카드 게임. 전략적인 덱을 구성하고 대전하세요.'
+                    },
+                    {
+                        url: 'https://playhearthstone.com/ko-kr/cards',
+                        title: 'Hearthstone 카드',
+                        snippet: '수백 가지 카드를 확인하고 덱을 만들어보세요.'
+                    },
+                    {
+                        url: 'https://playhearthstone.com/ko-kr/news',
+                        title: 'Hearthstone 뉴스',
+                        snippet: '신규 확장팩과 업데이트 소식을 받아보세요.'
+                    }
+                ],
+                '와우': [
+                    {
+                        url: 'https://worldofwarcraft.blizzard.com/ko-kr/',
+                        title: 'World of Warcraft',
+                        snippet: 'Blizzard의 전설적인 MMORPG. 아제로스의 영웅이 되어 모험을 떠나세요.'
+                    },
+                    {
+                        url: 'https://worldofwarcraft.blizzard.com/ko-kr/start',
+                        title: 'WoW 시작하기',
+                        snippet: 'World of Warcraft를 무료로 시작하세요.'
+                    },
+                    {
+                        url: 'https://worldofwarcraft.blizzard.com/ko-kr/news',
+                        title: 'WoW 뉴스',
+                        snippet: '최신 확장팩과 패치 노트를 확인하세요.'
+                    }
+                ],
+                '젤다': [
+                    {
+                        url: 'https://www.zelda.com/',
+                        title: 'The Legend of Zelda',
+                        snippet: 'Nintendo의 전설적인 액션 어드벤처 게임 시리즈. 하이랄 왕국을 구하세요.'
+                    },
+                    {
+                        url: 'https://www.zelda.com/tears-of-the-kingdom/',
+                        title: 'Zelda: Tears of the Kingdom',
+                        snippet: '젤다의 전설 최신작을 Nintendo Switch에서 플레이하세요.'
+                    },
+                    {
+                        url: 'https://www.nintendo.co.kr/software/switch/zelda/',
+                        title: 'Zelda - Nintendo Korea',
+                        snippet: '젤다의 전설 한국어 정보를 확인하세요.'
+                    }
+                ],
+                '포켓몬': [
+                    {
+                        url: 'https://www.pokemon.com/kr',
+                        title: '포켓몬스터 공식 사이트',
+                        snippet: '포켓몬 게임, TCG, 애니메이션 등 모든 정보를 확인하세요.'
+                    },
+                    {
+                        url: 'https://www.pokemon.com/kr/pokemon-video-games/',
+                        title: '포켓몬 비디오 게임',
+                        snippet: '최신 포켓몬 게임들을 만나보세요.'
+                    },
+                    {
+                        url: 'https://www.pokemon.com/kr/pokedex/',
+                        title: '포켓몬 도감',
+                        snippet: '모든 포켓몬 정보를 검색하세요.'
+                    }
+                ],
+                '데바데': [
+                    {
+                        url: 'https://deadbydaylight.com/ko',
+                        title: 'Dead by Daylight',
+                        snippet: 'Behaviour Interactive의 비대칭 멀티플레이어 호러 게임. 생존자 또는 살인마로 플레이하세요.'
+                    },
+                    {
+                        url: 'https://deadbydaylight.com/ko/news',
+                        title: 'Dead by Daylight 뉴스',
+                        snippet: '새로운 챕터와 업데이트 정보를 확인하세요.'
+                    },
+                    {
+                        url: 'https://store.steampowered.com/app/381210/Dead_by_Daylight/',
+                        title: 'Dead by Daylight - Steam',
+                        snippet: 'Steam에서 게임을 구매하고 친구들과 플레이하세요.'
+                    }
+                ],
+                '롤토체스': [
+                    {
+                        url: 'https://teamfighttactics.leagueoflegends.com/ko-kr/',
+                        title: 'Teamfight Tactics',
+                        snippet: 'Riot Games의 자동 전투 전략 게임. 8명의 플레이어가 경쟁하는 오토 체스 게임입니다.'
+                    },
+                    {
+                        url: 'https://teamfighttactics.leagueoflegends.com/ko-kr/champions',
+                        title: 'TFT 챔피언',
+                        snippet: '모든 챔피언과 시너지를 확인하세요.'
+                    },
+                    {
+                        url: 'https://teamfighttactics.leagueoflegends.com/ko-kr/news',
+                        title: 'TFT 뉴스',
+                        snippet: '새로운 세트와 업데이트 소식을 받아보세요.'
+                    }
+                ],
+                '클래시로얄': [
+                    {
+                        url: 'https://clashroyale.com/',
+                        title: 'Clash Royale',
+                        snippet: 'Supercell의 실시간 전략 게임. 카드를 모으고 아레나에서 대결하세요.'
+                    },
+                    {
+                        url: 'https://clashroyale.com/blog/',
+                        title: 'Clash Royale 블로그',
+                        snippet: '최신 업데이트와 이벤트 소식을 확인하세요.'
+                    },
+                    {
+                        url: 'https://statsroyale.com/',
+                        title: 'Stats Royale',
+                        snippet: '클래시 로얄 통계와 덱 정보를 확인하세요.'
+                    }
+                ],
+                '브롤스타즈': [
+                    {
+                        url: 'https://supercell.com/en/games/brawlstars/',
+                        title: 'Brawl Stars',
+                        snippet: 'Supercell의 3v3 멀티플레이어 배틀 게임. 빠르고 재미있는 전투를 즐기세요.'
+                    },
+                    {
+                        url: 'https://brawlstars.com/',
+                        title: 'Brawl Stars 공식',
+                        snippet: '브롤러, 게임 모드, 최신 소식을 확인하세요.'
+                    },
+                    {
+                        url: 'https://supercell.com/en/games/brawlstars/blog/',
+                        title: 'Brawl Stars 블로그',
+                        snippet: '새로운 시즌과 브롤러 정보를 받아보세요.'
+                    }
+                ],
+                '스팀': [
+                    {
+                        url: 'https://store.steampowered.com/',
+                        title: 'Steam',
+                        snippet: 'PC 게임 최대 플랫폼',
+                        special: 'gamestore',
+                        features: ['3만+ 게임', '할인 행사', '커뮤니티', '클라우드 세이브'],
+                        icon: '🎮'
+                    }
+                ],
+                '에픽게임즈': [
+                    {
+                        url: 'https://www.epicgames.com/store/ko/',
+                        title: 'Epic Games Store',
+                        snippet: '무료 게임이 가득한 스토어',
+                        special: 'gamestore',
+                        features: ['매주 무료 게임', '독점 타이틀', '언리얼 엔진', '크로스플랫폼'],
+                        icon: '🎯'
+                    }
+                ],
+                'gog': [
+                    {
+                        url: 'https://www.gog.com/',
+                        title: 'GOG.com',
+                        snippet: 'DRM 프리 게임 플랫폼',
+                        special: 'gamestore',
+                        features: ['DRM 없음', '클래식 게임', '100% 소유권', '오프라인 플레이'],
+                        icon: '🕹️'
+                    }
+                ],
+                '엑스박스': [
+                    {
+                        url: 'https://www.xbox.com/ko-KR',
+                        title: 'Xbox',
+                        snippet: 'Microsoft의 게임 생태계',
+                        special: 'gamestore',
+                        features: ['Game Pass', 'Xbox Cloud Gaming', '콘솔 & PC', '크로스플레이'],
+                        icon: '🎮'
+                    }
+                ],
+                '플레이스테이션': [
+                    {
+                        url: 'https://www.playstation.com/ko-kr/',
+                        title: 'PlayStation',
+                        snippet: 'Sony의 게임 플랫폼',
+                        special: 'gamestore',
+                        features: ['독점 게임', 'PS Plus', 'PS VR2', 'Dualsense'],
+                        icon: '🎮'
+                    }
+                ],
+                'io': [
+                    {
+                        url: 'https://slither.io',
+                        title: 'Slither.io',
+                        snippet: '뱀이 되어 먹이를 먹고 성장하세요',
+                        special: 'iogame',
+                        players: '10만+',
+                        genre: '액션'
+                    },
+                    {
+                        url: 'https://agar.io',
+                        title: 'Agar.io',
+                        snippet: '세포가 되어 다른 플레이어를 흡수하세요',
+                        special: 'iogame',
+                        players: '50만+',
+                        genre: '전략'
+                    },
+                    {
+                        url: 'https://diep.io',
+                        title: 'Diep.io',
+                        snippet: '탱크를 조종해 적을 물리치세요',
+                        special: 'iogame',
+                        players: '20만+',
+                        genre: '슈팅'
+                    },
+                    {
+                        url: 'https://krunker.io',
+                        title: 'Krunker.io',
+                        snippet: '픽셀 스타일의 FPS 게임',
+                        special: 'iogame',
+                        players: '15만+',
+                        genre: 'FPS'
+                    },
+                    {
+                        url: 'https://zombs.io',
+                        title: 'Zombs.io',
+                        snippet: '좀비로부터 기지를 방어하세요',
+                        special: 'iogame',
+                        players: '8만+',
+                        genre: '타워디펜스'
+                    },
+                    {
+                        url: 'https://surviv.io',
+                        title: 'Surviv.io',
+                        snippet: '2D 배틀로얄 슈팅 게임',
+                        special: 'iogame',
+                        players: '12만+',
+                        genre: '배틀로얄'
+                    },
+                    {
+                        url: 'https://paper-io.com',
+                        title: 'Paper.io',
+                        snippet: '영역을 점령하고 확장하세요',
+                        special: 'iogame',
+                        players: '25만+',
+                        genre: '전략'
+                    },
+                    {
+                        url: 'https://wings.io',
+                        title: 'Wings.io',
+                        snippet: '하늘을 날며 전투를 벌이세요',
+                        special: 'iogame',
+                        players: '6만+',
+                        genre: '비행'
+                    },
+                    {
+                        url: 'https://www.crazygames.com',
+                        title: 'CrazyGames',
+                        snippet: '1000개 이상의 무료 온라인 게임',
+                        special: 'gameportal',
+                        category: '게임 포털',
+                        icon: '🎮'
+                    },
+                    {
+                        url: 'https://poki.com',
+                        title: 'Poki',
+                        snippet: '최고의 무료 온라인 게임 플랫폼',
+                        special: 'gameportal',
+                        category: '게임 포털',
+                        icon: '🕹️'
+                    },
+                    {
+                        url: 'https://itch.io',
+                        title: 'itch.io',
+                        snippet: '독립 게임 개발자들의 게임 마켓',
+                        special: 'gameportal',
+                        category: '게임 포털',
+                        icon: '🎨'
+                    }
+                ]
+            };
+
+            // 키워드 매칭 (한글 및 영어 모두 지원)
+            let results = [];
+            // 이미 상단에서 선언된 lowerQuery와 normalizedQuery 사용
+            
+            for (const [keyword, urls] of Object.entries(searchKeywords)) {
+                const normalizedKeyword = keyword.toLowerCase().replace(/\s+/g, '');
+                if (normalizedQuery.includes(normalizedKeyword) || 
+                    normalizedKeyword.includes(normalizedQuery)) {
+                    results = urls;
+                    break;
+                }
+            }
+            
+            // 영어 키워드 매칭
+            const englishKeywords = {
+                'minecraft': '마인크래프트',
+                'google': '구글',
+                'python': '파이썬',
+                'naver': '네이버',
+                'netflix': '넷플릭스',
+                'league of legends': '리그오브레전드',
+                'lol': '리그오브레전드',
+                'instagram': '인스타그램',
+                'facebook': '페이스북',
+                'amazon': '아마존',
+                'coupang': '쿠팡',
+                'github': '깃허브',
+                'spotify': '스포티파이',
+                'discord': '디스코드',
+                'twitch': '트위치',
+                'apple': '애플',
+                'roblox': '로블록스',
+                'fortnite': '포트나이트',
+                'overwatch': '오버워치',
+                'pubg': '배틀그라운드',
+                'battlegrounds': '배틀그라운드',
+                'valorant': '발로란트',
+                'kartrider': '카트라이더',
+                'maplestory': '메이플스토리',
+                'maple': '메이플스토리',
+                'dungeon fighter': '던전앤파이터',
+                'dnf': '던전앤파이터',
+                'genshin': '원신',
+                'genshin impact': '원신',
+                'starcraft': '스타크래프트',
+                'diablo': '디아블로',
+                'grand theft auto': 'gta',
+                'fifa': '피파',
+                'fc': '피파',
+                'call of duty': '콜오브듀티',
+                'cod': '콜오브듀티',
+                'palworld': '팰월드',
+                'apex': '에이펙스',
+                'apex legends': '에이펙스',
+                'hearthstone': '하스스톤',
+                'wow': '와우',
+                'world of warcraft': '와우',
+                'zelda': '젤다',
+                'pokemon': '포켓몬',
+                'dead by daylight': '데바데',
+                'dbd': '데바데',
+                'tft': '롤토체스',
+                'teamfight tactics': '롤토체스',
+                'clash royale': '클래시로얄',
+                'brawl stars': '브롤스타즈',
+                'steam': '스팀',
+                'epic games': '에픽게임즈',
+                'epic': '에픽게임즈',
+                'xbox': '엑스박스',
+                'playstation': '플레이스테이션',
+                'ps': '플레이스테이션'
+            };
+            
+            if (results.length === 0) {
+                for (const [engKeyword, korKeyword] of Object.entries(englishKeywords)) {
+                    if (lowerQuery.includes(engKeyword)) {
+                        results = searchKeywords[korKeyword] || [];
+                        break;
+                    }
+                }
+            }
+
+            // 매칭되는 것이 없으면 일반 결과 반환
+            if (results.length === 0) {
+                results = [
+                    {
+                        url: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+                        title: `"${query}" - Google 검색`,
+                        snippet: `Google에서 "${query}"에 대한 검색 결과를 확인하세요.`
+                    },
+                    {
+                        url: `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
+                        title: `"${query}" - Bing 검색`,
+                        snippet: `Bing에서 "${query}"에 대한 검색 결과를 확인하세요.`
+                    },
+                    {
+                        url: `https://ko.wikipedia.org/wiki/${encodeURIComponent(query)}`,
+                        title: `${query} - 위키백과`,
+                        snippet: `위키백과에서 "${query}"에 대한 정보를 확인하세요.`
+                    },
+                    {
+                        url: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
+                        title: `${query} - YouTube`,
+                        snippet: `YouTube에서 "${query}" 관련 동영상을 시청하세요.`
+                    },
+                    {
+                        url: `https://www.reddit.com/search/?q=${encodeURIComponent(query)}`,
+                        title: `${query} - Reddit`,
+                        snippet: `Reddit에서 "${query}"에 대한 커뮤니티 토론을 확인하세요.`
+                    },
+                    {
+                        url: `https://github.com/search?q=${encodeURIComponent(query)}`,
+                        title: `${query} - GitHub`,
+                        snippet: `GitHub에서 "${query}" 관련 프로젝트를 찾아보세요.`
+                    }
+                ];
+            }
+
+            return results;
+        }
+
+        function displayResults(results, query) {
+            if (!results || results.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">😔</div>
+                        <div class="empty-state-text">"${query}"에 대한 검색 결과를 찾을 수 없습니다</div>
+                    </div>
+                `;
+                return;
+            }
+
+            // 특별 타입 체크
+            const specialType = results[0].special;
+            
+            let resultsHTML = '';
+            
+            if (specialType === 'gamestore') {
+                // 게임 스토어 특별 디자인
+                resultsHTML = results.map(result => `
+                    <div class="gamestore-card">
+                        <img src="https://www.google.com/s2/favicons?domain=${new URL(result.url).hostname}&sz=256" alt="${result.title}" style="width: 120px; height: 120px; border-radius: 20px; box-shadow: 0 8px 25px var(--glow);">
+                        <div class="gamestore-content">
+                            <div class="gamestore-title">${result.title}</div>
+                            <div class="gamestore-snippet">${result.snippet}</div>
+                            <div class="gamestore-features">
+                                ${result.features.map(feature => `
+                                    <span class="feature-tag">✨ ${feature}</span>
+                                `).join('')}
+                            </div>
+                            <a href="${result.url}" target="_blank" class="gamestore-btn">
+                                스토어 방문하기 🎮
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            } else if (specialType === 'iogame') {
+                // .io 게임 특별 디자인
+                const ioGames = results.filter(r => r.special === 'iogame');
+                const gamePortals = results.filter(r => r.special === 'gameportal');
+                
+                resultsHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <h2 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 10px;">
+                            🎮 인기 .io 게임
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            브라우저에서 바로 플레이할 수 있는 무료 멀티플레이어 게임들
+                        </p>
+                    </div>
+                    <div class="iogame-grid">
+                        ${ioGames.map(result => `
+                            <a href="${result.url}" target="_blank" class="iogame-card">
+                                <div class="iogame-header">
+                                    <div class="iogame-title">${result.title}</div>
+                                    <div class="iogame-players">👥 ${result.players}</div>
+                                </div>
+                                <div class="iogame-snippet">${result.snippet}</div>
+                                <div class="iogame-footer">
+                                    <span class="iogame-genre">${result.genre}</span>
+                                    <span class="iogame-play">플레이 →</span>
+                                </div>
+                            </a>
+                        `).join('')}
+                    </div>
+                    
+                    ${gamePortals.length > 0 ? `
+                        <div style="margin-top: 40px;">
+                            <h2 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                                🌐 게임 포털 사이트
+                            </h2>
+                            <div class="game-portals-grid">
+                                ${gamePortals.map(portal => `
+                                    <a href="${portal.url}" target="_blank" class="game-portal-card">
+                                        <div class="portal-icon">${portal.icon}</div>
+                                        <div class="portal-content">
+                                            <div class="portal-title">${portal.title}</div>
+                                            <div class="portal-category">${portal.category}</div>
+                                            <div class="portal-snippet">${portal.snippet}</div>
+                                        </div>
+                                        <div class="portal-arrow">→</div>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+            } else if (specialType === 'translate') {
+                // 번역 기능
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            🌐 번역 도구
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            다양한 번역 서비스를 이용하거나 직접 번역해보세요
+                        </p>
+                    </div>
+                    
+                    <div class="translate-services">
+                        <a href="https://translate.google.com/" target="_blank" class="translate-service-btn">
+                            <img src="https://www.google.com/s2/favicons?domain=translate.google.com&sz=64" width="40" height="40">
+                            <span style="font-weight: 600; color: var(--text);">Google 번역</span>
+                        </a>
+                        <a href="https://papago.naver.com/" target="_blank" class="translate-service-btn">
+                            <img src="https://www.google.com/s2/favicons?domain=papago.naver.com&sz=64" width="40" height="40">
+                            <span style="font-weight: 600; color: var(--text);">파파고</span>
+                        </a>
+                        <a href="https://www.deepl.com/translator" target="_blank" class="translate-service-btn">
+                            <img src="https://www.google.com/s2/favicons?domain=deepl.com&sz=64" width="40" height="40">
+                            <span style="font-weight: 600; color: var(--text);">DeepL</span>
+                        </a>
+                    </div>
+                    
+                    <div class="translate-container">
+                        <h3 style="font-size: 1.3rem; color: var(--text); margin-bottom: 20px; font-weight: 600;">
+                            바로 번역하기
+                        </h3>
+                        <div class="translate-box">
+                            <div class="translate-input-area">
+                                <label style="color: var(--text); font-weight: 500;">원문</label>
+                                <textarea id="translateInput" class="translate-textarea" placeholder="번역할 텍스트를 입력하세요..."></textarea>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <select id="sourceLang" style="flex: 1; padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text);">
+                                        <option value="ko">한국어</option>
+                                        <option value="en">영어</option>
+                                        <option value="ja">일본어</option>
+                                        <option value="zh-CN">중국어</option>
+                                    </select>
+                                    <button onclick="swapLanguages()" style="padding: 10px 20px; background: rgba(233, 69, 96, 0.2); border: 1px solid var(--highlight); border-radius: 8px; color: var(--text); cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(233, 69, 96, 0.3)'" onmouseout="this.style.background='rgba(233, 69, 96, 0.2)'">
+                                        ⇄
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="translate-input-area">
+                                <label style="color: var(--text); font-weight: 500;">번역</label>
+                                <textarea id="translateOutput" class="translate-textarea" placeholder="번역 결과가 여기에 표시됩니다..." readonly></textarea>
+                                <select id="targetLang" style="padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text);">
+                                    <option value="en">영어</option>
+                                    <option value="ko">한국어</option>
+                                    <option value="ja">일본어</option>
+                                    <option value="zh-CN">중국어</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button onclick="performTranslation()" class="translate-btn" style="margin-top: 16px;">번역하기</button>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">
+                            * Google 번역 API를 사용합니다. 정확한 번역을 위해서는 위의 전문 번역 서비스를 이용하세요.
+                        </p>
+                    </div>
+                `;
+            } else if (specialType === 'mctools') {
+                // 마인크래프트 도구
+                const tools = results[0].tools;
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            ⛏️ 마인크래프트 도구
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            마인크래프트를 더 재미있게 즐길 수 있는 유용한 도구들
+                        </p>
+                    </div>
+                    <div class="tools-grid">
+                        ${tools.map(tool => `
+                            <a href="${tool.url}" target="_blank" class="tool-card">
+                                <img src="https://www.google.com/s2/favicons?domain=${new URL(tool.url).hostname}&sz=128" alt="${tool.name}" style="width: 64px; height: 64px; border-radius: 12px;">
+                                <div class="tool-name">${tool.name}</div>
+                                <div class="tool-description">${tool.description}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'robloxtools') {
+                // 로블록스 도구
+                const tools = results[0].tools;
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            🎮 로블록스 도구
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            로블록스 경험을 향상시키는 필수 도구들
+                        </p>
+                    </div>
+                    <div class="tools-grid" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
+                        ${tools.map(tool => `
+                            <a href="${tool.url}" target="_blank" class="tool-card">
+                                <img src="https://www.google.com/s2/favicons?domain=${new URL(tool.url).hostname}&sz=128" alt="${tool.name}" style="width: 64px; height: 64px; border-radius: 12px;">
+                                <div class="tool-name">${tool.name}</div>
+                                <div class="tool-description">${tool.description}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'steam') {
+                // 스팀 인기 게임
+                const games = results[0].games;
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <a href="https://store.steampowered.com/" target="_blank" style="display: block; padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid #1b2838; border-radius: 20px; text-decoration: none; transition: all 0.3s ease; margin-bottom: 30px;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                            <div style="display: flex; align-items: center; gap: 20px;">
+                                <img src="https://www.google.com/s2/favicons?domain=steampowered.com&sz=256" alt="Steam" style="width: 100px; height: 100px; border-radius: 20px;">
+                                <div style="flex: 1;">
+                                    <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 10px;">Steam 공식 스토어</h2>
+                                    <p style="color: var(--text-secondary);">세계 최대의 PC 게임 플랫폼</p>
+                                </div>
+                                <div style="padding: 15px 30px; background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%); color: white; border-radius: 12px; font-weight: 600; font-size: 1.1rem;">
+                                    스토어 방문 →
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            🎮 Steam 인기 게임 TOP 10
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            현재 가장 많은 플레이어가 즐기고 있는 스팀 게임
+                        </p>
+                    </div>
+                    <div style="display: grid; gap: 16px;">
+                        ${games.map(game => `
+                            <a href="${game.url}" target="_blank" style="display: flex; gap: 20px; align-items: center; padding: 20px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(8px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateX(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--highlight); min-width: 50px;">#${game.rank}</div>
+                                <img src="${game.image}" alt="${game.name}" style="width: 150px; height: 70px; object-fit: cover; border-radius: 8px;">
+                                <div style="flex: 1;">
+                                    <div style="font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 5px;">${game.name}</div>
+                                    <div style="color: var(--text-secondary);">👥 ${game.players} 플레이어</div>
+                                </div>
+                                <div style="padding: 10px 20px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 8px; font-weight: 600;">
+                                    상점 페이지 →
+                                </div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'epic') {
+                // 에픽게임즈 인기 게임
+                const games = results[0].games;
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            🎮 Epic Games 인기 게임 TOP 5
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            에픽게임즈 스토어의 인기 게임들
+                        </p>
+                    </div>
+                    <div style="display: grid; gap: 16px;">
+                        ${games.map(game => `
+                            <a href="${game.url}" target="_blank" style="display: flex; gap: 20px; align-items: center; padding: 20px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(8px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateX(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--highlight); min-width: 50px;">#${game.rank}</div>
+                                <img src="${game.image}" alt="${game.name}" style="width: 150px; height: 200px; object-fit: cover; border-radius: 8px;">
+                                <div style="flex: 1;">
+                                    <div style="font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 5px;">${game.name}</div>
+                                    <div style="color: var(--text-secondary);">👥 ${game.players} 플레이어</div>
+                                </div>
+                                <div style="padding: 10px 20px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 8px; font-weight: 600;">
+                                    상점 페이지 →
+                                </div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'roblox') {
+                // 로블록스 + 인기 게임
+                const games = getRobloxGames();
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <a href="https://www.roblox.com/" target="_blank" style="display: block; padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid var(--highlight); border-radius: 20px; text-decoration: none; transition: all 0.3s ease; margin-bottom: 30px;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                            <div style="display: flex; align-items: center; gap: 20px;">
+                                <img src="https://www.google.com/s2/favicons?domain=roblox.com&sz=256" alt="Roblox" style="width: 100px; height: 100px; border-radius: 20px;">
+                                <div style="flex: 1;">
+                                    <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 10px;">Roblox 공식 사이트</h2>
+                                    <p style="color: var(--text-secondary);">전 세계 사람들과 함께 게임을 만들고 플레이하세요</p>
+                                </div>
+                                <div style="padding: 15px 30px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 12px; font-weight: 600; font-size: 1.1rem;">
+                                    방문하기 →
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                            🔥 인기 게임
+                        </h3>
+                    </div>
+                    <div class="tools-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                        ${games.map(game => `
+                            <a href="${game.url}" target="_blank" class="tool-card">
+                                <div style="font-size: 3rem;">${game.icon}</div>
+                                <div class="tool-name">${game.name}</div>
+                                <div class="tool-description">👥 ${game.players}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'minecraft') {
+                // 마인크래프트 + 인기 서버
+                const servers = getMinecraftServers();
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <a href="https://www.minecraft.net/" target="_blank" style="display: block; padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid var(--highlight); border-radius: 20px; text-decoration: none; transition: all 0.3s ease; margin-bottom: 30px;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                            <div style="display: flex; align-items: center; gap: 20px;">
+                                <img src="https://www.google.com/s2/favicons?domain=minecraft.net&sz=256" alt="Minecraft" style="width: 100px; height: 100px; border-radius: 20px;">
+                                <div style="flex: 1;">
+                                    <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 10px;">Minecraft 공식 사이트</h2>
+                                    <p style="color: var(--text-secondary);">블록으로 이루어진 무한한 세계에서 모험을 떠나세요</p>
+                                </div>
+                                <div style="padding: 15px 30px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 12px; font-weight: 600; font-size: 1.1rem;">
+                                    방문하기 →
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                            🌐 인기 서버
+                        </h3>
+                    </div>
+                    <div style="display: grid; gap: 16px;">
+                        ${servers.map(server => `
+                            <div style="padding: 24px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--highlight)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.transform='translateY(0)'">
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <div style="font-size: 3rem;">${server.icon}</div>
+                                    <div style="flex: 1;">
+                                        <div style="font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 5px;">${server.name}</div>
+                                        <div style="color: var(--text-secondary); margin-bottom: 8px;">${server.description}</div>
+                                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                            <span style="padding: 6px 12px; background: rgba(233, 69, 96, 0.2); border: 1px solid var(--highlight); border-radius: 6px; font-size: 0.9rem; color: var(--text);">
+                                                📡 ${server.ip}
+                                            </span>
+                                            <span style="padding: 6px 12px; background: rgba(233, 69, 96, 0.2); border: 1px solid var(--highlight); border-radius: 6px; font-size: 0.9rem; color: var(--text);">
+                                                👥 ${server.players}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'video') {
+                // 동영상 플랫폼
+                const platforms = results[0].platforms;
+                const mainPlatform = results[0].mainPlatform;
+                
+                // 검색한 플랫폼 찾기
+                let mainPlatformData = null;
+                let mainPlatformName = '';
+                
+                // YouTube 계열인지 확인
+                const youtubeKeywords = ['유튜브', 'youtube'];
+                if (youtubeKeywords.includes(mainPlatform)) {
+                    mainPlatformData = platforms.youtube;
+                    mainPlatformName = 'YouTube';
+                } else {
+                    // 다른 플랫폼 찾기
+                    const platformMap = {
+                        '틱톡': 'TikTok',
+                        'tiktok': 'TikTok',
+                        '트위치': 'Twitch',
+                        'twitch': 'Twitch',
+                        '치지직': '치지직',
+                        'chzzk': '치지직',
+                        '킥': 'Kick',
+                        'kick': 'Kick',
+                        '숲': '숲 (아프리카TV)',
+                        'afreecatv': '숲 (아프리카TV)',
+                        '아프리카': '숲 (아프리카TV)',
+                        'bilibili': 'Bilibili',
+                        'ニコニコ': 'ニコニコ動画',
+                        'niconico': 'ニコニコ動画',
+                        '릴스': 'Instagram Reels',
+                        'reels': 'Instagram Reels'
+                    };
+                    
+                    mainPlatformName = platformMap[mainPlatform] || 'TikTok';
+                    mainPlatformData = platforms.others.filter(p => p.name === mainPlatformName);
+                }
+                
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            📺 동영상 플랫폼
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            인기 동영상 및 스트리밍 플랫폼
+                        </p>
+                    </div>
+                    
+                    ${mainPlatformData && Array.isArray(mainPlatformData) && mainPlatformData.length > 0 ? `
+                        <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                            🎯 ${mainPlatformName}
+                        </h3>
+                        <div style="margin-bottom: 30px;">
+                            ${mainPlatformData.map(platform => `
+                                <a ${platform.needsWarning ? `onclick="return showPrivacyWarning('${platform.name}', '${platform.url}', '${platform.warningType}')"` : `href="${platform.url}" target="_blank"`} style="display: block; padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid ${platform.warningType === 'korea' ? '#ff9800' : 'var(--highlight)'}; border-radius: 20px; text-decoration: none; transition: all 0.3s ease; margin-bottom: 16px; position: relative;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                                    ${platform.warningType === 'korea' ? '<div style="position: absolute; top: 20px; right: 20px; background: #ff9800; color: white; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600;">⚠️ 서비스 중단</div>' : ''}
+                                    ${platform.warningType === 'privacy' ? '<div style="position: absolute; top: 20px; right: 20px; background: #ff6b6b; color: white; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600;">⚠️ 주의</div>' : ''}
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <img src="https://www.google.com/s2/favicons?domain=${new URL(platform.url).hostname}&sz=256" alt="${platform.name}" style="width: 100px; height: 100px; border-radius: 20px;">
+                                        <div style="flex: 1;">
+                                            <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 10px;">${platform.name}</h2>
+                                            <p style="color: var(--text-secondary);">${platform.description}</p>
+                                        </div>
+                                        <div style="padding: 15px 30px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 12px; font-weight: 600; font-size: 1.1rem;">
+                                            방문하기 →
+                                        </div>
+                                    </div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 30px;">
+                            ${platforms.youtube.map(platform => `
+                                <a href="${platform.url}" target="_blank" style="padding: 24px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid ${platform.url.includes('youtube.com') && !platform.url.includes('shorts') && !platform.url.includes('studio') && !platform.url.includes('music') ? '#FF0000' : 'rgba(255, 255, 255, 0.08)'}; border-radius: 16px; text-decoration: none; transition: all 0.3s ease; display: flex; flex-direction: column; gap: 12px;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='${platform.url.includes('youtube.com') && !platform.url.includes('shorts') && !platform.url.includes('studio') && !platform.url.includes('music') ? '#FF0000' : 'rgba(255, 255, 255, 0.08)'}'">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <img src="https://www.google.com/s2/favicons?domain=${new URL(platform.url).hostname}&sz=128" alt="${platform.name}" style="width: 48px; height: 48px; border-radius: 8px;">
+                                        <div style="flex: 1;">
+                                            <div style="font-size: 1.2rem; font-weight: 600; color: var(--text);">${platform.name}</div>
+                                            <div style="font-size: 0.9rem; color: var(--text-secondary);">${platform.description}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    `}
+                    
+                    <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                        🌐 다른 플랫폼
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+                        ${platforms.others.filter(p => p.name !== mainPlatformName).map(platform => {
+                            const borderColor = platform.warningType === 'korea' ? '#ff9800' : (platform.needsWarning ? '#ff6b6b' : 'rgba(255, 255, 255, 0.08)');
+                            const warningBadge = platform.warningType === 'korea' ? '⚠️ 서비스 중단' : '⚠️ 주의';
+                            const warningBgColor = platform.warningType === 'korea' ? '#ff9800' : '#ff6b6b';
+                            
+                            return `
+                            <a ${platform.needsWarning ? `onclick="return showPrivacyWarning('${platform.name}', '${platform.url}', '${platform.warningType}')"` : `href="${platform.url}" target="_blank"`} style="padding: 20px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid ${borderColor}; border-radius: 12px; text-decoration: none; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; cursor: pointer; position: relative;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='${borderColor}'">
+                                ${platform.needsWarning ? `<div style="position: absolute; top: 10px; right: 10px; background: ${warningBgColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${warningBadge}</div>` : ''}
+                                <img src="https://www.google.com/s2/favicons?domain=${new URL(platform.url).hostname}&sz=128" alt="${platform.name}" style="width: 64px; height: 64px; border-radius: 12px;">
+                                <div style="font-size: 1.1rem; font-weight: 600; color: var(--text);">${platform.name}</div>
+                                <div style="font-size: 0.85rem; color: var(--text-secondary);">${platform.description}</div>
+                            </a>
+                        `}).join('')}
+                        ${youtubeKeywords.includes(mainPlatform) ? '' : platforms.youtube.map(platform => `
+                            <a href="${platform.url}" target="_blank" style="padding: 20px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+                                <img src="https://www.google.com/s2/favicons?domain=${new URL(platform.url).hostname}&sz=128" alt="${platform.name}" style="width: 64px; height: 64px; border-radius: 12px;">
+                                <div style="font-size: 1.1rem; font-weight: 600; color: var(--text);">${platform.name}</div>
+                                <div style="font-size: 0.85rem; color: var(--text-secondary);">${platform.description}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'games') {
+                // 게임 통합 페이지
+                const stores = results[0].stores;
+                const ioGames = results[0].ioGames;
+                const topGames = results[0].topGames;
+                
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            🎮 게임 플랫폼
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            인기 게임 스토어와 플랫폼
+                        </p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px;">
+                        ${stores.map(store => `
+                            <a href="${store.url}" target="_blank" style="padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid rgba(255, 255, 255, 0.08); border-radius: 20px; text-decoration: none; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 15px; text-align: center;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+                                <img src="https://www.google.com/s2/favicons?domain=${new URL(store.url).hostname}&sz=256" alt="${store.name}" style="width: 80px; height: 80px; border-radius: 16px;">
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--text);">${store.name}</div>
+                                <div style="color: var(--text-secondary);">${store.description}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                    
+                    <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px; margin-top: 40px;">
+                        🔥 인기 게임
+                    </h3>
+                    <div style="display: grid; gap: 16px; margin-bottom: 40px;">
+                        ${topGames.map(game => `
+                            <a href="${game.url}" target="_blank" style="display: flex; gap: 20px; align-items: center; padding: 20px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(8px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateX(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--highlight); min-width: 50px;">#${game.rank}</div>
+                                <img src="${game.image}" alt="${game.name}" style="width: 150px; height: 70px; object-fit: cover; border-radius: 8px;">
+                                <div style="flex: 1;">
+                                    <div style="font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 5px;">${game.name}</div>
+                                    <div style="color: var(--text-secondary);">👥 ${game.players} 플레이어</div>
+                                </div>
+                                <div style="padding: 10px 20px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 8px; font-weight: 600;">
+                                    플레이 →
+                                </div>
+                            </a>
+                        `).join('')}
+                    </div>
+                    
+                    <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                        🎯 .io 게임
+                    </h3>
+                    <div class="iogame-grid">
+                        ${ioGames.map(game => `
+                            <a href="${game.url}" target="_blank" class="iogame-card">
+                                <div class="iogame-header">
+                                    <div class="iogame-title">${game.title}</div>
+                                    <div class="iogame-players">👥 ${game.players}</div>
+                                </div>
+                                <div class="iogame-footer">
+                                    <span class="iogame-genre">${game.genre}</span>
+                                    <span class="iogame-play">플레이 →</span>
+                                </div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (specialType === 'spellcheck') {
+                // 맞춤법 검사
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            ✏️ 맞춤법 검사
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            한글 맞춤법과 문법을 확인하세요
+                        </p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 30px;">
+                        <a href="https://speller.cs.pusan.ac.kr/" target="_blank" class="translate-service-btn">
+                            <img src="https://www.google.com/s2/favicons?domain=pusan.ac.kr&sz=64" width="40" height="40">
+                            <span style="font-weight: 600; color: var(--text);">부산대 맞춤법 검사기</span>
+                        </a>
+                        <a href="https://www.incruit.com/tools/spell/" target="_blank" class="translate-service-btn">
+                            <img src="https://www.google.com/s2/favicons?domain=incruit.com&sz=64" width="40" height="40">
+                            <span style="font-weight: 600; color: var(--text);">인크루트 맞춤법 검사</span>
+                        </a>
+                    </div>
+                    
+                    <div class="translate-container">
+                        <h3 style="font-size: 1.3rem; color: var(--text); margin-bottom: 20px; font-weight: 600;">
+                            바로 검사하기
+                        </h3>
+                        <textarea id="spellcheckInput" class="translate-textarea" style="min-height: 200px; margin-bottom: 15px;" placeholder="검사할 문장을 입력하세요..."></textarea>
+                        <button onclick="checkSpelling()" class="translate-btn">맞춤법 검사하기</button>
+                        <div id="spellcheckResult" style="margin-top: 20px; padding: 20px; backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; min-height: 100px; color: var(--text); display: none;">
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">
+                            * 간단한 검사 기능입니다. 정확한 검사를 위해서는 위의 전문 검사 서비스를 이용하세요.
+                        </p>
+                    </div>
+                `;
+            } else if (specialType === 'ai') {
+                // AI 서비스 특별 디자인
+                const services = results[0].services;
+                const topServices = services.filter(s => s.rank !== null);
+                const otherServices = services.filter(s => s.rank === null);
+                
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            🤖 인공지능 (AI) 서비스
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            세계 최고의 AI 서비스들을 만나보세요
+                        </p>
+                    </div>
+                    
+                    <div class="ai-services-container">
+                        <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                            🏆 TOP 5 인기 AI
+                        </h3>
+                        <div class="ai-top-services">
+                            ${topServices.map(service => {
+                                let badgeClass = '';
+                                if (service.rank === 1) badgeClass = 'gold';
+                                else if (service.rank === 2) badgeClass = 'silver';
+                                else if (service.rank === 3) badgeClass = 'bronze';
+                                
+                                return `
+                                <a href="${service.url}" target="_blank" class="ai-service-card top-ranked" style="border-color: ${service.color}33;">
+                                    <div class="ai-rank-badge ${badgeClass}">${service.rank}</div>
+                                    <img src="${service.logo}" alt="${service.name}" style="width: 64px; height: 64px; border-radius: 12px; margin-bottom: 10px;">
+                                    <div class="ai-service-name">${service.name}</div>
+                                    <div class="ai-service-company">${service.company}</div>
+                                    <div class="ai-service-description">${service.description}</div>
+                                </a>
+                            `}).join('')}
+                        </div>
+                        
+                        <h3 style="font-size: 1.3rem; color: var(--text); font-weight: 600; margin-bottom: 20px; margin-top: 40px;">
+                            📱 다른 AI 서비스
+                        </h3>
+                        <div class="ai-other-services">
+                            ${otherServices.map(service => `
+                                <a href="${service.url}" target="_blank" class="ai-service-card-small" style="border-color: ${service.color}33;">
+                                    <div class="ai-service-header-small">
+                                        <img src="${service.logo}" alt="${service.name}" style="width: 40px; height: 40px; border-radius: 8px;">
+                                        <div>
+                                            <div class="ai-service-name-small">${service.name}</div>
+                                            <div style="font-size: 0.8rem; color: var(--text-secondary);">${service.company}</div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">${service.description}</div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (specialType === 'music') {
+                // 음악 차트 특별 디자인
+                const chart = results[0].chart;
+                resultsHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="font-size: 1.8rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
+                            🎵 음악 스트리밍 서비스
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                            좋아하는 서비스에서 음악을 들어보세요
+                        </p>
+                    </div>
+                    <div class="music-services">
+                        <a href="https://music.youtube.com/" target="_blank" class="music-service-card" style="border-color: rgba(255, 0, 0, 0.3);">
+                            <img src="https://www.google.com/s2/favicons?domain=music.youtube.com&sz=128" width="48" height="48" style="border-radius: 8px;" alt="YouTube Music">
+                            <div class="music-service-name">YouTube Music</div>
+                        </a>
+                        <a href="https://www.spotify.com/" target="_blank" class="music-service-card" style="border-color: rgba(30, 215, 96, 0.3);">
+                            <img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=128" width="48" height="48" style="border-radius: 8px;" alt="Spotify">
+                            <div class="music-service-name">Spotify</div>
+                        </a>
+                        <a href="https://www.melon.com/" target="_blank" class="music-service-card" style="border-color: rgba(0, 205, 60, 0.3);">
+                            <img src="https://www.google.com/s2/favicons?domain=melon.com&sz=128" width="48" height="48" style="border-radius: 8px;" alt="멜론">
+                            <div class="music-service-name">멜론</div>
+                        </a>
+                        <a href="https://music.apple.com/" target="_blank" class="music-service-card" style="border-color: rgba(250, 55, 85, 0.3);">
+                            <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=128" width="48" height="48" style="border-radius: 8px;" alt="Apple Music">
+                            <div class="music-service-name">Apple Music</div>
+                        </a>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            🏆 대한민국 TOP 50 차트
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem;">
+                            현재 한국에서 가장 인기 있는 음악 차트입니다. 노래를 클릭하면 원하는 서비스에서 들을 수 있습니다.
+                        </p>
+                        <div class="chart-list">
+                            ${chart.map(song => {
+                                // 순위에 따라 다른 색상 그라데이션 적용
+                                let gradient = '';
+                                let emoji = '🎵';
+                                
+                                if (song.rank <= 3) {
+                                    gradient = 'linear-gradient(135deg, #e94560 0%, #ff6b9d 100%)';
+                                    emoji = '🏆';
+                                } else if (song.rank <= 10) {
+                                    gradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                                    emoji = '⭐';
+                                } else if (song.rank <= 20) {
+                                    gradient = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+                                    emoji = '🎤';
+                                } else if (song.rank <= 30) {
+                                    gradient = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+                                    emoji = '🎧';
+                                } else {
+                                    gradient = 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)';
+                                    emoji = '🎶';
+                                }
+                                
+                                return `
+                                <div class="chart-item" onclick="showMusicServiceMenu(event, '${song.title}', '${song.artist}')">
+                                    <div class="chart-rank ${song.rank <= 3 ? 'top3' : ''}">${song.rank}</div>
+                                    <div style="width: 50px; height: 50px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: ${gradient}; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); font-size: 1.5rem;">
+                                        ${emoji}
+                                    </div>
+                                    <div class="chart-info">
+                                        <div class="chart-title">${song.title}</div>
+                                        <div class="chart-artist">${song.artist}</div>
+                                    </div>
+                                    <div style="color: var(--text-secondary); font-size: 0.85rem;">▶</div>
+                                </div>
+                            `}).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // 일반 검색 결과 - special 타입 체크
+                if (results.length > 0 && results[0].special) {
+                    const firstResult = results[0];
+                    if (firstResult.special === 'roblox') {
+                        const games = getRobloxGames();
+                        resultsHTML = `
+                            <div style="margin-bottom: 30px;">
+                                <a href="${firstResult.url}" target="_blank" style="display: block; padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid var(--highlight); border-radius: 20px; text-decoration: none; transition: all 0.3s ease; margin-bottom: 30px;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <img src="https://www.google.com/s2/favicons?domain=roblox.com&sz=256" alt="Roblox" style="width: 100px; height: 100px; border-radius: 20px;">
+                                        <div style="flex: 1;">
+                                            <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 10px;">${firstResult.title}</h2>
+                                            <p style="color: var(--text-secondary);">${firstResult.snippet}</p>
+                                        </div>
+                                        <div style="padding: 15px 30px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 12px; font-weight: 600; font-size: 1.1rem;">
+                                            방문하기 →
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                                <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                                    🔥 인기 게임
+                                </h3>
+                            </div>
+                            <div class="tools-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                                ${games.map(game => `
+                                    <a href="${game.url}" target="_blank" class="tool-card">
+                                        <div style="font-size: 3rem;">${game.icon}</div>
+                                        <div class="tool-name">${game.name}</div>
+                                        <div class="tool-description">👥 ${game.players}</div>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        `;
+                    } else if (firstResult.special === 'minecraft') {
+                        const servers = getMinecraftServers();
+                        resultsHTML = `
+                            <div style="margin-bottom: 30px;">
+                                <a href="${firstResult.url}" target="_blank" style="display: block; padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid var(--highlight); border-radius: 20px; text-decoration: none; transition: all 0.3s ease; margin-bottom: 30px;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <img src="https://www.google.com/s2/favicons?domain=minecraft.net&sz=256" alt="Minecraft" style="width: 100px; height: 100px; border-radius: 20px;">
+                                        <div style="flex: 1;">
+                                            <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 10px;">${firstResult.title}</h2>
+                                            <p style="color: var(--text-secondary);">${firstResult.snippet}</p>
+                                        </div>
+                                        <div style="padding: 15px 30px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); color: white; border-radius: 12px; font-weight: 600; font-size: 1.1rem;">
+                                            방문하기 →
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                                <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 20px;">
+                                    🌐 인기 서버
+                                </h3>
+                            </div>
+                            <div style="display: grid; gap: 16px;">
+                                ${servers.map(server => `
+                                    <div style="padding: 24px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--highlight)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.transform='translateY(0)'">
+                                        <div style="display: flex; align-items: center; gap: 20px;">
+                                            <div style="font-size: 3rem;">${server.icon}</div>
+                                            <div style="flex: 1;">
+                                                <div style="font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 5px;">${server.name}</div>
+                                                <div style="color: var(--text-secondary); margin-bottom: 8px;">${server.description}</div>
+                                                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                                    <span style="padding: 6px 12px; background: rgba(233, 69, 96, 0.2); border: 1px solid var(--highlight); border-radius: 6px; font-size: 0.9rem; color: var(--text);">
+                                                        📡 ${server.ip}
+                                                    </span>
+                                                    <span style="padding: 6px 12px; background: rgba(233, 69, 96, 0.2); border: 1px solid var(--highlight); border-radius: 6px; font-size: 0.9rem; color: var(--text);">
+                                                        👥 ${server.players}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    } else {
+                        // 일반 검색 결과
+                        const mainResults = results.slice(0, 3);
+                        resultsHTML = mainResults.map((result, index) => {
+                            let domain = '';
+                            try {
+                                domain = new URL(result.url).hostname;
+                            } catch (e) {
+                                domain = '';
+                            }
+                            const faviconUrl = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : '';
+                            
+                            return `
+                            <div class="result-item">
+                                <div class="result-url" style="display: flex; align-items: center; gap: 8px;">
+                                    ${faviconUrl ? `<img src="${faviconUrl}" width="16" height="16" style="border-radius: 4px;" alt="">` : ''}
+                                    ${result.url}
+                                </div>
+                                <div class="result-title" onclick="window.open('${result.url}', '_blank')">${result.title}</div>
+                                <div class="result-snippet">${result.snippet}</div>
+                                <a href="${result.url}" target="_blank" class="view-btn">
+                                    웹사이트 방문하기 →
+                                </a>
+                            </div>
+                        `}).join('');
+                    }
+                } else {
+                    // 일반 검색 결과
+                    const mainResults = results.slice(0, 3);
+                    resultsHTML = mainResults.map((result, index) => {
+                        // URL에서 도메인 추출하여 파비콘 가져오기
+                        let domain = '';
+                        try {
+                            domain = new URL(result.url).hostname;
+                        } catch (e) {
+                            domain = '';
+                        }
+                        const faviconUrl = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : '';
+                        
+                        return `
+                        <div class="result-item">
+                            <div class="result-url" style="display: flex; align-items: center; gap: 8px;">
+                                ${faviconUrl ? `<img src="${faviconUrl}" width="16" height="16" style="border-radius: 4px;" alt="">` : ''}
+                                ${result.url}
+                            </div>
+                            <div class="result-title" onclick="window.open('${result.url}', '_blank')">${result.title}</div>
+                            <div class="result-snippet">${result.snippet}</div>
+                            <a href="${result.url}" target="_blank" class="view-btn">
+                                웹사이트 방문하기 →
+                            </a>
+                        </div>
+                    `}).join('');
+                }
+            }
+
+            const googleSearchURL = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            const bingSearchURL = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+            const naverSearchURL = `https://search.naver.com/search.naver?query=${encodeURIComponent(query)}`;
+            const daumSearchURL = `https://search.daum.net/search?q=${encodeURIComponent(query)}`;
+            const youtubeSearchURL = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+            const perplexitySearchURL = `https://www.perplexity.ai/search?q=${encodeURIComponent(query)}`;
+            const wikiSearchURL = `https://ko.wikipedia.org/wiki/${encodeURIComponent(query)}`;
+            const duckduckgoSearchURL = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            
+            content.innerHTML = `
+                <div class="results">
+                    ${specialType !== 'iogame' && specialType !== 'gamestore' && specialType !== 'music' && specialType !== 'ai' && specialType !== 'translate' && specialType !== 'mctools' && specialType !== 'robloxtools' && specialType !== 'steam' && specialType !== 'epic' && specialType !== 'roblox' && specialType !== 'minecraft' && specialType !== 'spellcheck' && specialType !== 'games' && specialType !== 'video' ? `
+                        <div style="margin-bottom: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                            "${query}"에 대한 주요 결과
+                        </div>
+                    ` : ''}
+                    ${resultsHTML}
+                    
+                    <div style="margin-top: 40px; padding: 30px; text-align: center; backdrop-filter: blur(20px); background: var(--surface); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <div style="font-size: 1.1rem; color: var(--text); margin-bottom: 20px; font-weight: 500;">
+                            더 많은 결과를 보고 싶으신가요?
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; max-width: 1000px; margin: 0 auto;">
+                            <a href="${naverSearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #03c75a 0%, #00b050 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=naver.com&sz=64" width="20" height="20" style="margin-right: 8px; border-radius: 4px;" alt="N">
+                                네이버
+                            </a>
+                            <a href="${daumSearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #3B5998 0%, #4E69A2 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=daum.net&sz=64" width="20" height="20" style="margin-right: 8px; border-radius: 4px;" alt="D">
+                                다음
+                            </a>
+                            <a href="${googleSearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #4285F4 0%, #34A853 50%, #FBBC05 75%, #EA4335 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=google.com&sz=64" width="20" height="20" style="margin-right: 8px;" alt="G">
+                                구글
+                            </a>
+                            <a href="${bingSearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #00809D 0%, #00A5C3 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=bing.com&sz=64" width="20" height="20" style="margin-right: 8px;" alt="B">
+                                Bing
+                            </a>
+                            <a href="${youtubeSearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64" width="20" height="20" style="margin-right: 8px;" alt="Y">
+                                YouTube
+                            </a>
+                            <a href="${perplexitySearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #20808D 0%, #2FB5CC 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=64" width="20" height="20" style="margin-right: 8px;" alt="P">
+                                Perplexity
+                            </a>
+                            <a href="${wikiSearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #636466 0%, #939598 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=wikipedia.org&sz=64" width="20" height="20" style="margin-right: 8px;" alt="W">
+                                위키백과
+                            </a>
+                            <a href="${duckduckgoSearchURL}" target="_blank" class="search-more-btn" style="background: linear-gradient(135deg, #DE5833 0%, #F26C4F 100%);">
+                                <img src="https://www.google.com/s2/favicons?domain=duckduckgo.com&sz=64" width="20" height="20" style="margin-right: 8px;" alt="D">
+                                DuckDuckGo
+                            </a>
+                        </div>
+                        <div style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">
+                            다양한 검색 엔진에서 "${query}"의 모든 결과를 확인하세요
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        searchBtn.addEventListener('click', () => {
+            performSearch(searchInput.value);
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch(searchInput.value);
+            }
+        });
+
+        // 자동완성 기능 (선택사항)
+        const popularSearches = [
+            'ai', '음악', '마인크래프트', '로블록스', '포트나이트', 
+            '리그오브레전드', '오버워치', '발로란트', '원신',
+            '스팀', '에픽게임즈', 'io', '네이버', 'YouTube'
+        ];
+        
+        searchInput.addEventListener('focus', function() {
+            this.placeholder = popularSearches[Math.floor(Math.random() * popularSearches.length)] + '...';
+        });
+
+        searchInput.addEventListener('blur', function() {
+            this.placeholder = '검색어를 입력하세요...';
+        });
+
+        // Focus on search input on load
+        window.addEventListener('load', () => {
+            searchInput.focus();
+        });
+
+        // 음악 서비스 선택 메뉴 표시
+        function showMusicServiceMenu(event, title, artist) {
+            event.stopPropagation();
+            const searchQuery = `${title} ${artist}`;
+            
+            // 기존 메뉴 제거
+            const existingMenu = document.querySelector('.music-service-menu');
+            if (existingMenu) {
+                existingMenu.remove();
+            }
+            
+            // 새 메뉴 생성
+            const menu = document.createElement('div');
+            menu.className = 'music-service-menu show';
+            menu.innerHTML = `
+                <a href="https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}" target="_blank" class="music-service-option">
+                    <img src="https://www.google.com/s2/favicons?domain=music.youtube.com&sz=64" width="20" height="20" style="border-radius: 4px;" alt="YT">
+                    <span>YouTube Music</span>
+                </a>
+                <a href="https://open.spotify.com/search/${encodeURIComponent(searchQuery)}" target="_blank" class="music-service-option">
+                    <img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" width="20" height="20" style="border-radius: 4px;" alt="SP">
+                    <span>Spotify</span>
+                </a>
+                <a href="https://www.melon.com/search/total/index.htm?q=${encodeURIComponent(searchQuery)}" target="_blank" class="music-service-option">
+                    <img src="https://www.google.com/s2/favicons?domain=melon.com&sz=64" width="20" height="20" style="border-radius: 4px;" alt="ML">
+                    <span>멜론</span>
+                </a>
+                <a href="https://music.apple.com/search?term=${encodeURIComponent(searchQuery)}" target="_blank" class="music-service-option">
+                    <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=64" width="20" height="20" style="border-radius: 4px;" alt="AM">
+                    <span>Apple Music</span>
+                </a>
+            `;
+            
+            // 위치 설정
+            const rect = event.currentTarget.getBoundingClientRect();
+            menu.style.position = 'fixed';
+            menu.style.top = `${rect.bottom + 5}px`;
+            menu.style.left = `${rect.left}px`;
+            
+            document.body.appendChild(menu);
+            
+            // 메뉴 외부 클릭 시 닫기
+            setTimeout(() => {
+                document.addEventListener('click', function closeMenu() {
+                    menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                });
+            }, 100);
+        }
+
+        // 번역 기능
+        async function performTranslation() {
+            const input = document.getElementById('translateInput').value;
+            const sourceLang = document.getElementById('sourceLang').value;
+            const targetLang = document.getElementById('targetLang').value;
+            const output = document.getElementById('translateOutput');
+            
+            if (!input.trim()) {
+                output.value = '번역할 텍스트를 입력해주세요.';
+                return;
+            }
+            
+            output.value = '번역 중...';
+            
+            try {
+                const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(input)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                let translatedText = '';
+                data[0].forEach(item => {
+                    if (item[0]) {
+                        translatedText += item[0];
+                    }
+                });
+                
+                output.value = translatedText;
+            } catch (error) {
+                output.value = '번역 중 오류가 발생했습니다. 위의 전문 번역 서비스를 이용해주세요.';
+            }
+        }
+
+        // 언어 전환 기능
+        function swapLanguages() {
+            const sourceLang = document.getElementById('sourceLang');
+            const targetLang = document.getElementById('targetLang');
+            const input = document.getElementById('translateInput');
+            const output = document.getElementById('translateOutput');
+            
+            // 언어 교환
+            const tempLang = sourceLang.value;
+            sourceLang.value = targetLang.value;
+            targetLang.value = tempLang;
+            
+            // 텍스트 교환
+            const tempText = input.value;
+            input.value = output.value;
+            output.value = tempText;
+        }
+
+        // 맞춤법 검사 기능
+        function checkSpelling() {
+            const input = document.getElementById('spellcheckInput').value;
+            const result = document.getElementById('spellcheckResult');
+            
+            if (!input.trim()) {
+                result.style.display = 'block';
+                result.innerHTML = '<p style="color: var(--text-secondary);">검사할 문장을 입력해주세요.</p>';
+                return;
+            }
+            
+            result.style.display = 'block';
+            result.innerHTML = '<p style="color: var(--text-secondary);">검사 중...</p>';
+            
+            // 간단한 맞춤법 검사 (기본적인 규칙만)
+            let errors = [];
+            const text = input;
+            
+            // 기본적인 맞춤법 규칙
+            const rules = [
+                { pattern: /되요(?![가-힣])/g, correct: '돼요', message: '"되요" → "돼요"' },
+                { pattern: /안되/g, correct: '안 돼', message: '"안되" → "안 돼"' },
+                { pattern: /됬/g, correct: '됐', message: '"됬" → "됐"' },
+                { pattern: /왠지/g, correct: '웬지', message: '"왠지" → "웬지"' },
+                { pattern: /했는데요/g, correct: '했는데요', message: '올바른 표현입니다' }
+            ];
+            
+            rules.forEach(rule => {
+                if (rule.pattern.test(text)) {
+                    errors.push(rule.message);
+                }
+            });
+            
+            if (errors.length === 0) {
+                result.innerHTML = `
+                    <p style="color: #4ade80; font-weight: 600; margin-bottom: 10px;">✅ 검사 완료</p>
+                    <p style="color: var(--text-secondary);">발견된 오류가 없습니다. 하지만 위의 전문 검사 서비스를 이용하면 더 정확한 결과를 얻을 수 있습니다.</p>
+                `;
+            } else {
+                result.innerHTML = `
+                    <p style="color: var(--highlight); font-weight: 600; margin-bottom: 10px;">⚠️ 수정 제안</p>
+                    <ul style="list-style: none; padding: 0;">
+                        ${errors.map(error => `
+                            <li style="padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                                ${error}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    <p style="color: var(--text-secondary); margin-top: 15px; font-size: 0.9rem;">정확한 검사를 위해 위의 전문 검사 서비스를 이용하세요.</p>
+                `;
+            }
+        }
+
+        // 개인정보 수집 경고창
+        function showPrivacyWarning(platformName, url, warningType) {
+            let message = '';
+            
+            if (warningType === 'korea') {
+                // 트위치 한국 서비스 중단 경고
+                message = `⚠️ 서비스 중단 안내\n\nTwitch는 2024년 2월 27일부로 한국에서 서비스가 중단되었습니다.\n\n접속은 가능하지만, 일부 기능이 제한될 수 있습니다.\n\n계속 진행하시겠습니까?`;
+            } else {
+                // 개인정보 수집 경고
+                message = `⚠️ 개인정보 수집 주의\n\n${platformName}는 사용자의 개인정보를 수집할 수 있습니다.\n\n계속 진행하시겠습니까?`;
+            }
+            
+            if (confirm(message)) {
+                window.open(url, '_blank');
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>
