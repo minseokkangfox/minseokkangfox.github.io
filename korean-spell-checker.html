@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>맞춤법 검사기 - 한글 맞춤법 교정</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2d5a8c;
+            --primary-light: #4a7bb8;
+            --secondary: #d4af37;
+            --accent: #e84855;
+            --bg-dark: #1a1f2e;
+            --bg-light: #f8f9fc;
+            --text-dark: #2c3e50;
+            --text-light: #6c7a89;
+            --error-bg: #fff5f5;
+            --error-border: #feb2b2;
+            --correct-bg: #f0fdf4;
+            --correct-border: #86efac;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .home-button {
+            color: white;
+            text-decoration: none;
+            font-size: 2.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .home-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .input-section {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(45, 90, 140, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 90, 140, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 90, 140, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f7fafc;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .results {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .error-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .no-errors {
+            background: var(--correct-bg);
+            border-color: var(--correct-border);
+            color: #22c55e;
+        }
+
+        .corrected-text {
+            background: #fafbfc;
+            padding: 1.5rem;
+            border-radius: 16px;
+            line-height: 2;
+            font-size: 1.05rem;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .error-highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(232, 72, 85, 0.3) 60%);
+            color: var(--accent);
+            font-weight: 600;
+            padding: 0 2px;
+            border-radius: 2px;
+            cursor: help;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .error-highlight:hover {
+            background: rgba(232, 72, 85, 0.2);
+        }
+
+        .correction-highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(34, 197, 94, 0.3) 60%);
+            color: #059669;
+            font-weight: 600;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .error-list {
+            margin-top: 2rem;
+        }
+
+        .error-item {
+            background: white;
+            border: 2px solid var(--error-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .error-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateX(4px);
+        }
+
+        .error-text {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .error-original {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: line-through;
+            text-decoration-thickness: 2px;
+        }
+
+        .error-arrow {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .error-correction {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .error-reason {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 3px solid #e2e8f0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fc 0%, #e8eef5 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background: var(--correct-bg);
+            border: 2px solid var(--correct-border);
+            color: #059669;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .main-card {
+                padding: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            textarea {
+                min-height: 200px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .home-button {
+                font-size: 2rem;
+                width: 50px;
+                height: 50px;
+            }
+
+            .header-content {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <a href="index.html" class="home-button" title="홈으로 돌아가기">🏠</a>
+                <div class="header-text">
+                    <h1>맞춤법 검사기</h1>
+                    <p class="subtitle">AI 기반 한글 맞춤법 교정 서비스</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-card">
+            <div class="input-section">
+                <label for="inputText">검사할 텍스트를 입력하세요</label>
+                <textarea 
+                    id="inputText" 
+                    placeholder="여기에 한글 텍스트를 입력하세요. AI가 맞춤법을 검사하고 교정해드립니다..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" id="checkBtn">
+                    <span>맞춤법 검사하기</span>
+                </button>
+                <button class="btn-secondary" id="clearBtn">
+                    <span>지우기</span>
+                </button>
+            </div>
+
+            <div id="resultsContainer"></div>
+        </div>
+
+        <footer>
+            <p>Powered by Claude AI • 정확한 한글 맞춤법 교정</p>
+        </footer>
+    </div>
+
+    <script>
+        const inputText = document.getElementById('inputText');
+        const checkBtn = document.getElementById('checkBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        checkBtn.addEventListener('click', checkSpelling);
+        clearBtn.addEventListener('click', clearAll);
+
+        async function checkSpelling() {
+            const text = inputText.value.trim();
+            
+            if (!text) {
+                alert('검사할 텍스트를 입력해주세요.');
+                return;
+            }
+
+            // 버튼 비활성화
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = '<span>검사 중...</span>';
+
+            // 로딩 표시
+            resultsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>AI가 맞춤법을 검사하고 있습니다...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000,
+                        messages: [{
+                            role: 'user',
+                            content: `다음 한글 텍스트의 맞춤법, 띄어쓰기, 문법 오류를 검사하고 교정해주세요. 
+
+텍스트:
+"""
+${text}
+"""
+
+다음 JSON 형식으로만 응답해주세요 (다른 텍스트 없이):
+{
+  "hasErrors": true/false,
+  "correctedText": "교정된 전체 텍스트",
+  "errors": [
+    {
+      "original": "원래 틀린 단어나 구절",
+      "correction": "교정된 단어나 구절",
+      "reason": "왜 틀렸는지 설명"
+    }
+  ],
+  "stats": {
+    "totalWords": 전체 단어 수,
+    "errorsFound": 발견된 오류 수
+  }
+}
+
+오류가 없으면 errors 배열은 비워두세요.`
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API 요청 실패');
+                }
+
+                const data = await response.json();
+                const resultText = data.content[0].text;
+                
+                // JSON 추출 (마크다운 코드 블록 제거)
+                const jsonMatch = resultText.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) {
+                    throw new Error('응답 파싱 실패');
+                }
+                
+                const result = JSON.parse(jsonMatch[0]);
+                displayResults(result);
+
+            } catch (error) {
+                console.error('Error:', error);
+                resultsContainer.innerHTML = `
+                    <div class="error-item">
+                        <p style="color: var(--accent);">❌ 오류가 발생했습니다. 다시 시도해주세요.</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.5rem;">${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                // 버튼 복구
+                checkBtn.disabled = false;
+                checkBtn.innerHTML = '<span>맞춤법 검사하기</span>';
+            }
+        }
+
+        function displayResults(result) {
+            if (!result.hasErrors) {
+                resultsContainer.innerHTML = `
+                    <div class="results">
+                        <div class="success-message">
+                            <span class="success-icon">✓</span>
+                            <p>완벽합니다! 맞춤법 오류가 발견되지 않았습니다.</p>
+                        </div>
+                        ${result.stats ? `
+                            <div class="stats">
+                                <div class="stat-card">
+                                    <div class="stat-value">${result.stats.totalWords || 0}</div>
+                                    <div class="stat-label">전체 단어</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">0</div>
+                                    <div class="stat-label">오류 발견</div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                return;
+            }
+
+            let errorsHTML = '';
+            if (result.errors && result.errors.length > 0) {
+                errorsHTML = `
+                    <div class="error-list">
+                        ${result.errors.map((error, index) => `
+                            <div class="error-item" style="animation-delay: ${index * 0.1}s">
+                                <div class="error-text">
+                                    <span class="error-original">${escapeHtml(error.original)}</span>
+                                    <span class="error-arrow">→</span>
+                                    <span class="error-correction">${escapeHtml(error.correction)}</span>
+                                </div>
+                                <div class="error-reason">${escapeHtml(error.reason)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // 교정된 텍스트에 하이라이트 추가
+            let highlightedText = escapeHtml(result.correctedText);
+            if (result.errors && result.errors.length > 0) {
+                result.errors.forEach(error => {
+                    const escapedCorrection = escapeHtml(error.correction);
+                    highlightedText = highlightedText.replace(
+                        new RegExp(escapedCorrection.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+                        `<span class="correction-highlight">${escapedCorrection}</span>`
+                    );
+                });
+            }
+
+            resultsContainer.innerHTML = `
+                <div class="results">
+                    <div class="result-header">
+                        <h2 class="result-title">검사 결과</h2>
+                        <div class="error-count">
+                            <span>오류 ${result.errors ? result.errors.length : 0}개 발견</span>
+                        </div>
+                    </div>
+
+                    <div class="corrected-text">
+                        ${highlightedText}
+                    </div>
+
+                    ${errorsHTML}
+
+                    ${result.stats ? `
+                        <div class="stats">
+                            <div class="stat-card">
+                                <div class="stat-value">${result.stats.totalWords || 0}</div>
+                                <div class="stat-label">전체 단어</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${result.stats.errorsFound || 0}</div>
+                                <div class="stat-label">오류 발견</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${result.stats.totalWords && result.stats.errorsFound ? 
+                                    Math.round((1 - result.stats.errorsFound / result.stats.totalWords) * 100) : 100}%</div>
+                                <div class="stat-label">정확도</div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function clearAll() {
+            inputText.value = '';
+            resultsContainer.innerHTML = '';
+            inputText.focus();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // URL 파라미터에서 검색어 가져오기
+        function getQueryParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('query');
+        }
+
+        // 페이지 로드 시 처리
+        window.addEventListener('load', () => {
+            const query = getQueryParameter();
+            if (query) {
+                inputText.value = query;
+                // 자동으로 맞춤법 검사 실행
+                setTimeout(() => {
+                    checkSpelling();
+                }, 500);
+            } else {
+                inputText.focus();
+            }
+        });
+
+        // 엔터키로 검사 (Ctrl/Cmd + Enter)
+        inputText.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                checkSpelling();
+            }
+        });
+    </script>
+</body>
+</html>
