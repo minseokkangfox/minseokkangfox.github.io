@@ -2390,14 +2390,539 @@
         .user-dropdown-item.logout {
             color: var(--highlight);
         }
+
+        /* 설정 모달 */
+        .settings-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .settings-modal-overlay.show {
+            display: flex;
+        }
+
+        .settings-modal {
+            background: #1e1e1e;
+            border-radius: 20px;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(15, 52, 96, 0.1) 100%);
+        }
+
+        .settings-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .settings-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .settings-close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .settings-content {
+            padding: 30px;
+            max-height: calc(90vh - 80px);
+            overflow-y: auto;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--highlight);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .settings-option:hover {
+            border-color: rgba(233, 69, 96, 0.3);
+        }
+
+        .settings-option-label {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .settings-option-desc {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+
+        /* 배경 설정 */
+        .bg-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .bg-type-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bg-type-btn:hover {
+            border-color: rgba(233, 69, 96, 0.3);
+        }
+
+        .bg-type-btn.active {
+            border-color: var(--highlight);
+            background: rgba(233, 69, 96, 0.2);
+        }
+
+        .bg-colors-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .bg-color-option {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .bg-color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .bg-color-option.selected {
+            border-color: white;
+            box-shadow: 0 0 0 2px var(--highlight);
+        }
+
+        .bg-image-upload {
+            margin-top: 15px;
+        }
+
+        .bg-image-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bg-image-upload-area:hover {
+            border-color: var(--highlight);
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        .bg-image-preview {
+            margin-top: 15px;
+            position: relative;
+            display: none;
+        }
+
+        .bg-image-preview img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .bg-image-preview .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* 검색 기록 */
+        .search-history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .search-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .search-history-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-history-item span {
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .search-history-item .time {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .search-history-item .delete-history {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .search-history-item:hover .delete-history {
+            opacity: 1;
+        }
+
+        .clear-history-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid var(--highlight);
+            border-radius: 8px;
+            color: var(--highlight);
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-history-btn:hover {
+            background: var(--highlight);
+            color: white;
+        }
+
+        /* 검색 기록 드롭다운 */
+        .search-history-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: rgba(22, 33, 62, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 9997;
+            backdrop-filter: blur(20px);
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .search-history-dropdown.show {
+            display: block;
+        }
+
+        .history-section-title {
+            padding: 10px 16px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-item:hover {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(255, 107, 157, 0.1) 100%);
+        }
+
+        .history-item i {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .history-item span {
+            flex: 1;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .history-item .delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .history-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .history-item .delete-btn:hover {
+            color: var(--highlight);
+        }
+
+        /* 토글 스위치 */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3a3a3a;
+            transition: 0.4s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--highlight);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* 배경 이미지 스타일 */
+        body.has-bg-image::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        body.has-bg-image::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
     </style>
 </head>
 
 <body>
+    <!-- 설정 모달 -->
+    <div class="settings-modal-overlay" id="settingsModal" onclick="if(event.target === this) closeSettingsModal()">
+        <div class="settings-modal">
+            <div class="settings-header">
+                <h2>⚙️ 설정</h2>
+                <button class="settings-close-btn" onclick="closeSettingsModal()">×</button>
+            </div>
+            <div class="settings-content">
+                <!-- 배경화면 설정 -->
+                <div class="settings-section">
+                    <div class="settings-section-title">
+                        <i class="fa-solid fa-image"></i>
+                        배경화면 설정
+                    </div>
+                    <div class="bg-type-selector">
+                        <button class="bg-type-btn active" onclick="selectBgType('color')" id="bgTypeColor">
+                            🎨 색상
+                        </button>
+                        <button class="bg-type-btn" onclick="selectBgType('image')" id="bgTypeImage">
+                            📷 사진
+                        </button>
+                    </div>
+                    
+                    <!-- 색상 선택 -->
+                    <div id="bgColorSection">
+                        <div class="bg-colors-grid">
+                            <div class="bg-color-option selected" onclick="selectBgColor(this, 'default')" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);" data-color="default"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#1a1a2e')" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);" data-color="#1a1a2e"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#0f0f23')" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);" data-color="#0f0f23"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#1e3a5f')" style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);" data-color="#1e3a5f"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#2d1b4e')" style="background: linear-gradient(135deg, #2d1b4e 0%, #4a2c7a 100%);" data-color="#2d1b4e"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#1b2d1e')" style="background: linear-gradient(135deg, #1b2d1e 0%, #2c4a30 100%);" data-color="#1b2d1e"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#3d1b1b')" style="background: linear-gradient(135deg, #3d1b1b 0%, #5a2c2c 100%);" data-color="#3d1b1b"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#3d2b1b')" style="background: linear-gradient(135deg, #3d2b1b 0%, #5a4a2c 100%);" data-color="#3d2b1b"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#0d1117')" style="background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);" data-color="#0d1117"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#1a1625')" style="background: linear-gradient(135deg, #1a1625 0%, #2d1f3d 100%);" data-color="#1a1625"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#152238')" style="background: linear-gradient(135deg, #152238 0%, #1e3a5f 100%);" data-color="#152238"></div>
+                            <div class="bg-color-option" onclick="selectBgColor(this, '#1e1e1e')" style="background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);" data-color="#1e1e1e"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 사진 업로드 -->
+                    <div id="bgImageSection" style="display: none;">
+                        <div class="bg-image-upload">
+                            <div class="bg-image-upload-area" onclick="document.getElementById('bgImageInput').click()">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.5rem; color: var(--text-secondary); margin-bottom: 10px;"></i>
+                                <div style="color: var(--text-secondary);">클릭하여 이미지 업로드</div>
+                                <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">JPG, PNG, GIF (최대 5MB)</div>
+                            </div>
+                            <input type="file" id="bgImageInput" accept="image/*" style="display: none;" onchange="handleBgImageUpload(event)">
+                        </div>
+                        <div class="bg-image-preview" id="bgImagePreview">
+                            <img id="bgPreviewImg" src="">
+                            <button class="remove-btn" onclick="removeBgImage()">×</button>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label style="color: var(--text-secondary); font-size: 0.85rem; display: block; margin-bottom: 8px;">배경 어둡기 조절</label>
+                            <input type="range" id="bgOverlaySlider" min="0" max="80" value="40" style="width: 100%;" onchange="updateBgOverlay(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 검색 기록 -->
+                <div class="settings-section">
+                    <div class="settings-section-title">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        검색 기록
+                    </div>
+                    <div class="settings-option">
+                        <div>
+                            <div class="settings-option-label">검색 기록 저장</div>
+                            <div class="settings-option-desc">검색어가 기록에 저장됩니다</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="searchHistoryToggle" checked onchange="toggleSearchHistory()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="search-history-list" id="settingsHistoryList">
+                        <!-- 검색 기록이 여기에 표시됩니다 -->
+                    </div>
+                    <button class="clear-history-btn" onclick="clearSearchHistory()">
+                        <i class="fa-solid fa-trash"></i> 검색 기록 전체 삭제
+                    </button>
+                </div>
+
+                <!-- 바로가기 동기화 -->
+                <div class="settings-section">
+                    <div class="settings-section-title">
+                        <i class="fa-solid fa-cloud"></i>
+                        바로가기 동기화
+                    </div>
+                    <div class="settings-option" id="syncStatusOption">
+                        <div>
+                            <div class="settings-option-label" id="syncStatusLabel">로그인하여 동기화</div>
+                            <div class="settings-option-desc" id="syncStatusDesc">로그인하면 바로가기가 계정에 저장됩니다</div>
+                        </div>
+                        <button id="syncNowBtn" onclick="syncShortcutsNow()" style="padding: 8px 16px; background: var(--highlight); border: none; border-radius: 8px; color: white; cursor: pointer; display: none;">
+                            동기화
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 사용자 프로필 버튼 -->
     <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
         <i class="fa-solid fa-user"></i>
-        <span id="userDisplayName">로그인</span>
+        <span id="userDisplayName">내 프로필</span>
         <div class="user-dropdown" id="userDropdown">
             <div class="user-dropdown-item" id="loginMenuItem" onclick="showAuthModal('login')">
                 <i class="fa-solid fa-right-to-bracket"></i>
@@ -2478,6 +3003,7 @@
                         autocomplete="off" />
                     <div class="autocomplete-ghost" id="autocompleteGhost"></div>
                     <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+                    <div class="search-history-dropdown" id="searchHistoryDropdown"></div>
                 </div>
                 <button class="ai-mode-btn" id="aiModeBtn" onclick="toggleAIMode()">
                     <div class="ai-gradient-blur"></div>
@@ -8759,34 +9285,6 @@
             }
         };
 
-        // 인증 상태 변화 감지
-        onAuthStateChanged(auth, (user) => {
-            const profileBtn = document.getElementById('userProfileBtn');
-            const displayName = document.getElementById('userDisplayName');
-            const loginMenuItem = document.getElementById('loginMenuItem');
-            const signupMenuItem = document.getElementById('signupMenuItem');
-            const profileMenuItem = document.getElementById('profileMenuItem');
-            const logoutMenuItem = document.getElementById('logoutMenuItem');
-
-            if (user) {
-                // 로그인됨
-                profileBtn.classList.add('logged-in');
-                displayName.textContent = user.displayName || user.email.split('@')[0];
-                loginMenuItem.style.display = 'none';
-                signupMenuItem.style.display = 'none';
-                profileMenuItem.style.display = 'flex';
-                logoutMenuItem.style.display = 'flex';
-            } else {
-                // 로그아웃됨
-                profileBtn.classList.remove('logged-in');
-                displayName.textContent = '로그인';
-                loginMenuItem.style.display = 'flex';
-                signupMenuItem.style.display = 'flex';
-                profileMenuItem.style.display = 'none';
-                logoutMenuItem.style.display = 'none';
-            }
-        });
-
         // Enter 키로 로그인/회원가입
         document.getElementById('loginPassword').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') window.loginUser();
@@ -8872,8 +9370,487 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeAuthModal();
+                closeSettingsModal();
             }
         });
+
+        // ===== 설정 모달 기능 =====
+        function openSettingsModal() {
+            document.getElementById('settingsModal').classList.add('show');
+            document.getElementById('userDropdown').classList.remove('show');
+            loadSettingsHistory();
+            updateSyncStatus();
+            loadBackgroundSettings();
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('show');
+        }
+
+        // ===== 배경화면 설정 =====
+        let currentBgType = 'color';
+        let currentBgColor = 'default';
+        let currentBgImage = null;
+        let bgOverlayOpacity = 40;
+
+        function selectBgType(type) {
+            currentBgType = type;
+            document.getElementById('bgTypeColor').classList.toggle('active', type === 'color');
+            document.getElementById('bgTypeImage').classList.toggle('active', type === 'image');
+            document.getElementById('bgColorSection').style.display = type === 'color' ? 'block' : 'none';
+            document.getElementById('bgImageSection').style.display = type === 'image' ? 'block' : 'none';
+            
+            if (type === 'color') {
+                applyBgColor(currentBgColor);
+            } else if (currentBgImage) {
+                applyBgImage(currentBgImage);
+            }
+            saveBackgroundSettings();
+        }
+
+        function selectBgColor(element, color) {
+            document.querySelectorAll('.bg-color-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            currentBgColor = color;
+            applyBgColor(color);
+            saveBackgroundSettings();
+        }
+
+        function applyBgColor(color) {
+            document.body.classList.remove('has-bg-image');
+            document.body.style.backgroundImage = '';
+            
+            if (color === 'default') {
+                document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)';
+            } else {
+                const darkerColor = adjustColor(color, -30);
+                document.body.style.background = `linear-gradient(135deg, ${color} 0%, ${darkerColor} 100%)`;
+            }
+        }
+
+        function adjustColor(color, amount) {
+            const hex = color.replace('#', '');
+            const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) + amount));
+            const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) + amount));
+            const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) + amount));
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+
+        function handleBgImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert('파일 크기는 5MB 이하여야 합니다.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentBgImage = e.target.result;
+                document.getElementById('bgPreviewImg').src = currentBgImage;
+                document.getElementById('bgImagePreview').style.display = 'block';
+                applyBgImage(currentBgImage);
+                saveBackgroundSettings();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function applyBgImage(imageData) {
+            document.body.classList.add('has-bg-image');
+            document.body.style.background = 'transparent';
+            document.body.style.setProperty('--bg-image', `url(${imageData})`);
+            
+            const style = document.createElement('style');
+            style.id = 'bg-image-style';
+            const oldStyle = document.getElementById('bg-image-style');
+            if (oldStyle) oldStyle.remove();
+            
+            style.textContent = `
+                body.has-bg-image::before {
+                    background-image: url(${imageData});
+                }
+                body.has-bg-image::after {
+                    background: rgba(0, 0, 0, ${bgOverlayOpacity / 100});
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function removeBgImage() {
+            currentBgImage = null;
+            document.getElementById('bgImageInput').value = '';
+            document.getElementById('bgImagePreview').style.display = 'none';
+            applyBgColor(currentBgColor);
+            saveBackgroundSettings();
+        }
+
+        function updateBgOverlay(value) {
+            bgOverlayOpacity = value;
+            if (currentBgImage && currentBgType === 'image') {
+                applyBgImage(currentBgImage);
+            }
+            saveBackgroundSettings();
+        }
+
+        function saveBackgroundSettings() {
+            const settings = {
+                type: currentBgType,
+                color: currentBgColor,
+                image: currentBgImage,
+                overlay: bgOverlayOpacity
+            };
+            localStorage.setItem('bgSettings', JSON.stringify(settings));
+        }
+
+        function loadBackgroundSettings() {
+            const saved = localStorage.getItem('bgSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                currentBgType = settings.type || 'color';
+                currentBgColor = settings.color || 'default';
+                currentBgImage = settings.image || null;
+                bgOverlayOpacity = settings.overlay || 40;
+                
+                // UI 업데이트
+                document.getElementById('bgTypeColor').classList.toggle('active', currentBgType === 'color');
+                document.getElementById('bgTypeImage').classList.toggle('active', currentBgType === 'image');
+                document.getElementById('bgColorSection').style.display = currentBgType === 'color' ? 'block' : 'none';
+                document.getElementById('bgImageSection').style.display = currentBgType === 'image' ? 'block' : 'none';
+                document.getElementById('bgOverlaySlider').value = bgOverlayOpacity;
+                
+                // 색상 선택 표시
+                document.querySelectorAll('.bg-color-option').forEach(opt => {
+                    opt.classList.toggle('selected', opt.dataset.color === currentBgColor);
+                });
+                
+                // 이미지 미리보기
+                if (currentBgImage) {
+                    document.getElementById('bgPreviewImg').src = currentBgImage;
+                    document.getElementById('bgImagePreview').style.display = 'block';
+                }
+                
+                // 배경 적용
+                if (currentBgType === 'image' && currentBgImage) {
+                    applyBgImage(currentBgImage);
+                } else {
+                    applyBgColor(currentBgColor);
+                }
+            }
+        }
+
+        // 페이지 로드시 배경 설정 적용
+        document.addEventListener('DOMContentLoaded', loadBackgroundSettings);
+
+        // ===== 검색 기록 (쿠키 저장) =====
+        let searchHistoryEnabled = true;
+        const MAX_HISTORY_ITEMS = 50;
+
+        function getSearchHistory() {
+            const cookie = getCookie('searchHistory');
+            if (cookie) {
+                try {
+                    return JSON.parse(decodeURIComponent(cookie));
+                } catch (e) {
+                    return [];
+                }
+            }
+            return [];
+        }
+
+        function saveSearchHistory(history) {
+            const encoded = encodeURIComponent(JSON.stringify(history));
+            // 쿠키 만료일: 30일
+            const expires = new Date();
+            expires.setDate(expires.getDate() + 30);
+            document.cookie = `searchHistory=${encoded};expires=${expires.toUTCString()};path=/`;
+        }
+
+        function addSearchHistory(query) {
+            if (!searchHistoryEnabled || !query.trim()) return;
+            
+            let history = getSearchHistory();
+            
+            // 중복 제거
+            history = history.filter(item => item.query.toLowerCase() !== query.toLowerCase());
+            
+            // 새 항목 추가
+            history.unshift({
+                query: query.trim(),
+                timestamp: Date.now()
+            });
+            
+            // 최대 개수 제한
+            if (history.length > MAX_HISTORY_ITEMS) {
+                history = history.slice(0, MAX_HISTORY_ITEMS);
+            }
+            
+            saveSearchHistory(history);
+        }
+
+        function deleteSearchHistoryItem(index) {
+            let history = getSearchHistory();
+            history.splice(index, 1);
+            saveSearchHistory(history);
+            loadSettingsHistory();
+            updateHistoryDropdown();
+        }
+
+        function clearSearchHistory() {
+            if (confirm('검색 기록을 모두 삭제하시겠습니까?')) {
+                document.cookie = 'searchHistory=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
+                loadSettingsHistory();
+                updateHistoryDropdown();
+            }
+        }
+
+        function toggleSearchHistory() {
+            searchHistoryEnabled = document.getElementById('searchHistoryToggle').checked;
+            setCookie('searchHistoryEnabled', searchHistoryEnabled ? 'true' : 'false', 365);
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setDate(expires.getDate() + days);
+            document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+        }
+
+        function loadSettingsHistory() {
+            const historyList = document.getElementById('settingsHistoryList');
+            const history = getSearchHistory();
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-secondary);">검색 기록이 없습니다</div>';
+                return;
+            }
+            
+            historyList.innerHTML = history.slice(0, 10).map((item, index) => `
+                <div class="search-history-item" onclick="searchFromHistory('${item.query.replace(/'/g, "\\'")}')">
+                    <span>${item.query}</span>
+                    <span class="time">${formatTimeAgo(item.timestamp)}</span>
+                    <button class="delete-history" onclick="event.stopPropagation(); deleteSearchHistoryItem(${index})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function formatTimeAgo(timestamp) {
+            const diff = Date.now() - timestamp;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return '방금 전';
+            if (minutes < 60) return `${minutes}분 전`;
+            if (hours < 24) return `${hours}시간 전`;
+            return `${days}일 전`;
+        }
+
+        function searchFromHistory(query) {
+            document.getElementById('searchInput').value = query;
+            closeSettingsModal();
+            executeSearch(query);
+        }
+
+        function updateHistoryDropdown() {
+            const dropdown = document.getElementById('searchHistoryDropdown');
+            const history = getSearchHistory();
+            
+            if (history.length === 0) {
+                dropdown.innerHTML = '';
+                return;
+            }
+            
+            dropdown.innerHTML = `
+                <div class="history-section-title">최근 검색</div>
+                ${history.slice(0, 5).map((item, index) => `
+                    <div class="history-item" onclick="searchFromHistoryDropdown('${item.query.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>${item.query}</span>
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteSearchHistoryItem(${index})">×</button>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function searchFromHistoryDropdown(query) {
+            document.getElementById('searchInput').value = query;
+            document.getElementById('searchHistoryDropdown').classList.remove('show');
+            executeSearch(query);
+        }
+
+        // 검색 입력창 포커스시 검색 기록 표시
+        searchInput.addEventListener('focus', function() {
+            if (this.value === '' && searchHistoryEnabled) {
+                updateHistoryDropdown();
+                const history = getSearchHistory();
+                if (history.length > 0) {
+                    document.getElementById('searchHistoryDropdown').classList.add('show');
+                }
+            }
+        });
+
+        searchInput.addEventListener('input', function() {
+            if (this.value === '') {
+                updateHistoryDropdown();
+                const history = getSearchHistory();
+                if (history.length > 0 && searchHistoryEnabled) {
+                    document.getElementById('searchHistoryDropdown').classList.add('show');
+                }
+            } else {
+                document.getElementById('searchHistoryDropdown').classList.remove('show');
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-input-wrapper')) {
+                document.getElementById('searchHistoryDropdown').classList.remove('show');
+            }
+        });
+
+        // 검색 실행시 기록 저장 (기존 executeSearch 수정)
+        const originalExecuteSearch = executeSearch;
+        executeSearch = function(query) {
+            if (query && query.trim()) {
+                addSearchHistory(query);
+            }
+            originalExecuteSearch(query);
+        };
+
+        // ===== Firebase 바로가기 동기화 =====
+        function updateSyncStatus() {
+            const statusLabel = document.getElementById('syncStatusLabel');
+            const statusDesc = document.getElementById('syncStatusDesc');
+            const syncBtn = document.getElementById('syncNowBtn');
+            
+            if (auth.currentUser) {
+                statusLabel.textContent = '동기화 활성화됨';
+                statusDesc.textContent = `${auth.currentUser.email}에 바로가기가 저장됩니다`;
+                syncBtn.style.display = 'inline-block';
+            } else {
+                statusLabel.textContent = '로그인하여 동기화';
+                statusDesc.textContent = '로그인하면 바로가기가 계정에 저장됩니다';
+                syncBtn.style.display = 'none';
+            }
+        }
+
+        // Firebase에서 바로가기 로드
+        async function loadShortcutsFromFirebase() {
+            if (!auth.currentUser) return false;
+            
+            try {
+                const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+                const db = getFirestore();
+                const userDoc = await getDoc(doc(db, 'users', auth.currentUser.uid));
+                
+                if (userDoc.exists() && userDoc.data().shortcuts) {
+                    shortcuts = userDoc.data().shortcuts;
+                    renderShortcuts();
+                    localStorage.setItem('userShortcuts', JSON.stringify(shortcuts));
+                    return true;
+                }
+            } catch (error) {
+                console.error('Firebase 로드 오류:', error);
+            }
+            return false;
+        }
+
+        // Firebase에 바로가기 저장
+        async function saveShortcutsToFirebase() {
+            if (!auth.currentUser) return;
+            
+            try {
+                const { getFirestore, doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+                const db = getFirestore();
+                await setDoc(doc(db, 'users', auth.currentUser.uid), {
+                    shortcuts: shortcuts,
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+            } catch (error) {
+                console.error('Firebase 저장 오류:', error);
+            }
+        }
+
+        // 바로가기 저장 함수 수정
+        const originalSaveShortcuts = saveShortcuts;
+        saveShortcuts = function() {
+            originalSaveShortcuts();
+            if (auth.currentUser) {
+                saveShortcutsToFirebase();
+            }
+        };
+
+        // 수동 동기화
+        async function syncShortcutsNow() {
+            const btn = document.getElementById('syncNowBtn');
+            btn.textContent = '동기화 중...';
+            btn.disabled = true;
+            
+            try {
+                await saveShortcutsToFirebase();
+                btn.textContent = '완료!';
+                setTimeout(() => {
+                    btn.textContent = '동기화';
+                    btn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                btn.textContent = '오류';
+                setTimeout(() => {
+                    btn.textContent = '동기화';
+                    btn.disabled = false;
+                }, 2000);
+            }
+        }
+
+        // 로그인 상태 변경시 바로가기 동기화
+        onAuthStateChanged(auth, async (user) => {
+            const profileBtn = document.getElementById('userProfileBtn');
+            const displayName = document.getElementById('userDisplayName');
+            const loginMenuItem = document.getElementById('loginMenuItem');
+            const signupMenuItem = document.getElementById('signupMenuItem');
+            const profileMenuItem = document.getElementById('profileMenuItem');
+            const logoutMenuItem = document.getElementById('logoutMenuItem');
+
+            if (user) {
+                // 로그인됨
+                profileBtn.classList.add('logged-in');
+                displayName.textContent = user.displayName || user.email.split('@')[0];
+                loginMenuItem.style.display = 'none';
+                signupMenuItem.style.display = 'none';
+                profileMenuItem.style.display = 'flex';
+                logoutMenuItem.style.display = 'flex';
+                
+                // Firebase에서 바로가기 로드
+                const loaded = await loadShortcutsFromFirebase();
+                if (!loaded) {
+                    // Firebase에 데이터가 없으면 로컬 데이터를 업로드
+                    await saveShortcutsToFirebase();
+                }
+            } else {
+                // 로그아웃됨
+                profileBtn.classList.remove('logged-in');
+                displayName.textContent = '내 프로필';
+                loginMenuItem.style.display = 'flex';
+                signupMenuItem.style.display = 'flex';
+                profileMenuItem.style.display = 'none';
+                logoutMenuItem.style.display = 'none';
+            }
+            
+            updateSyncStatus();
+        });
+
+        // 검색 기록 설정 로드
+        const savedHistoryEnabled = getCookie('searchHistoryEnabled');
+        if (savedHistoryEnabled !== null) {
+            searchHistoryEnabled = savedHistoryEnabled === 'true';
+            document.getElementById('searchHistoryToggle').checked = searchHistoryEnabled;
+        }
     </script>
 </body>
 
