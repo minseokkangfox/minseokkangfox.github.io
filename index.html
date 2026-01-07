@@ -2390,539 +2390,14 @@
         .user-dropdown-item.logout {
             color: var(--highlight);
         }
-
-        /* 설정 모달 */
-        .settings-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .settings-modal-overlay.show {
-            display: flex;
-        }
-
-        .settings-modal {
-            background: #1e1e1e;
-            border-radius: 20px;
-            padding: 0;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(15, 52, 96, 0.1) 100%);
-        }
-
-        .settings-header h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #fff;
-            margin: 0;
-        }
-
-        .settings-close-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.8rem;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .settings-close-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text);
-        }
-
-        .settings-content {
-            padding: 30px;
-            max-height: calc(90vh - 80px);
-            overflow-y: auto;
-        }
-
-        .settings-section {
-            margin-bottom: 30px;
-        }
-
-        .settings-section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--highlight);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .settings-option {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .settings-option:hover {
-            border-color: rgba(233, 69, 96, 0.3);
-        }
-
-        .settings-option-label {
-            color: var(--text);
-            font-size: 0.95rem;
-        }
-
-        .settings-option-desc {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-top: 3px;
-        }
-
-        /* 배경 설정 */
-        .bg-type-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .bg-type-btn {
-            flex: 1;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .bg-type-btn:hover {
-            border-color: rgba(233, 69, 96, 0.3);
-        }
-
-        .bg-type-btn.active {
-            border-color: var(--highlight);
-            background: rgba(233, 69, 96, 0.2);
-        }
-
-        .bg-colors-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .bg-color-option {
-            aspect-ratio: 1;
-            border-radius: 10px;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .bg-color-option:hover {
-            transform: scale(1.1);
-        }
-
-        .bg-color-option.selected {
-            border-color: white;
-            box-shadow: 0 0 0 2px var(--highlight);
-        }
-
-        .bg-image-upload {
-            margin-top: 15px;
-        }
-
-        .bg-image-upload-area {
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .bg-image-upload-area:hover {
-            border-color: var(--highlight);
-            background: rgba(233, 69, 96, 0.1);
-        }
-
-        .bg-image-preview {
-            margin-top: 15px;
-            position: relative;
-            display: none;
-        }
-
-        .bg-image-preview img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 12px;
-        }
-
-        .bg-image-preview .remove-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        /* 검색 기록 */
-        .search-history-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .search-history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            margin-bottom: 5px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .search-history-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .search-history-item span {
-            color: var(--text);
-            font-size: 0.9rem;
-        }
-
-        .search-history-item .time {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-        }
-
-        .search-history-item .delete-history {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 5px;
-            opacity: 0;
-            transition: all 0.2s ease;
-        }
-
-        .search-history-item:hover .delete-history {
-            opacity: 1;
-        }
-
-        .clear-history-btn {
-            width: 100%;
-            padding: 12px;
-            background: rgba(233, 69, 96, 0.2);
-            border: 1px solid var(--highlight);
-            border-radius: 8px;
-            color: var(--highlight);
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .clear-history-btn:hover {
-            background: var(--highlight);
-            color: white;
-        }
-
-        /* 검색 기록 드롭다운 */
-        .search-history-dropdown {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: rgba(22, 33, 62, 0.98);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            z-index: 9997;
-            backdrop-filter: blur(20px);
-            display: none;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .search-history-dropdown.show {
-            display: block;
-        }
-
-        .history-section-title {
-            padding: 10px 16px;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .history-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .history-item:hover {
-            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(255, 107, 157, 0.1) 100%);
-        }
-
-        .history-item i {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .history-item span {
-            flex: 1;
-            color: var(--text);
-            font-size: 0.9rem;
-        }
-
-        .history-item .delete-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 5px;
-            opacity: 0;
-            transition: all 0.2s ease;
-        }
-
-        .history-item:hover .delete-btn {
-            opacity: 1;
-        }
-
-        .history-item .delete-btn:hover {
-            color: var(--highlight);
-        }
-
-        /* 토글 스위치 */
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #3a3a3a;
-            transition: 0.4s;
-            border-radius: 26px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: 0.4s;
-            border-radius: 50%;
-        }
-
-        .toggle-switch input:checked + .toggle-slider {
-            background-color: var(--highlight);
-        }
-
-        .toggle-switch input:checked + .toggle-slider:before {
-            transform: translateX(24px);
-        }
-
-        /* 배경 이미지 스타일 */
-        body.has-bg-image::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: -1;
-        }
-
-        body.has-bg-image::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
-        }
     </style>
 </head>
 
 <body>
-    <!-- 설정 모달 -->
-    <div class="settings-modal-overlay" id="settingsModal" onclick="if(event.target === this) closeSettingsModal()">
-        <div class="settings-modal">
-            <div class="settings-header">
-                <h2>⚙️ 설정</h2>
-                <button class="settings-close-btn" onclick="closeSettingsModal()">×</button>
-            </div>
-            <div class="settings-content">
-                <!-- 배경화면 설정 -->
-                <div class="settings-section">
-                    <div class="settings-section-title">
-                        <i class="fa-solid fa-image"></i>
-                        배경화면 설정
-                    </div>
-                    <div class="bg-type-selector">
-                        <button class="bg-type-btn active" onclick="selectBgType('color')" id="bgTypeColor">
-                            🎨 색상
-                        </button>
-                        <button class="bg-type-btn" onclick="selectBgType('image')" id="bgTypeImage">
-                            📷 사진
-                        </button>
-                    </div>
-                    
-                    <!-- 색상 선택 -->
-                    <div id="bgColorSection">
-                        <div class="bg-colors-grid">
-                            <div class="bg-color-option selected" onclick="selectBgColor(this, 'default')" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);" data-color="default"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#1a1a2e')" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);" data-color="#1a1a2e"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#0f0f23')" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);" data-color="#0f0f23"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#1e3a5f')" style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);" data-color="#1e3a5f"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#2d1b4e')" style="background: linear-gradient(135deg, #2d1b4e 0%, #4a2c7a 100%);" data-color="#2d1b4e"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#1b2d1e')" style="background: linear-gradient(135deg, #1b2d1e 0%, #2c4a30 100%);" data-color="#1b2d1e"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#3d1b1b')" style="background: linear-gradient(135deg, #3d1b1b 0%, #5a2c2c 100%);" data-color="#3d1b1b"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#3d2b1b')" style="background: linear-gradient(135deg, #3d2b1b 0%, #5a4a2c 100%);" data-color="#3d2b1b"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#0d1117')" style="background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);" data-color="#0d1117"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#1a1625')" style="background: linear-gradient(135deg, #1a1625 0%, #2d1f3d 100%);" data-color="#1a1625"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#152238')" style="background: linear-gradient(135deg, #152238 0%, #1e3a5f 100%);" data-color="#152238"></div>
-                            <div class="bg-color-option" onclick="selectBgColor(this, '#1e1e1e')" style="background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);" data-color="#1e1e1e"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- 사진 업로드 -->
-                    <div id="bgImageSection" style="display: none;">
-                        <div class="bg-image-upload">
-                            <div class="bg-image-upload-area" onclick="document.getElementById('bgImageInput').click()">
-                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.5rem; color: var(--text-secondary); margin-bottom: 10px;"></i>
-                                <div style="color: var(--text-secondary);">클릭하여 이미지 업로드</div>
-                                <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">JPG, PNG, GIF (최대 5MB)</div>
-                            </div>
-                            <input type="file" id="bgImageInput" accept="image/*" style="display: none;" onchange="handleBgImageUpload(event)">
-                        </div>
-                        <div class="bg-image-preview" id="bgImagePreview">
-                            <img id="bgPreviewImg" src="">
-                            <button class="remove-btn" onclick="removeBgImage()">×</button>
-                        </div>
-                        <div style="margin-top: 15px;">
-                            <label style="color: var(--text-secondary); font-size: 0.85rem; display: block; margin-bottom: 8px;">배경 어둡기 조절</label>
-                            <input type="range" id="bgOverlaySlider" min="0" max="80" value="40" style="width: 100%;" onchange="updateBgOverlay(this.value)">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 검색 기록 -->
-                <div class="settings-section">
-                    <div class="settings-section-title">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        검색 기록
-                    </div>
-                    <div class="settings-option">
-                        <div>
-                            <div class="settings-option-label">검색 기록 저장</div>
-                            <div class="settings-option-desc">검색어가 기록에 저장됩니다</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="searchHistoryToggle" checked onchange="toggleSearchHistory()">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="search-history-list" id="settingsHistoryList">
-                        <!-- 검색 기록이 여기에 표시됩니다 -->
-                    </div>
-                    <button class="clear-history-btn" onclick="clearSearchHistory()">
-                        <i class="fa-solid fa-trash"></i> 검색 기록 전체 삭제
-                    </button>
-                </div>
-
-                <!-- 바로가기 동기화 -->
-                <div class="settings-section">
-                    <div class="settings-section-title">
-                        <i class="fa-solid fa-cloud"></i>
-                        바로가기 동기화
-                    </div>
-                    <div class="settings-option" id="syncStatusOption">
-                        <div>
-                            <div class="settings-option-label" id="syncStatusLabel">로그인하여 동기화</div>
-                            <div class="settings-option-desc" id="syncStatusDesc">로그인하면 바로가기가 계정에 저장됩니다</div>
-                        </div>
-                        <button id="syncNowBtn" onclick="syncShortcutsNow()" style="padding: 8px 16px; background: var(--highlight); border: none; border-radius: 8px; color: white; cursor: pointer; display: none;">
-                            동기화
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- 사용자 프로필 버튼 -->
     <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
         <i class="fa-solid fa-user"></i>
-        <span id="userDisplayName">내 프로필</span>
+        <span id="userDisplayName">로그인</span>
         <div class="user-dropdown" id="userDropdown">
             <div class="user-dropdown-item" id="loginMenuItem" onclick="showAuthModal('login')">
                 <i class="fa-solid fa-right-to-bracket"></i>
@@ -3003,7 +2478,6 @@
                         autocomplete="off" />
                     <div class="autocomplete-ghost" id="autocompleteGhost"></div>
                     <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
-                    <div class="search-history-dropdown" id="searchHistoryDropdown"></div>
                 </div>
                 <button class="ai-mode-btn" id="aiModeBtn" onclick="toggleAIMode()">
                     <div class="ai-gradient-blur"></div>
@@ -3105,6 +2579,31 @@
 
                 <div style="margin-bottom: 20px;">
                     <label
+                        style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">
+                        커스텀 아이콘 (선택사항)
+                    </label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="file" id="shortcutIconFile" accept="image/*"
+                            onchange="handleShortcutIconUpload(this)" style="display: none;">
+                        <label for="shortcutIconFile"
+                            style="flex: 1; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 8px; color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='var(--highlight)'"
+                            onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'">
+                            <i class="fa-solid fa-image"></i> 이미지 업로드
+                        </label>
+                        <div id="customIconPreview"
+                            style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,255,255,0.1); display: none; align-items: center; justify-content: center; overflow: hidden;">
+                            <img id="customIconImg" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <button onclick="removeCustomIcon()" id="removeIconBtn"
+                            style="display: none; background: none; border: none; color: #ff6b6b; cursor: pointer;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label
                         style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">검색
                         키워드 (선택사항)</label>
                     <input type="text" id="shortcutKeyword" placeholder="예: 넷플릭스 (비워두면 URL로 이동)"
@@ -3178,22 +2677,68 @@
                     onmouseout="this.style.background='none'; this.style.color='var(--text-secondary)'">×</button>
             </div>
 
+            <!-- 계정 정보 섹션 -->
+            <div id="accountInfoSection"
+                style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: none;">
+                <h4 style="color: var(--text); margin-bottom: 15px; font-size: 1.1rem;">👤 계정 정보</h4>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div
+                        style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; font-weight: 700;">
+                        <span id="settingsProfileInitial">U</span>
+                    </div>
+                    <div>
+                        <div id="settingsDisplayName"
+                            style="color: var(--text); font-weight: 600; font-size: 1.1rem; margin-bottom: 4px;">User
+                        </div>
+                        <div id="settingsEmail" style="color: var(--text-secondary); font-size: 0.9rem;">
+                            user@example.com</div>
+                    </div>
+                </div>
+                <button onclick="openHistoryModal()"
+                    style="margin-top: 15px; width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                    <i class="fa-solid fa-clock-rotate-left"></i> 검색 기록 보기
+                </button>
+                <button onclick="openUpdateModal()"
+                    style="margin-top: 10px; width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                    <i class="fa-solid fa-bell"></i> 업데이트 내역
+                </button>
+                <i class="fa-solid fa-clock-rotate-left"></i> 검색 기록 보기
+                </button>
+            </div>
+
             <div style="margin-bottom: 25px;">
                 <h4 style="color: var(--text); margin-bottom: 15px; font-size: 1.1rem;">🎨 배경화면 설정</h4>
 
                 <div style="margin-bottom: 15px;">
                     <label
                         style="display: block; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px;">이미지
-                        URL 입력</label>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="wallpaperUrl" placeholder="https://example.com/image.jpg"
-                            style="flex: 1; padding: 12px 16px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text); font-size: 0.95rem; outline: none;"
-                            onfocus="this.style.borderColor='var(--highlight)'"
-                            onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'">
-                        <button onclick="applyWallpaper()"
-                            style="padding: 0 20px; background: var(--highlight); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
-                            onmouseover="this.style.background='#ff6b9d'"
-                            onmouseout="this.style.background='var(--highlight)'">적용</button>
+                        URL 또는 파일 업로드</label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="wallpaperUrl" placeholder="https://example.com/image.jpg"
+                                style="flex: 1; padding: 12px 16px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text); font-size: 0.95rem; outline: none;"
+                                onfocus="this.style.borderColor='var(--highlight)'"
+                                onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'">
+                            <button onclick="applyWallpaper()"
+                                style="padding: 0 20px; background: var(--highlight); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='#ff6b9d'"
+                                onmouseout="this.style.background='var(--highlight)'">적용</button>
+                        </div>
+                        <div style="position: relative;">
+                            <input type="file" id="wallpaperFile" accept="image/*" onchange="handleFileUpload(this)"
+                                style="display: none;">
+                            <label for="wallpaperFile"
+                                style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 8px; color: var(--text-secondary); cursor: pointer; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='var(--highlight)'"
+                                onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'">
+                                <i class="fa-solid fa-upload"></i>
+                                <span>PC에서 이미지 선택 (최대 2MB)</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -3201,32 +2746,194 @@
                     <label
                         style="display: block; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px;">추천
                         배경화면</label>
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                        <div onclick="setWallpaper('default')"
-                            style="aspect-ratio: 16/9; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease;"
-                            onmouseover="this.style.borderColor='var(--highlight)'"
-                            onmouseout="this.style.borderColor='transparent'"></div>
-                        <div onclick="setWallpaper('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1080')"
-                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease;"
-                            onmouseover="this.style.borderColor='var(--highlight)'"
-                            onmouseout="this.style.borderColor='transparent'"></div>
-                        <div onclick="setWallpaper('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1080')"
-                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease;"
-                            onmouseover="this.style.borderColor='var(--highlight)'"
-                            onmouseout="this.style.borderColor='transparent'"></div>
-                        <div onclick="setWallpaper('https://images.unsplash.com/photo-1506318137071-a8bcbf6755dd?q=80&w=1080')"
-                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1506318137071-a8bcbf6755dd?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease;"
-                            onmouseover="this.style.borderColor='var(--highlight)'"
-                            onmouseout="this.style.borderColor='transparent'"></div>
+
+                    <!-- 카테고리 탭 -->
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 5px;">
+                        <button onclick="showWallpaperCategory('all')" class="wallpaper-tab active"
+                            style="padding: 6px 12px; background: rgba(255,255,255,0.1); border: none; border-radius: 15px; color: var(--text); font-size: 0.85rem; cursor: pointer; white-space: nowrap;">전체</button>
+                        <button onclick="showWallpaperCategory('nature')" class="wallpaper-tab"
+                            style="padding: 6px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; white-space: nowrap;">자연</button>
+                        <button onclick="showWallpaperCategory('city')" class="wallpaper-tab"
+                            style="padding: 6px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; white-space: nowrap;">도시</button>
+                        <button onclick="showWallpaperCategory('space')" class="wallpaper-tab"
+                            style="padding: 6px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; white-space: nowrap;">우주</button>
+                        <button onclick="showWallpaperCategory('minimal')" class="wallpaper-tab"
+                            style="padding: 6px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; white-space: nowrap;">미니멀</button>
+                    </div>
+
+                    <div id="wallpaperGrid"
+                        style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-height: 200px; overflow-y: auto; padding-right: 5px;">
+                        <!-- 기본 -->
+                        <div class="wallpaper-item all space" onclick="setWallpaper('default')"
+                            style="aspect-ratio: 16/9; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 8px; cursor: pointer; border: 2px solid transparent;"
+                            title="기본"></div>
+
+                        <!-- 우주 -->
+                        <div class="wallpaper-item all space"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all space"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all space"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+
+                        <!-- 자연 -->
+                        <div class="wallpaper-item all nature"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all nature"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all nature"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all nature"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+
+                        <!-- 도시 -->
+                        <div class="wallpaper-item all city"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all city"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all city"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all city"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1449824913929-4bdd42b00ade?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1449824913929-4bdd42b00ade?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+
+                        <!-- 미니멀 -->
+                        <div class="wallpaper-item all minimal"
+                            onclick="setWallpaper('https://firefox-settings-attachments.cdn.mozilla.net/main-workspace/newtab-wallpapers-v2/6f7e2155-df50-4917-81fd-9c6f16e14965.svg')"
+                            style="aspect-ratio: 16/9; background: url('https://firefox-settings-attachments.cdn.mozilla.net/main-workspace/newtab-wallpapers-v2/6f7e2155-df50-4917-81fd-9c6f16e14965.svg') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all minimal"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1506318137071-a8bcbf6755dd?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1506318137071-a8bcbf6755dd?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all minimal"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all minimal"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
+                        <div class="wallpaper-item all minimal"
+                            onclick="setWallpaper('https://images.unsplash.com/photo-1487147264018-f937fba0c817?q=80&w=1080')"
+                            style="aspect-ratio: 16/9; background: url('https://images.unsplash.com/photo-1487147264018-f937fba0c817?q=80&w=1080') center/cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;">
+                        </div>
                     </div>
                 </div>
 
-                <button onclick="resetWallpaper()"
-                    style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text-secondary); font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease;"
-                    onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.color='var(--text)'"
-                    onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.color='var(--text-secondary)'">
-                    기본값으로 초기화
-                </button>
+                <div style="margin-bottom: 25px;">
+                    <label
+                        style="display: block; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px;">단색
+                        배경</label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div onclick="setWallpaper('#000000', 'color')"
+                            style="width: 40px; height: 40px; background: #000000; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);"
+                            title="Black"></div>
+                        <div onclick="setWallpaper('#1a1a2e', 'color')"
+                            style="width: 40px; height: 40px; background: #1a1a2e; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);"
+                            title="Dark Blue"></div>
+                        <div onclick="setWallpaper('#2d3436', 'color')"
+                            style="width: 40px; height: 40px; background: #2d3436; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);"
+                            title="Dark Gray"></div>
+                        <div onclick="setWallpaper('#6c5ce7', 'color')"
+                            style="width: 40px; height: 40px; background: #6c5ce7; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);"
+                            title="Purple"></div>
+                        <div onclick="setWallpaper('#0984e3', 'color')"
+                            style="width: 40px; height: 40px; background: #0984e3; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);"
+                            title="Blue"></div>
+                        <div onclick="setWallpaper('#00b894', 'color')"
+                            style="width: 40px; height: 40px; background: #00b894; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);"
+                            title="Green"></div>
+                        <div onclick="setWallpaper('#d63031', 'color')"
+                            style="width: 40px; height: 40px; background: #d63031; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);"
+                            title="Red"></div>
+                        <div style="position: relative; width: 40px; height: 40px;">
+                            <input type="color" onchange="setWallpaper(this.value, 'color')"
+                                style="width: 100%; height: 100%; padding: 0; border: none; border-radius: 50%; overflow: hidden; cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="resetWallpaper()"
+                        style="flex: 1; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text-secondary); font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.color='var(--text)'"
+                        onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.color='var(--text-secondary)'">
+                        기본값으로 초기화
+                    </button>
+                    <button onclick="applyBrowserTheme()"
+                        style="flex: 1; padding: 12px; background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); border: none; border-radius: 8px; color: white; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.transform='translateY(0)'">
+                        브라우저 테마 사용
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 업데이트 내역 모달 -->
+    <div id="updateModal" onclick="if(event.target === this) closeUpdateModal()"
+        style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 1002; backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+        <div
+            style="background: var(--secondary); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: clamp(25px, 4vw, 40px); max-width: 600px; width: 90%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); animation: slideIn 0.3s ease; max-height: 80vh; display: flex; flex-direction: column;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0;">
+                <h3 style="font-size: 1.5rem; color: var(--text); font-weight: 700; margin: 0;">
+                    📢 업데이트 내역</h3>
+                <button onclick="closeUpdateModal()"
+                    style="background: none; border: none; color: var(--text-secondary); font-size: 1.8rem; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='var(--text)'"
+                    onmouseout="this.style.background='none'; this.style.color='var(--text-secondary)'">×</button>
+            </div>
+
+            <div id="updateList" style="overflow-y: auto; flex: 1; padding-right: 10px;">
+                <!-- 업데이트 내역이 여기에 동적으로 추가됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 검색 기록 모달 -->
+    <div id="historyModal" onclick="if(event.target === this) closeHistoryModal()"
+        style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 1100; backdrop-filter: blur(5px); align-items: center; justify-content: center;">
+        <div
+            style="background: #2b2a33; border: 1px solid #42414d; border-radius: 8px; width: 400px; max-width: 90%; height: 600px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div
+                style="padding: 15px; border-bottom: 1px solid #42414d; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; color: #f9f9fa; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-regular fa-clock"></i> 기록
+                </h3>
+                <button onclick="closeHistoryModal()"
+                    style="background: none; border: none; color: #f9f9fa; cursor: pointer; font-size: 1.2rem;">×</button>
+            </div>
+            <div id="historyList" style="flex: 1; overflow-y: auto; padding: 10px;">
+                <!-- 기록 아이템들이 여기에 동적으로 추가됨 -->
+            </div>
+            <div style="padding: 10px; border-top: 1px solid #42414d; text-align: right;">
+                <button onclick="clearHistory()"
+                    style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 0.9rem;">기록
+                    삭제</button>
             </div>
         </div>
     </div>
@@ -5392,6 +5099,40 @@
             return aiServices;
         }
 
+        // 커스텀 아이콘 처리
+        let currentCustomIcon = null;
+
+        function handleShortcutIconUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (file.size > 1024 * 1024) { // 1MB 제한
+                alert('아이콘 이미지는 1MB 이하여야 합니다.');
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                currentCustomIcon = e.target.result;
+                const preview = document.getElementById('customIconPreview');
+                const img = document.getElementById('customIconImg');
+                const removeBtn = document.getElementById('removeIconBtn');
+
+                img.src = currentCustomIcon;
+                preview.style.display = 'flex';
+                removeBtn.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeCustomIcon() {
+            currentCustomIcon = null;
+            document.getElementById('shortcutIconFile').value = '';
+            document.getElementById('customIconPreview').style.display = 'none';
+            document.getElementById('removeIconBtn').style.display = 'none';
+        }
+
         // 음악 차트 데이터 생성 (2025년 1월 최신 차트)
         function getMusicChart() {
             const koreanChart = [
@@ -5560,98 +5301,100 @@
                 return;
             }
 
-            container.innerHTML = shortcuts.map((shortcut, index) => {
-                const darkerColor = shortcut.color.replace(/[a-f0-9]{2}$/, (m) => {
-                    const val = parseInt(m, 16);
-                    return Math.max(0, val - 30).toString(16).padStart(2, '0');
-                });
+            container.innerHTML = '';
 
-                const faviconUrl = getFaviconUrl(shortcut.url);
+            shortcuts.forEach((shortcut, index) => {
+                const div = document.createElement('div');
+                div.className = 'shortcut-card';
+                div.draggable = true;
+                div.dataset.index = index;
 
-                return `
-                    <div class="shortcut-card" 
-                        style="position: relative;"
-                        draggable="true"
-                        ondragstart="handleDragStart(event, ${index})"
-                        ondragover="handleDragOver(event)"
-                        ondrop="handleDrop(event, ${index})"
-                        ondragenter="handleDragEnter(event)"
-                        ondragleave="handleDragLeave(event)"
-                        ondragend="handleDragEnd(event)">
-                        <button onclick="deleteShortcut(${index})" class="delete-btn">×</button>
-                        <button onclick="editShortcut(event, ${index})" class="edit-btn">✎</button>
-                        <div onclick="handleShortcutClick('${shortcut.url}', '${shortcut.keyword || ''}')">
-                            <div class="shortcut-icon">
-                                <img src="${faviconUrl}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fa-solid fa-globe\\'></i>'">
-                            </div>
-                            <div class="shortcut-name">${shortcut.name}</div>
-                        </div>
+                // 드래그 이벤트 리스너
+                div.ondragstart = (e) => handleDragStart(e, index);
+                div.ondragover = handleDragOver;
+                div.ondrop = (e) => handleDrop(e, index);
+                div.ondragenter = handleDragEnter;
+                div.ondragleave = handleDragLeave;
+                div.ondragend = handleDragEnd;
+
+                // 아이콘 결정 (커스텀 아이콘 > 파비콘 > 기본)
+                let iconHtml;
+                if (shortcut.customIcon) {
+                    iconHtml = `<img src="${shortcut.customIcon}" style="width: 32px; height: 32px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;">`;
+                } else {
+                    const faviconUrl = `https://www.google.com/s2/favicons?domain=${shortcut.url}&sz=64`;
+                    iconHtml = `<img src="${faviconUrl}" onerror="this.src='https://www.google.com/s2/favicons?domain=${shortcut.url}&sz=64'" style="width: 32px; height: 32px; border-radius: 8px; margin-bottom: 8px;">`;
+                }
+
+                div.innerHTML = `
+                    <div style="position: relative;">
+                        ${iconHtml}
+                        <div style="font-size: 0.8rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">${shortcut.name}</div>
+                        <button class="edit-btn" onclick="editShortcut(event, ${index})" title="수정">
+                            <i class="fa-solid fa-pencil"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteShortcut(event, ${index})" title="삭제">×</button>
                     </div>
                 `;
-            }).join('');
 
-            // 호버시 삭제 버튼 표시
-            setTimeout(() => {
-                document.querySelectorAll('.shortcut-card').forEach(card => {
-                    card.addEventListener('mouseenter', function () {
-                        const delBtn = this.querySelector('.delete-btn');
-                        const editBtn = this.querySelector('.edit-btn');
-                        if (delBtn) delBtn.style.opacity = '1';
-                        if (editBtn) editBtn.style.opacity = '1';
-                    });
-                    card.addEventListener('mouseleave', function () {
-                        const delBtn = this.querySelector('.delete-btn');
-                        const editBtn = this.querySelector('.edit-btn');
-                        if (delBtn) delBtn.style.opacity = '0';
-                        if (editBtn) editBtn.style.opacity = '0';
-                    });
-                });
-            }, 100);
+                div.onclick = (e) => handleShortcutClick(e, shortcut);
+                container.appendChild(div);
+            });
         }
 
         // 모달 열기
         // 모달 열기
         function openAddShortcutModal() {
-            editingShortcutIndex = null;
             document.getElementById('addShortcutModal').style.display = 'flex';
             document.getElementById('modalTitle').textContent = '✨ 바로가기 추가';
-            document.getElementById('modalSubmitBtn').textContent = '추가하기';
-
             document.getElementById('shortcutName').value = '';
             document.getElementById('shortcutUrl').value = '';
             document.getElementById('shortcutKeyword').value = '';
             document.getElementById('faviconPreview').style.display = 'none';
 
-            // 색상 초기화
-            selectColor(document.querySelector('.color-option:nth-child(7)'), '#00c73c');
+            // 커스텀 아이콘 초기화
+            removeCustomIcon();
+
+            editingShortcutIndex = null;
+
+            // 색상 선택 초기화
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector('.color-option:nth-child(7)').classList.add('selected'); // 기본 초록색
+            selectedColor = '#00c73c';
         }
 
         // 바로가기 수정 모달 열기
         function editShortcut(e, index) {
-            e.stopPropagation(); // 카드 클릭 이벤트 방지
+            e.stopPropagation();
             editingShortcutIndex = index;
             const shortcut = shortcuts[index];
 
-            document.getElementById('addShortcutModal').style.display = 'flex';
-            document.getElementById('modalTitle').textContent = '✏️ 바로가기 수정';
-            document.getElementById('modalSubmitBtn').textContent = '수정 완료';
+            openAddShortcutModal(); // 초기화 후 값 채우기
 
+            document.getElementById('modalTitle').textContent = '✏️ 바로가기 수정';
             document.getElementById('shortcutName').value = shortcut.name;
             document.getElementById('shortcutUrl').value = shortcut.url;
             document.getElementById('shortcutKeyword').value = shortcut.keyword || '';
 
-            updateFaviconPreview();
+            // 커스텀 아이콘 로드
+            if (shortcut.customIcon) {
+                currentCustomIcon = shortcut.customIcon;
+                const preview = document.getElementById('customIconPreview');
+                const img = document.getElementById('customIconImg');
+                const removeBtn = document.getElementById('removeIconBtn');
+
+                img.src = currentCustomIcon;
+                preview.style.display = 'flex';
+                removeBtn.style.display = 'block';
+            }
 
             // 색상 선택
-            const colorOptions = document.querySelectorAll('.color-option');
-            let colorFound = false;
-            colorOptions.forEach(option => {
-                // 색상 비교 로직 (배경색 그라디언트에서 색상 추출이 어려우므로 data 속성 등을 사용하는게 좋지만, 
+            selectedColor = shortcut.color || '#00c73c';
+            document.querySelectorAll('.color-option').forEach(opt => {
+                // 색상 매칭 로직 (단순화)
                 // 여기서는 onclick 핸들러의 인자를 파싱하거나 순서로 추정해야 함. 
                 // 기존 코드 구조상 색상 매칭이 어려울 수 있으므로, 일단 기본값 혹은 저장된 색상값을 사용)
                 // 간단히 구현하기 위해 모든 옵션의 테두리를 제거하고 selectedColor만 업데이트
-                option.classList.remove('selected');
-                option.style.borderColor = 'transparent';
                 option.style.transform = 'scale(1)';
             });
             selectedColor = shortcut.color;
@@ -5847,10 +5590,39 @@
             document.getElementById('settingsModal').style.display = 'flex';
             document.getElementById('userDropdown').classList.remove('show');
 
+            // 계정 정보 표시
+            const user = window.firebaseAuth ? window.firebaseAuth.currentUser : null;
+            const accountSection = document.getElementById('accountInfoSection');
+
+            if (user) {
+                accountSection.style.display = 'block';
+                document.getElementById('settingsDisplayName').textContent = user.displayName || '사용자';
+                document.getElementById('settingsEmail').textContent = user.email;
+
+                const initial = (user.displayName || user.email || 'U')[0].toUpperCase();
+                document.getElementById('settingsProfileInitial').textContent = initial;
+            } else {
+                accountSection.style.display = 'none';
+            }
+
             // 현재 설정된 배경화면 URL 표시
             const currentWallpaper = localStorage.getItem('userWallpaper');
-            if (currentWallpaper && currentWallpaper !== 'default') {
-                document.getElementById('wallpaperUrl').value = currentWallpaper;
+            if (currentWallpaper) {
+                try {
+                    const data = JSON.parse(currentWallpaper);
+                    if (data.type === 'image' && !data.value.startsWith('data:')) {
+                        document.getElementById('wallpaperUrl').value = data.value;
+                    } else {
+                        document.getElementById('wallpaperUrl').value = '';
+                    }
+                } catch (e) {
+                    // 이전 버전의 문자열 저장 방식 처리
+                    if (currentWallpaper !== 'default' && !currentWallpaper.startsWith('#')) {
+                        document.getElementById('wallpaperUrl').value = currentWallpaper;
+                    } else {
+                        document.getElementById('wallpaperUrl').value = '';
+                    }
+                }
             } else {
                 document.getElementById('wallpaperUrl').value = '';
             }
@@ -5860,43 +5632,115 @@
             document.getElementById('settingsModal').style.display = 'none';
         }
 
+        // 배경화면 카테고리 전환
+        function showWallpaperCategory(category) {
+            // 탭 스타일 업데이트
+            document.querySelectorAll('.wallpaper-tab').forEach(tab => {
+                if (tab.textContent === getCategoryName(category)) {
+                    tab.classList.add('active');
+                    tab.style.background = 'rgba(255,255,255,0.1)';
+                    tab.style.color = 'var(--text)';
+                    tab.style.border = 'none';
+                } else {
+                    tab.classList.remove('active');
+                    tab.style.background = 'transparent';
+                    tab.style.color = 'var(--text-secondary)';
+                    tab.style.border = '1px solid rgba(255,255,255,0.1)';
+                }
+            });
+
+            // 아이템 필터링
+            document.querySelectorAll('.wallpaper-item').forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function getCategoryName(category) {
+            const names = {
+                'all': '전체',
+                'nature': '자연',
+                'city': '도시',
+                'space': '우주',
+                'minimal': '미니멀'
+            };
+            return names[category] || category;
+        }
+
         function applyWallpaper() {
             const url = document.getElementById('wallpaperUrl').value.trim();
             if (url) {
-                setWallpaper(url);
+                setWallpaper(url, 'image');
             }
         }
 
-        function setWallpaper(url) {
-            if (url === 'default') {
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // 파일 크기 체크 (2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('파일 크기가 너무 큽니다. 2MB 이하의 이미지를 선택해주세요.');
+                input.value = ''; // 초기화
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const result = e.target.result;
+                setWallpaper(result, 'image');
+                document.getElementById('wallpaperUrl').value = ''; // URL 입력창 초기화
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function setWallpaper(value, type = 'image') {
+            if (value === 'default') {
                 resetWallpaper();
                 return;
             }
 
-            document.body.style.background = `url('${url}') center/cover fixed no-repeat`;
-            document.body.style.setProperty('--primary', 'rgba(0,0,0,0.7)'); // 배경이 있을 때 가독성을 위해 변수 조정
-
-            // body::before 오버레이 조정
-            const overlay = document.createElement('div');
-            overlay.id = 'bgOverlay';
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.right = '0';
-            overlay.style.bottom = '0';
-            overlay.style.background = 'rgba(0, 0, 0, 0.5)';
-            overlay.style.zIndex = '-1';
-            overlay.style.pointerEvents = 'none';
-
-            // 기존 오버레이 제거 후 추가
+            // 오버레이 처리
             const oldOverlay = document.getElementById('bgOverlay');
             if (oldOverlay) oldOverlay.remove();
-            document.body.appendChild(overlay);
 
-            localStorage.setItem('userWallpaper', url);
+            if (type === 'color') {
+                document.body.style.background = value;
+                // 단색 배경일 때는 오버레이를 제거하거나 약하게 설정
+                document.body.style.setProperty('--primary', value);
+            } else if (type === 'browser') {
+                // 브라우저 테마는 별도 처리
+            } else {
+                // 이미지
+                document.body.style.background = `url('${value}') center/cover fixed no-repeat`;
+                document.body.style.setProperty('--primary', 'rgba(0,0,0,0.7)');
 
-            // 입력창 업데이트
-            document.getElementById('wallpaperUrl').value = url;
+                const overlay = document.createElement('div');
+                overlay.id = 'bgOverlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.right = '0';
+                overlay.style.bottom = '0';
+                overlay.style.background = 'rgba(0, 0, 0, 0.5)';
+                overlay.style.zIndex = '-1';
+                overlay.style.pointerEvents = 'none';
+                document.body.appendChild(overlay);
+            }
+
+            // 저장
+            const wallpaperData = { value: value, type: type };
+            localStorage.setItem('userWallpaper', JSON.stringify(wallpaperData));
+
+            // 입력창 업데이트 (이미지일 경우만)
+            if (type === 'image' && !value.startsWith('data:')) {
+                document.getElementById('wallpaperUrl').value = value;
+            } else {
+                document.getElementById('wallpaperUrl').value = '';
+            }
         }
 
         function resetWallpaper() {
@@ -5910,8 +5754,43 @@
 
         function loadWallpaper() {
             const saved = localStorage.getItem('userWallpaper');
-            if (saved && saved !== 'default') {
-                setWallpaper(saved);
+            if (saved) {
+                try {
+                    // 이전 버전 호환성 체크 (문자열인 경우)
+                    if (saved.startsWith('{')) {
+                        const data = JSON.parse(saved);
+                        if (data.value !== 'default') {
+                            setWallpaper(data.value, data.type);
+                        }
+                    } else if (saved !== 'default') {
+                        setWallpaper(saved, 'image');
+                    }
+                } catch (e) {
+                    console.error('Wallpaper load error:', e);
+                }
+            }
+        }
+
+        // 브라우저 테마 적용
+        function applyBrowserTheme() {
+            if (window.chrome && chrome.theme) {
+                chrome.theme.getCurrent((theme) => {
+                    if (theme.images && theme.images.theme_ntp_background) {
+                        setWallpaper(theme.images.theme_ntp_background, 'image');
+                    } else if (theme.colors && theme.colors.ntp_background) {
+                        const color = theme.colors.ntp_background;
+                        const colorString = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                        setWallpaper(colorString, 'color');
+                    } else {
+                        alert('현재 브라우저 테마에서 배경 정보를 가져올 수 없습니다.');
+                    }
+                });
+
+                // 테마 변경 감지 (확장 프로그램 권한 필요)
+                // 이 부분은 content script나 background script가 아니면 작동하지 않을 수 있음
+                // 하지만 chrome.theme API가 있는 컨텍스트라면 작동할 것임
+            } else {
+                alert('이 기능은 브라우저 확장 프로그램 환경에서만 사용할 수 있습니다.');
             }
         }
 
@@ -5924,6 +5803,14 @@
             if (urlPattern.test(query.trim())) {
                 // URL인 경우 직접 이동
                 let url = query.trim();
+                // 검색어 저장
+                saveSearchHistory(query);
+
+                if (query.startsWith('http://') || query.startsWith('https://')) {
+                    window.location.href = query;
+                    return;
+                }
+                // If it's a URL but doesn't start with http/https, prepend it and open in new tab
                 if (!url.startsWith('http://') && !url.startsWith('https://')) {
                     url = 'https://' + url;
                 }
@@ -5959,9 +5846,8 @@
                 const results = generateSearchResults(query);
                 displayResults(results, query);
 
-                // 검색 기록에 추가
-                searchHistory.unshift({ query, timestamp: new Date() });
-                if (searchHistory.length > 10) searchHistory.pop();
+                // 검색 기록 저장
+                saveSearchHistory(query);
             }, randomDelay);
         }
 
@@ -9235,10 +9121,14 @@
                     closeAuthModal();
                 }, 1500);
             } catch (error) {
+                console.error("Signup Error:", error);
                 let message = '회원가입에 실패했습니다.';
                 if (error.code === 'auth/email-already-in-use') message = '이미 사용 중인 이메일입니다.';
                 else if (error.code === 'auth/invalid-email') message = '유효하지 않은 이메일 형식입니다.';
                 else if (error.code === 'auth/weak-password') message = '비밀번호가 너무 약합니다.';
+                else if (error.code === 'auth/operation-not-allowed') message = '이메일/비밀번호 로그인이 비활성화되어 있습니다.';
+                else message = `오류 발생: ${error.message}`;
+
                 errorDiv.textContent = message;
                 errorDiv.classList.add('show');
             } finally {
@@ -9284,6 +9174,34 @@
                 console.error('로그아웃 실패:', error);
             }
         };
+
+        // 인증 상태 변화 감지
+        onAuthStateChanged(auth, (user) => {
+            const profileBtn = document.getElementById('userProfileBtn');
+            const displayName = document.getElementById('userDisplayName');
+            const loginMenuItem = document.getElementById('loginMenuItem');
+            const signupMenuItem = document.getElementById('signupMenuItem');
+            const profileMenuItem = document.getElementById('profileMenuItem');
+            const logoutMenuItem = document.getElementById('logoutMenuItem');
+
+            if (user) {
+                // 로그인됨
+                profileBtn.classList.add('logged-in');
+                displayName.textContent = user.displayName || user.email.split('@')[0];
+                loginMenuItem.style.display = 'none';
+                signupMenuItem.style.display = 'none';
+                profileMenuItem.style.display = 'flex';
+                logoutMenuItem.style.display = 'flex';
+            } else {
+                // 로그아웃됨
+                profileBtn.classList.remove('logged-in');
+                displayName.textContent = '로그인';
+                loginMenuItem.style.display = 'flex';
+                signupMenuItem.style.display = 'flex';
+                profileMenuItem.style.display = 'none';
+                logoutMenuItem.style.display = 'none';
+            }
+        });
 
         // Enter 키로 로그인/회원가입
         document.getElementById('loginPassword').addEventListener('keypress', (e) => {
@@ -9370,486 +9288,237 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeAuthModal();
-                closeSettingsModal();
             }
         });
+        // 검색 기록 관련 함수
+        function saveSearchHistory(query) {
+            if (!query) return;
 
-        // ===== 설정 모달 기능 =====
-        function openSettingsModal() {
-            document.getElementById('settingsModal').classList.add('show');
-            document.getElementById('userDropdown').classList.remove('show');
-            loadSettingsHistory();
-            updateSyncStatus();
-            loadBackgroundSettings();
+            let history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+            const now = new Date().getTime();
+
+            // 중복 제거 (같은 검색어는 최신으로 갱신)
+            history = history.filter(item => item.query !== query);
+
+            // 새 검색어 추가
+            history.unshift({ query: query, timestamp: now });
+
+            // 6개월 지난 기록 삭제
+            const sixMonthsAgo = now - (6 * 30 * 24 * 60 * 60 * 1000);
+            history = history.filter(item => item.timestamp > sixMonthsAgo);
+
+            localStorage.setItem('searchHistory', JSON.stringify(history));
         }
 
-        function closeSettingsModal() {
-            document.getElementById('settingsModal').classList.remove('show');
+        function openHistoryModal() {
+            document.getElementById('historyModal').style.display = 'flex';
+            loadHistory();
         }
 
-        // ===== 배경화면 설정 =====
-        let currentBgType = 'color';
-        let currentBgColor = 'default';
-        let currentBgImage = null;
-        let bgOverlayOpacity = 40;
-
-        function selectBgType(type) {
-            currentBgType = type;
-            document.getElementById('bgTypeColor').classList.toggle('active', type === 'color');
-            document.getElementById('bgTypeImage').classList.toggle('active', type === 'image');
-            document.getElementById('bgColorSection').style.display = type === 'color' ? 'block' : 'none';
-            document.getElementById('bgImageSection').style.display = type === 'image' ? 'block' : 'none';
-            
-            if (type === 'color') {
-                applyBgColor(currentBgColor);
-            } else if (currentBgImage) {
-                applyBgImage(currentBgImage);
-            }
-            saveBackgroundSettings();
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
         }
 
-        function selectBgColor(element, color) {
-            document.querySelectorAll('.bg-color-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-            currentBgColor = color;
-            applyBgColor(color);
-            saveBackgroundSettings();
-        }
-
-        function applyBgColor(color) {
-            document.body.classList.remove('has-bg-image');
-            document.body.style.backgroundImage = '';
-            
-            if (color === 'default') {
-                document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)';
-            } else {
-                const darkerColor = adjustColor(color, -30);
-                document.body.style.background = `linear-gradient(135deg, ${color} 0%, ${darkerColor} 100%)`;
+        function clearHistory() {
+            if (confirm('모든 검색 기록을 삭제하시겠습니까?')) {
+                localStorage.removeItem('searchHistory');
+                loadHistory();
             }
         }
 
-        function adjustColor(color, amount) {
-            const hex = color.replace('#', '');
-            const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) + amount));
-            const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) + amount));
-            const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) + amount));
-            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-        }
+        function loadHistory() {
+            const historyList = document.getElementById('historyList');
+            const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+            historyList.innerHTML = '';
 
-        function handleBgImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            if (file.size > 5 * 1024 * 1024) {
-                alert('파일 크기는 5MB 이하여야 합니다.');
+            if (history.length === 0) {
+                historyList.innerHTML = '<div style="color: #cfcfd8; text-align: center; padding: 20px;">기록이 없습니다.</div>';
                 return;
             }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                currentBgImage = e.target.result;
-                document.getElementById('bgPreviewImg').src = currentBgImage;
-                document.getElementById('bgImagePreview').style.display = 'block';
-                applyBgImage(currentBgImage);
-                saveBackgroundSettings();
+
+            const groups = {
+                '오늘': [],
+                '어제': [],
+                '최근 7일': [],
+                '이번 달': [],
+                '지난 달': [],
+                '오래된 기록': [] // 6개월 내
             };
-            reader.readAsDataURL(file);
-        }
 
-        function applyBgImage(imageData) {
-            document.body.classList.add('has-bg-image');
-            document.body.style.background = 'transparent';
-            document.body.style.setProperty('--bg-image', `url(${imageData})`);
-            
-            const style = document.createElement('style');
-            style.id = 'bg-image-style';
-            const oldStyle = document.getElementById('bg-image-style');
-            if (oldStyle) oldStyle.remove();
-            
-            style.textContent = `
-                body.has-bg-image::before {
-                    background-image: url(${imageData});
-                }
-                body.has-bg-image::after {
-                    background: rgba(0, 0, 0, ${bgOverlayOpacity / 100});
-                }
-            `;
-            document.head.appendChild(style);
-        }
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+            const yesterday = today - (24 * 60 * 60 * 1000);
+            const last7Days = today - (7 * 24 * 60 * 60 * 1000);
 
-        function removeBgImage() {
-            currentBgImage = null;
-            document.getElementById('bgImageInput').value = '';
-            document.getElementById('bgImagePreview').style.display = 'none';
-            applyBgColor(currentBgColor);
-            saveBackgroundSettings();
-        }
+            history.forEach(item => {
+                const date = new Date(item.timestamp);
+                const time = date.getTime();
 
-        function updateBgOverlay(value) {
-            bgOverlayOpacity = value;
-            if (currentBgImage && currentBgType === 'image') {
-                applyBgImage(currentBgImage);
-            }
-            saveBackgroundSettings();
-        }
-
-        function saveBackgroundSettings() {
-            const settings = {
-                type: currentBgType,
-                color: currentBgColor,
-                image: currentBgImage,
-                overlay: bgOverlayOpacity
-            };
-            localStorage.setItem('bgSettings', JSON.stringify(settings));
-        }
-
-        function loadBackgroundSettings() {
-            const saved = localStorage.getItem('bgSettings');
-            if (saved) {
-                const settings = JSON.parse(saved);
-                currentBgType = settings.type || 'color';
-                currentBgColor = settings.color || 'default';
-                currentBgImage = settings.image || null;
-                bgOverlayOpacity = settings.overlay || 40;
-                
-                // UI 업데이트
-                document.getElementById('bgTypeColor').classList.toggle('active', currentBgType === 'color');
-                document.getElementById('bgTypeImage').classList.toggle('active', currentBgType === 'image');
-                document.getElementById('bgColorSection').style.display = currentBgType === 'color' ? 'block' : 'none';
-                document.getElementById('bgImageSection').style.display = currentBgType === 'image' ? 'block' : 'none';
-                document.getElementById('bgOverlaySlider').value = bgOverlayOpacity;
-                
-                // 색상 선택 표시
-                document.querySelectorAll('.bg-color-option').forEach(opt => {
-                    opt.classList.toggle('selected', opt.dataset.color === currentBgColor);
-                });
-                
-                // 이미지 미리보기
-                if (currentBgImage) {
-                    document.getElementById('bgPreviewImg').src = currentBgImage;
-                    document.getElementById('bgImagePreview').style.display = 'block';
-                }
-                
-                // 배경 적용
-                if (currentBgType === 'image' && currentBgImage) {
-                    applyBgImage(currentBgImage);
+                if (time >= today) {
+                    groups['오늘'].push(item);
+                } else if (time >= yesterday) {
+                    groups['어제'].push(item);
+                } else if (time >= last7Days) {
+                    groups['최근 7일'].push(item);
+                } else if (date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()) {
+                    groups['이번 달'].push(item);
+                } else if (date.getMonth() === now.getMonth() - 1 || (now.getMonth() === 0 && date.getMonth() === 11 && date.getFullYear() === now.getFullYear() - 1)) {
+                    groups['지난 달'].push(item);
                 } else {
-                    applyBgColor(currentBgColor);
+                    // 월별 그룹화 (예: 2025년 12월)
+                    const monthYear = `${date.getFullYear()}년 ${date.getMonth() + 1}월`;
+                    if (!groups[monthYear]) groups[monthYear] = [];
+                    groups[monthYear].push(item);
                 }
-            }
-        }
-
-        // 페이지 로드시 배경 설정 적용
-        document.addEventListener('DOMContentLoaded', loadBackgroundSettings);
-
-        // ===== 검색 기록 (쿠키 저장) =====
-        let searchHistoryEnabled = true;
-        const MAX_HISTORY_ITEMS = 50;
-
-        function getSearchHistory() {
-            const cookie = getCookie('searchHistory');
-            if (cookie) {
-                try {
-                    return JSON.parse(decodeURIComponent(cookie));
-                } catch (e) {
-                    return [];
-                }
-            }
-            return [];
-        }
-
-        function saveSearchHistory(history) {
-            const encoded = encodeURIComponent(JSON.stringify(history));
-            // 쿠키 만료일: 30일
-            const expires = new Date();
-            expires.setDate(expires.getDate() + 30);
-            document.cookie = `searchHistory=${encoded};expires=${expires.toUTCString()};path=/`;
-        }
-
-        function addSearchHistory(query) {
-            if (!searchHistoryEnabled || !query.trim()) return;
-            
-            let history = getSearchHistory();
-            
-            // 중복 제거
-            history = history.filter(item => item.query.toLowerCase() !== query.toLowerCase());
-            
-            // 새 항목 추가
-            history.unshift({
-                query: query.trim(),
-                timestamp: Date.now()
             });
-            
-            // 최대 개수 제한
-            if (history.length > MAX_HISTORY_ITEMS) {
-                history = history.slice(0, MAX_HISTORY_ITEMS);
-            }
-            
-            saveSearchHistory(history);
-        }
 
-        function deleteSearchHistoryItem(index) {
-            let history = getSearchHistory();
-            history.splice(index, 1);
-            saveSearchHistory(history);
-            loadSettingsHistory();
-            updateHistoryDropdown();
-        }
+            // 그룹 렌더링
+            for (const [groupName, items] of Object.entries(groups)) {
+                if (items.length > 0) {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.style.marginBottom = '10px';
 
-        function clearSearchHistory() {
-            if (confirm('검색 기록을 모두 삭제하시겠습니까?')) {
-                document.cookie = 'searchHistory=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
-                loadSettingsHistory();
-                updateHistoryDropdown();
-            }
-        }
+                    const header = document.createElement('div');
+                    header.innerHTML = `<i class="fa-regular fa-clock" style="margin-right: 8px; font-size: 0.9rem;"></i> ${groupName}`;
+                    header.style.color = '#f9f9fa';
+                    header.style.padding = '8px 12px';
+                    header.style.fontSize = '0.95rem';
+                    header.style.fontWeight = '500';
+                    header.style.cursor = 'pointer';
+                    header.style.display = 'flex';
+                    header.style.alignItems = 'center';
+                    header.onclick = () => {
+                        const list = groupDiv.querySelector('.history-items');
+                        list.style.display = list.style.display === 'none' ? 'block' : 'none';
+                    };
 
-        function toggleSearchHistory() {
-            searchHistoryEnabled = document.getElementById('searchHistoryToggle').checked;
-            setCookie('searchHistoryEnabled', searchHistoryEnabled ? 'true' : 'false', 365);
-        }
+                    const list = document.createElement('div');
+                    list.className = 'history-items';
+                    list.style.paddingLeft = '20px';
 
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        }
+                    items.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.style.padding = '6px 10px';
+                        itemDiv.style.color = '#cfcfd8';
+                        itemDiv.style.fontSize = '0.9rem';
+                        itemDiv.style.cursor = 'pointer';
+                        itemDiv.style.borderRadius = '4px';
+                        itemDiv.onmouseover = () => itemDiv.style.background = 'rgba(255,255,255,0.1)';
+                        itemDiv.onmouseout = () => itemDiv.style.background = 'transparent';
+                        itemDiv.onclick = () => {
+                            document.getElementById('searchInput').value = item.query;
+                            performSearch();
+                            closeHistoryModal();
+                            closeSettingsModal();
+                        };
 
-        function setCookie(name, value, days) {
-            const expires = new Date();
-            expires.setDate(expires.getDate() + days);
-            document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-        }
+                        // 시간 표시
+                        const date = new Date(item.timestamp);
+                        const timeStr = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 
-        function loadSettingsHistory() {
-            const historyList = document.getElementById('settingsHistoryList');
-            const history = getSearchHistory();
-            
-            if (history.length === 0) {
-                historyList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-secondary);">검색 기록이 없습니다</div>';
-                return;
-            }
-            
-            historyList.innerHTML = history.slice(0, 10).map((item, index) => `
-                <div class="search-history-item" onclick="searchFromHistory('${item.query.replace(/'/g, "\\'")}')">
-                    <span>${item.query}</span>
-                    <span class="time">${formatTimeAgo(item.timestamp)}</span>
-                    <button class="delete-history" onclick="event.stopPropagation(); deleteSearchHistoryItem(${index})">×</button>
-                </div>
-            `).join('');
-        }
+                        itemDiv.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>${item.query}</span>
+                                <span style="font-size: 0.8rem; color: #8f8f9d;">${timeStr}</span>
+                            </div>
+                        `;
+                        list.appendChild(itemDiv);
+                    });
 
-        function formatTimeAgo(timestamp) {
-            const diff = Date.now() - timestamp;
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
-            
-            if (minutes < 1) return '방금 전';
-            if (minutes < 60) return `${minutes}분 전`;
-            if (hours < 24) return `${hours}시간 전`;
-            return `${days}일 전`;
-        }
-
-        function searchFromHistory(query) {
-            document.getElementById('searchInput').value = query;
-            closeSettingsModal();
-            executeSearch(query);
-        }
-
-        function updateHistoryDropdown() {
-            const dropdown = document.getElementById('searchHistoryDropdown');
-            const history = getSearchHistory();
-            
-            if (history.length === 0) {
-                dropdown.innerHTML = '';
-                return;
-            }
-            
-            dropdown.innerHTML = `
-                <div class="history-section-title">최근 검색</div>
-                ${history.slice(0, 5).map((item, index) => `
-                    <div class="history-item" onclick="searchFromHistoryDropdown('${item.query.replace(/'/g, "\\'")}')">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        <span>${item.query}</span>
-                        <button class="delete-btn" onclick="event.stopPropagation(); deleteSearchHistoryItem(${index})">×</button>
-                    </div>
-                `).join('')}
-            `;
-        }
-
-        function searchFromHistoryDropdown(query) {
-            document.getElementById('searchInput').value = query;
-            document.getElementById('searchHistoryDropdown').classList.remove('show');
-            executeSearch(query);
-        }
-
-        // 검색 입력창 포커스시 검색 기록 표시
-        searchInput.addEventListener('focus', function() {
-            if (this.value === '' && searchHistoryEnabled) {
-                updateHistoryDropdown();
-                const history = getSearchHistory();
-                if (history.length > 0) {
-                    document.getElementById('searchHistoryDropdown').classList.add('show');
+                    groupDiv.appendChild(header);
+                    groupDiv.appendChild(list);
+                    historyList.appendChild(groupDiv);
                 }
             }
-        });
-
-        searchInput.addEventListener('input', function() {
-            if (this.value === '') {
-                updateHistoryDropdown();
-                const history = getSearchHistory();
-                if (history.length > 0 && searchHistoryEnabled) {
-                    document.getElementById('searchHistoryDropdown').classList.add('show');
-                }
-            } else {
-                document.getElementById('searchHistoryDropdown').classList.remove('show');
-            }
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-input-wrapper')) {
-                document.getElementById('searchHistoryDropdown').classList.remove('show');
-            }
-        });
-
-        // 검색 실행시 기록 저장 (기존 executeSearch 수정)
-        const originalExecuteSearch = executeSearch;
-        executeSearch = function(query) {
-            if (query && query.trim()) {
-                addSearchHistory(query);
-            }
-            originalExecuteSearch(query);
-        };
-
-        // ===== Firebase 바로가기 동기화 =====
-        function updateSyncStatus() {
-            const statusLabel = document.getElementById('syncStatusLabel');
-            const statusDesc = document.getElementById('syncStatusDesc');
-            const syncBtn = document.getElementById('syncNowBtn');
-            
-            if (auth.currentUser) {
-                statusLabel.textContent = '동기화 활성화됨';
-                statusDesc.textContent = `${auth.currentUser.email}에 바로가기가 저장됩니다`;
-                syncBtn.style.display = 'inline-block';
-            } else {
-                statusLabel.textContent = '로그인하여 동기화';
-                statusDesc.textContent = '로그인하면 바로가기가 계정에 저장됩니다';
-                syncBtn.style.display = 'none';
-            }
         }
 
-        // Firebase에서 바로가기 로드
-        async function loadShortcutsFromFirebase() {
-            if (!auth.currentUser) return false;
-            
-            try {
-                const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-                const db = getFirestore();
-                const userDoc = await getDoc(doc(db, 'users', auth.currentUser.uid));
-                
-                if (userDoc.exists() && userDoc.data().shortcuts) {
-                    shortcuts = userDoc.data().shortcuts;
-                    renderShortcuts();
-                    localStorage.setItem('userShortcuts', JSON.stringify(shortcuts));
-                    return true;
-                }
-            } catch (error) {
-                console.error('Firebase 로드 오류:', error);
+        // 업데이트 내역 데이터
+        const updateHistory = [
+            {
+                version: '1.2.0',
+                date: '2026.01.07',
+                changes: [
+                    '커스텀 아이콘 기능 추가: 바로가기에 원하는 이미지를 아이콘으로 사용할 수 있습니다.',
+                    '검색 기록 기능 추가: 최근 검색한 내용을 확인하고 다시 검색할 수 있습니다.',
+                    '배경화면 테마 추가: 다양한 고화질 배경화면과 Firefox 테마가 추가되었습니다.',
+                    '설정 메뉴 개선: 계정 정보와 업데이트 내역을 확인할 수 있습니다.'
+                ]
+            },
+            {
+                version: '1.1.0',
+                date: '2026.01.06',
+                changes: [
+                    '로그인/회원가입 기능 추가: Firebase 연동으로 계정 관리가 가능해졌습니다.',
+                    '설정 모달 추가: 배경화면 변경 등 다양한 설정을 한 곳에서 관리할 수 있습니다.',
+                    'UI 개선: 모바일 반응형 디자인이 강화되었습니다.'
+                ]
+            },
+            {
+                version: '1.0.0',
+                date: '2026.01.01',
+                changes: [
+                    'MLE-RJATOR 출시: 빠르고 강력한 검색 엔진',
+                    '다양한 검색 엔진 지원: Google, Naver, Daum 등',
+                    '바로가기 기능: 자주 방문하는 사이트를 홈 화면에 추가하세요.'
+                ]
             }
-            return false;
+        ];
+
+        function openUpdateModal() {
+            const modal = document.getElementById('updateModal');
+            const list = document.getElementById('updateList');
+            modal.style.display = 'flex';
+
+            list.innerHTML = '';
+
+            updateHistory.forEach(update => {
+                const item = document.createElement('div');
+                item.style.marginBottom = '25px';
+                item.style.padding = '20px';
+                item.style.background = 'rgba(255, 255, 255, 0.03)';
+                item.style.borderRadius = '12px';
+                item.style.border = '1px solid rgba(255, 255, 255, 0.05)';
+
+                const header = document.createElement('div');
+                header.style.display = 'flex';
+                header.style.justifyContent = 'space-between';
+                header.style.alignItems = 'center';
+                header.style.marginBottom = '15px';
+                header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+                header.style.paddingBottom = '10px';
+
+                header.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.2rem; font-weight: 700; color: var(--highlight);">v${update.version}</span>
+                            <span style="font-size: 0.9rem; color: var(--text-secondary);">${update.date}</span>
+                        </div>
+                    `;
+
+                const changesList = document.createElement('ul');
+                changesList.style.listStyle = 'none';
+                changesList.style.padding = '0';
+                changesList.style.margin = '0';
+
+                update.changes.forEach(change => {
+                    const li = document.createElement('li');
+                    li.style.marginBottom = '8px';
+                    li.style.color = 'var(--text)';
+                    li.style.fontSize = '0.95rem';
+                    li.style.display = 'flex';
+                    li.style.alignItems = 'flex-start';
+                    li.style.gap = '8px';
+                    li.innerHTML = `<span style="color: var(--highlight); margin-top: 5px;">•</span> <span>${change}</span>`;
+                    changesList.appendChild(li);
+                });
+
+                item.appendChild(header);
+                item.appendChild(changesList);
+                list.appendChild(item);
+            });
         }
 
-        // Firebase에 바로가기 저장
-        async function saveShortcutsToFirebase() {
-            if (!auth.currentUser) return;
-            
-            try {
-                const { getFirestore, doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-                const db = getFirestore();
-                await setDoc(doc(db, 'users', auth.currentUser.uid), {
-                    shortcuts: shortcuts,
-                    updatedAt: new Date().toISOString()
-                }, { merge: true });
-            } catch (error) {
-                console.error('Firebase 저장 오류:', error);
-            }
-        }
-
-        // 바로가기 저장 함수 수정
-        const originalSaveShortcuts = saveShortcuts;
-        saveShortcuts = function() {
-            originalSaveShortcuts();
-            if (auth.currentUser) {
-                saveShortcutsToFirebase();
-            }
-        };
-
-        // 수동 동기화
-        async function syncShortcutsNow() {
-            const btn = document.getElementById('syncNowBtn');
-            btn.textContent = '동기화 중...';
-            btn.disabled = true;
-            
-            try {
-                await saveShortcutsToFirebase();
-                btn.textContent = '완료!';
-                setTimeout(() => {
-                    btn.textContent = '동기화';
-                    btn.disabled = false;
-                }, 2000);
-            } catch (error) {
-                btn.textContent = '오류';
-                setTimeout(() => {
-                    btn.textContent = '동기화';
-                    btn.disabled = false;
-                }, 2000);
-            }
-        }
-
-        // 로그인 상태 변경시 바로가기 동기화
-        onAuthStateChanged(auth, async (user) => {
-            const profileBtn = document.getElementById('userProfileBtn');
-            const displayName = document.getElementById('userDisplayName');
-            const loginMenuItem = document.getElementById('loginMenuItem');
-            const signupMenuItem = document.getElementById('signupMenuItem');
-            const profileMenuItem = document.getElementById('profileMenuItem');
-            const logoutMenuItem = document.getElementById('logoutMenuItem');
-
-            if (user) {
-                // 로그인됨
-                profileBtn.classList.add('logged-in');
-                displayName.textContent = user.displayName || user.email.split('@')[0];
-                loginMenuItem.style.display = 'none';
-                signupMenuItem.style.display = 'none';
-                profileMenuItem.style.display = 'flex';
-                logoutMenuItem.style.display = 'flex';
-                
-                // Firebase에서 바로가기 로드
-                const loaded = await loadShortcutsFromFirebase();
-                if (!loaded) {
-                    // Firebase에 데이터가 없으면 로컬 데이터를 업로드
-                    await saveShortcutsToFirebase();
-                }
-            } else {
-                // 로그아웃됨
-                profileBtn.classList.remove('logged-in');
-                displayName.textContent = '내 프로필';
-                loginMenuItem.style.display = 'flex';
-                signupMenuItem.style.display = 'flex';
-                profileMenuItem.style.display = 'none';
-                logoutMenuItem.style.display = 'none';
-            }
-            
-            updateSyncStatus();
-        });
-
-        // 검색 기록 설정 로드
-        const savedHistoryEnabled = getCookie('searchHistoryEnabled');
-        if (savedHistoryEnabled !== null) {
-            searchHistoryEnabled = savedHistoryEnabled === 'true';
-            document.getElementById('searchHistoryToggle').checked = searchHistoryEnabled;
+        function closeUpdateModal() {
+            document.getElementById('updateModal').style.display = 'none';
         }
     </script>
 </body>
