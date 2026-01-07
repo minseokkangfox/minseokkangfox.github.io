@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLE-RJATOR - 인터넷 검색</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #1a1a2e;
@@ -40,7 +43,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 50%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(15, 52, 96, 0.2) 0%, transparent 50%);
             pointer-events: none;
@@ -99,7 +102,7 @@
             background: var(--surface);
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
+            box-shadow:
                 0 8px 32px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
@@ -110,7 +113,7 @@
 
         .search-box:focus-within {
             transform: translateY(-2px);
-            box-shadow: 
+            box-shadow:
                 0 12px 40px rgba(0, 0, 0, 0.4),
                 0 0 0 1px var(--highlight),
                 0 0 20px var(--glow);
@@ -250,7 +253,8 @@
             box-shadow: 0 4px 12px var(--glow);
         }
 
-        .selected-engine img, .selected-engine > div {
+        .selected-engine img,
+        .selected-engine>div {
             width: 20px;
             height: 20px;
             border-radius: 4px;
@@ -368,16 +372,14 @@
             width: 100%;
             top: -50%;
             left: 0;
-            background: conic-gradient(
-                #3186ff00 0deg,
-                #34a853 43deg,
-                #ffd314 65deg,
-                #ff4641 105deg,
-                #3186ff 144deg,
-                #3186ff 180deg,
-                #3186ff00 324deg,
-                #3186ff00 360deg
-            );
+            background: conic-gradient(#3186ff00 0deg,
+                    #34a853 43deg,
+                    #ffd314 65deg,
+                    #ff4641 105deg,
+                    #3186ff 144deg,
+                    #3186ff 180deg,
+                    #3186ff00 324deg,
+                    #3186ff00 360deg);
             opacity: 0;
             transform: rotate(180deg);
             transition: opacity 0.4s ease;
@@ -392,8 +394,13 @@
         }
 
         @keyframes ai-rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .ai-btn-bg {
@@ -514,18 +521,23 @@
             0% {
                 background-position: 50% 0, 100% 100%, 0 100%, 0 0;
             }
+
             25% {
                 background-position: 0 0, 100% 50%, 0 100%, 0 0;
             }
+
             50% {
                 background-position: 0 0, 100% 0, 50% 100%, 0 0;
             }
+
             75% {
                 background-position: 0 0, 100% 0, 100% 100%, 0 50%;
             }
+
             75.01% {
                 background-position: 100% 0, 100% 0, 100% 100%, 0 50%;
             }
+
             100% {
                 background-position: 50% 0, 100% 0, 100% 100%, 0 100%;
             }
@@ -537,8 +549,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
         }
 
         .results {
@@ -556,17 +575,31 @@
             animation: slideInLeft 0.5s ease-out both;
         }
 
-        .result-item:nth-child(1) { animation-delay: 0.1s; }
-        .result-item:nth-child(2) { animation-delay: 0.2s; }
-        .result-item:nth-child(3) { animation-delay: 0.3s; }
-        .result-item:nth-child(4) { animation-delay: 0.4s; }
-        .result-item:nth-child(5) { animation-delay: 0.5s; }
+        .result-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .result-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .result-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .result-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .result-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
 
         .result-item:hover {
             transform: translateX(8px);
             border-color: rgba(233, 69, 96, 0.3);
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: 
+            box-shadow:
                 0 8px 24px rgba(0, 0, 0, 0.3),
                 -4px 0 0 var(--highlight);
         }
@@ -1113,6 +1146,7 @@
                 opacity: 0;
                 transform: translateY(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -1480,6 +1514,7 @@
                 opacity: 0;
                 transform: translateY(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -1490,6 +1525,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -1500,6 +1536,7 @@
                 opacity: 0;
                 transform: translateX(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -1511,6 +1548,7 @@
                 opacity: 0;
                 transform: scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -1522,6 +1560,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -1533,6 +1572,7 @@
                 opacity: 0;
                 transform: translateX(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -1540,9 +1580,19 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
         }
 
         @media (max-width: 768px) {
@@ -1587,17 +1637,17 @@
                 position: relative;
             }
 
-            .search-box > .search-engine-selector,
-            .search-box > .ai-mode-btn {
+            .search-box>.search-engine-selector,
+            .search-box>.ai-mode-btn {
                 order: 1;
             }
 
-            .search-box > .search-input {
+            .search-box>.search-input {
                 padding: 12px 16px !important;
                 order: 2;
             }
 
-            .search-box > .search-btn {
+            .search-box>.search-btn {
                 order: 4;
             }
 
@@ -1773,7 +1823,7 @@
             }
 
             /* 모달 모바일 */
-            #addShortcutModal > div {
+            #addShortcutModal>div {
                 width: 90%;
                 max-height: 90vh;
                 overflow-y: auto;
@@ -1826,7 +1876,8 @@
                 font-size: 0.8rem;
             }
 
-            .selected-engine img, .selected-engine > div {
+            .selected-engine img,
+            .selected-engine>div {
                 width: 18px;
                 height: 18px;
             }
@@ -1913,6 +1964,7 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -2152,12 +2204,15 @@
             0% {
                 background-color: transparent;
             }
+
             30% {
                 background-color: var(--cell-color);
             }
+
             60% {
                 background-color: transparent;
             }
+
             100% {
                 background-color: transparent;
             }
@@ -2295,6 +2350,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- 사용자 프로필 버튼 -->
     <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
@@ -2364,7 +2420,9 @@
                             <span>Perplexity</span>
                         </div>
                         <div class="engine-option" data-engine="mle-dkswjs">
-                            <div style="width: 22px; height: 22px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: white;">M</div>
+                            <div
+                                style="width: 22px; height: 22px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: white;">
+                                M</div>
                             <span>MLE-dkswjs</span>
                         </div>
                         <div class="engine-option" data-engine="youtube">
@@ -2374,13 +2432,8 @@
                     </div>
                 </div>
                 <div class="search-input-wrapper">
-                    <input 
-                        type="text" 
-                        class="search-input" 
-                        placeholder="검색어를 입력하세요..."
-                        id="searchInput"
-                        autocomplete="off"
-                    />
+                    <input type="text" class="search-input" placeholder="검색어를 입력하세요..." id="searchInput"
+                        autocomplete="off" />
                     <div class="autocomplete-ghost" id="autocompleteGhost"></div>
                     <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
                 </div>
@@ -2390,15 +2443,20 @@
                     <div class="ai-btn-bg"></div>
                     <div class="ai-btn-content">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                            <path d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z"></path>
-                            <path d="M15.65 11.58c.18-.5.27-1.03.31-1.58h-2c-.1 1.03-.51 1.93-1.27 2.69-.88.87-1.94 1.31-3.19 1.31C7.03 14 5 12.07 5 9.5 5 7.03 6.93 5 9.5 5c.46 0 .89.08 1.3.2l1.56-1.56C11.5 3.22 10.55 3 9.5 3 5.85 3 3 5.85 3 9.5S5.85 16 9.5 16c.56 0 2.26-.06 3.8-1.3l6.3 6.3 1.4-1.4-6.3-6.3c.4-.5.72-1.08.95-1.72z"></path>
+                            <path
+                                d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z">
+                            </path>
+                            <path
+                                d="M15.65 11.58c.18-.5.27-1.03.31-1.58h-2c-.1 1.03-.51 1.93-1.27 2.69-.88.87-1.94 1.31-3.19 1.31C7.03 14 5 12.07 5 9.5 5 7.03 6.93 5 9.5 5c.46 0 .89.08 1.3.2l1.56-1.56C11.5 3.22 10.55 3 9.5 3 5.85 3 3 5.85 3 9.5S5.85 16 9.5 16c.56 0 2.26-.06 3.8-1.3l6.3 6.3 1.4-1.4-6.3-6.3c.4-.5.72-1.08.95-1.72z">
+                            </path>
                         </svg>
                         <span>AI 모드</span>
                     </div>
                 </button>
                 <button class="search-btn" id="searchBtn">
                     <svg viewBox="0 0 24 24">
-                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        <path
+                            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
                     </svg>
                 </button>
             </div>
@@ -2406,68 +2464,130 @@
 
         <div id="content">
             <div id="home-shortcuts">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: clamp(20px, 3vw, 30px);">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: clamp(20px, 3vw, 30px);">
                     <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--text); font-weight: 700; margin: 0;">
                         🚀 나의 바로가기
                     </h2>
-                    <button onclick="openAddShortcutModal()" style="padding: clamp(10px, 2vw, 12px) clamp(16px, 3vw, 20px); background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border: none; border-radius: 8px; color: white; font-weight: 600; font-size: clamp(0.85rem, 1.8vw, 0.95rem); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px var(--glow);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px var(--glow)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px var(--glow)'">
+                    <button onclick="openAddShortcutModal()"
+                        style="padding: clamp(10px, 2vw, 12px) clamp(16px, 3vw, 20px); background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border: none; border-radius: 8px; color: white; font-weight: 600; font-size: clamp(0.85rem, 1.8vw, 0.95rem); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px var(--glow);"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px var(--glow)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px var(--glow)'">
                         ➕ 바로가기 추가
                     </button>
                 </div>
-                
-                <div id="shortcuts-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 4px; margin-bottom: 30px;">
+
+                <div id="shortcuts-container"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 4px; margin-bottom: 30px;">
                     <!-- 바로가기가 여기에 동적으로 추가됩니다 -->
                 </div>
-                
-                <div style="text-align: center; margin-top: clamp(40px, 5vw, 60px); padding: clamp(20px, 3vw, 30px); backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;">
+
+                <div
+                    style="text-align: center; margin-top: clamp(40px, 5vw, 60px); padding: clamp(20px, 3vw, 30px); backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;">
                     <div style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: clamp(10px, 2vw, 15px);">🔍</div>
-                    <div style="font-size: clamp(0.9rem, 2vw, 1.1rem); color: var(--text-secondary);">검색창에 원하는 내용을 입력하거나<br>위의 바로가기를 클릭해보세요</div>
+                    <div style="font-size: clamp(0.9rem, 2vw, 1.1rem); color: var(--text-secondary);">검색창에 원하는 내용을
+                        입력하거나<br>위의 바로가기를 클릭해보세요</div>
                 </div>
             </div>
         </div>
-        
+
         <!-- 바로가기 추가 모달 -->
-        <div id="addShortcutModal" onclick="if(event.target === this) closeAddShortcutModal()" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 1000; backdrop-filter: blur(10px); align-items: center; justify-content: center;">
-            <div style="background: var(--secondary); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: clamp(25px, 4vw, 40px); max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); animation: slideIn 0.3s ease;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: clamp(20px, 3vw, 30px);">
-                    <h3 style="font-size: clamp(1.3rem, 2.5vw, 1.8rem); color: var(--text); font-weight: 700; margin: 0;">✨ 바로가기 추가</h3>
-                    <button onclick="closeAddShortcutModal()" style="background: none; border: none; color: var(--text-secondary); font-size: 1.8rem; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='var(--text)'" onmouseout="this.style.background='none'; this.style.color='var(--text-secondary)'">×</button>
+        <div id="addShortcutModal" onclick="if(event.target === this) closeAddShortcutModal()"
+            style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 1000; backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+            <div
+                style="background: var(--secondary); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: clamp(25px, 4vw, 40px); max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); animation: slideIn 0.3s ease;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: clamp(20px, 3vw, 30px);">
+                    <h3
+                        style="font-size: clamp(1.3rem, 2.5vw, 1.8rem); color: var(--text); font-weight: 700; margin: 0;">
+                        ✨ 바로가기 추가</h3>
+                    <button onclick="closeAddShortcutModal()"
+                        style="background: none; border: none; color: var(--text-secondary); font-size: 1.8rem; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='var(--text)'"
+                        onmouseout="this.style.background='none'; this.style.color='var(--text-secondary)'">×</button>
                 </div>
-                
+
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">이름</label>
-                    <input type="text" id="shortcutName" placeholder="예: 넷플릭스" onkeypress="if(event.key === 'Enter') document.getElementById('shortcutUrl').focus()" style="width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: var(--text); font-size: clamp(0.95rem, 1.8vw, 1.05rem); outline: none; transition: all 0.3s ease;" onfocus="this.style.borderColor='var(--highlight)'; this.style.boxShadow='0 0 0 3px rgba(233, 69, 96, 0.1)'" onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'">
+                    <label
+                        style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">이름</label>
+                    <input type="text" id="shortcutName" placeholder="예: 넷플릭스"
+                        onkeypress="if(event.key === 'Enter') document.getElementById('shortcutUrl').focus()"
+                        style="width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: var(--text); font-size: clamp(0.95rem, 1.8vw, 1.05rem); outline: none; transition: all 0.3s ease;"
+                        onfocus="this.style.borderColor='var(--highlight)'; this.style.boxShadow='0 0 0 3px rgba(233, 69, 96, 0.1)'"
+                        onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'">
                 </div>
-                
+
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">웹사이트 URL</label>
-                    <input type="url" id="shortcutUrl" placeholder="예: https://www.netflix.com" onkeypress="if(event.key === 'Enter') document.getElementById('shortcutKeyword').focus()" oninput="updateFaviconPreview()" style="width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: var(--text); font-size: clamp(0.95rem, 1.8vw, 1.05rem); outline: none; transition: all 0.3s ease;" onfocus="this.style.borderColor='var(--highlight)'; this.style.boxShadow='0 0 0 3px rgba(233, 69, 96, 0.1)'" onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'">
-                    <div id="faviconPreview" style="margin-top: 12px; display: none; align-items: center; gap: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                    <label
+                        style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">웹사이트
+                        URL</label>
+                    <input type="url" id="shortcutUrl" placeholder="예: https://www.netflix.com"
+                        onkeypress="if(event.key === 'Enter') document.getElementById('shortcutKeyword').focus()"
+                        oninput="updateFaviconPreview()"
+                        style="width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: var(--text); font-size: clamp(0.95rem, 1.8vw, 1.05rem); outline: none; transition: all 0.3s ease;"
+                        onfocus="this.style.borderColor='var(--highlight)'; this.style.boxShadow='0 0 0 3px rgba(233, 69, 96, 0.1)'"
+                        onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'">
+                    <div id="faviconPreview"
+                        style="margin-top: 12px; display: none; align-items: center; gap: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
                         <img id="faviconImg" style="width: 32px; height: 32px; border-radius: 6px;">
                         <span style="color: var(--text-secondary); font-size: 0.9rem;">아이콘 미리보기</span>
                     </div>
                 </div>
-                
+
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">검색 키워드 (선택사항)</label>
-                    <input type="text" id="shortcutKeyword" placeholder="예: 넷플릭스 (비워두면 URL로 이동)" onkeypress="if(event.key === 'Enter') addShortcut()" style="width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: var(--text); font-size: clamp(0.95rem, 1.8vw, 1.05rem); outline: none; transition: all 0.3s ease;" onfocus="this.style.borderColor='var(--highlight)'; this.style.boxShadow='0 0 0 3px rgba(233, 69, 96, 0.1)'" onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'">
+                    <label
+                        style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">검색
+                        키워드 (선택사항)</label>
+                    <input type="text" id="shortcutKeyword" placeholder="예: 넷플릭스 (비워두면 URL로 이동)"
+                        onkeypress="if(event.key === 'Enter') addShortcut()"
+                        style="width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: var(--text); font-size: clamp(0.95rem, 1.8vw, 1.05rem); outline: none; transition: all 0.3s ease;"
+                        onfocus="this.style.borderColor='var(--highlight)'; this.style.boxShadow='0 0 0 3px rgba(233, 69, 96, 0.1)'"
+                        onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'">
                 </div>
-                
+
                 <div style="margin-bottom: 25px;">
-                    <label style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">색상</label>
+                    <label
+                        style="display: block; color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: clamp(0.9rem, 1.8vw, 1rem);">색상</label>
                     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 10px;">
-                        <div class="color-option" onclick="selectColor(this, '#e50914')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #e50914 0%, #b20710 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
-                        <div class="color-option" onclick="selectColor(this, '#113ccf')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #113ccf 0%, #0e2c8a 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
-                        <div class="color-option" onclick="selectColor(this, '#ff0558')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #ff0558 0%, #c4004c 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
-                        <div class="color-option" onclick="selectColor(this, '#10a37f')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #10a37f 0%, #0d8a6a 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
-                        <div class="color-option" onclick="selectColor(this, '#7c3aed')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
-                        <div class="color-option" onclick="selectColor(this, '#f59e0b')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
-                        <div class="color-option selected" onclick="selectColor(this, '#00c73c')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #00c73c 0%, #00a030 100%); border-radius: 8px; cursor: pointer; border: 3px solid var(--highlight); transition: all 0.3s ease; transform: scale(1.1);" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
-                        <div class="color-option" onclick="selectColor(this, '#ff0000')" style="width: 100%; height: 45px; background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;" onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'" onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option" onclick="selectColor(this, '#e50914')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #e50914 0%, #b20710 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option" onclick="selectColor(this, '#113ccf')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #113ccf 0%, #0e2c8a 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option" onclick="selectColor(this, '#ff0558')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #ff0558 0%, #c4004c 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option" onclick="selectColor(this, '#10a37f')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #10a37f 0%, #0d8a6a 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option" onclick="selectColor(this, '#7c3aed')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option" onclick="selectColor(this, '#f59e0b')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option selected" onclick="selectColor(this, '#00c73c')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #00c73c 0%, #00a030 100%); border-radius: 8px; cursor: pointer; border: 3px solid var(--highlight); transition: all 0.3s ease; transform: scale(1.1);"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
+                        <div class="color-option" onclick="selectColor(this, '#ff0000')"
+                            style="width: 100%; height: 45px; background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%); border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;"
+                            onmouseover="if(!this.classList.contains('selected')) this.style.transform='scale(1.1)'"
+                            onmouseout="if(!this.classList.contains('selected')) this.style.transform='scale(1)'"></div>
                     </div>
                 </div>
-                
-                <button onclick="addShortcut()" style="width: 100%; padding: 16px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border: none; border-radius: 10px; color: white; font-weight: 700; font-size: clamp(1rem, 2vw, 1.1rem); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px var(--glow);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px var(--glow)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px var(--glow)'">
+
+                <button onclick="addShortcut()"
+                    style="width: 100%; padding: 16px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border: none; border-radius: 10px; color: white; font-weight: 700; font-size: clamp(1rem, 2vw, 1.1rem); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px var(--glow);"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px var(--glow)'"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px var(--glow)'">
                     추가하기
                 </button>
             </div>
@@ -2547,7 +2667,7 @@
             const engine = searchEngines[currentSearchEngine];
             const selectedIcon = document.getElementById('selectedEngineIcon');
             const selectedName = document.getElementById('selectedEngineName');
-            
+
             if (currentSearchEngine === 'mle-dkswjs') {
                 selectedIcon.style.display = 'none';
                 selectedIcon.insertAdjacentHTML('afterend', '<div id="mleIcon" style="width: 20px; height: 20px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: white;">M</div>');
@@ -2575,7 +2695,7 @@
         }
 
         // 외부 클릭시 드롭다운 닫기
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const selector = document.getElementById('searchEngineSelector');
             const dropdown = document.getElementById('engineDropdown');
             if (!selector.contains(e.target)) {
@@ -2585,7 +2705,7 @@
 
         // 검색 엔진 선택
         document.querySelectorAll('.engine-option').forEach(option => {
-            option.addEventListener('click', function(e) {
+            option.addEventListener('click', function (e) {
                 e.stopPropagation();
                 const engine = this.dataset.engine;
                 currentSearchEngine = engine;
@@ -2605,32 +2725,32 @@
                 { name: "Forge", url: "https://files.minecraftforge.net/", description: "모드 로더" },
                 { name: "NeoForged", url: "https://neoforged.net/", description: "차세대 Forge" },
                 { name: "Fabric", url: "https://fabricmc.net/", description: "경량 모드 로더" },
-                
+
                 // 모드/플러그인 다운로드
                 { name: "CurseForge", url: "https://www.curseforge.com/minecraft", description: "모드/모드팩 다운로드" },
                 { name: "Modrinth", url: "https://modrinth.com/", description: "모드 다운로드" },
                 { name: "SpigotMC", url: "https://www.spigotmc.org/resources/", description: "플러그인 다운로드" },
                 { name: "MCPEDL", url: "https://mcpedl.com/", description: "PE 애드온/모드" },
                 { name: "9Minecraft", url: "https://www.9minecraft.net/", description: "모드/맵/스킨" },
-                
+
                 // 서버 소프트웨어
                 { name: "PaperMC", url: "https://papermc.io/downloads/", description: "Paper 서버 다운로드" },
                 { name: "Hangar", url: "https://hangar.papermc.io/", description: "Paper 플러그인" },
                 { name: "Purpur", url: "https://purpurmc.org/", description: "고성능 서버" },
-                
+
                 // 서버 호스팅/목록
                 { name: "Aternos", url: "https://aternos.org/:ko/", description: "무료 서버 호스팅" },
                 { name: "Hostinger MC", url: "https://www.hostinger.com/kr/vps/minecraft-hosting", description: "유료 서버 호스팅" },
                 { name: "마인리스트", url: "https://minelist.kr/", description: "한국 서버 목록" },
                 { name: "MyIP 서버", url: "https://myip.co.kr/game_server_list.php?how=5&S_content=minecraft_java", description: "서버 목록" },
-                
+
                 // 스킨
                 { name: "NameMC", url: "https://ko.namemc.com/minecraft-skins", description: "스킨 검색/다운로드" },
                 { name: "Skin Editor", url: "https://www.minecraftskins.com/skin-editor/", description: "스킨 에디터" },
-                
+
                 // 커뮤니티
                 { name: "한국마크", url: "https://www.koreaminecraft.net/", description: "한국 마크 커뮤니티" },
-                
+
                 // 도구
                 { name: "MCStacker", url: "https://mcstacker.net/", description: "커맨드 생성기" },
                 { name: "Block Display", url: "https://block-display.com/", description: "블록 디스플레이 도구" },
@@ -2743,7 +2863,7 @@
         function getVideoPlatforms() {
             // 사용자 위치 확인 (한국인지)
             const isKorea = true; // 한국 사용자
-            
+
             return {
                 youtube: [
                     { name: 'YouTube', url: 'https://www.youtube.com/', description: '동영상 공유 플랫폼', needsWarning: false },
@@ -3077,7 +3197,7 @@
                     ]
                 }
             };
-            
+
             return companies[keyword] || null;
         }
 
@@ -3535,9 +3655,41 @@
                         { name: 'Commercial Use', icon: '💼', description: 'Business ready' },
                         { name: 'Customization', icon: '🛠️', description: 'Fine-tuning' }
                     ]
+                },
+                '딥시크': {
+                    name: 'DeepSeek',
+                    nameKo: '딥시크',
+                    company: 'DeepSeek',
+                    url: 'https://chat.deepseek.com/',
+                    description: '고성능 오픈소스 AI 모델',
+                    founded: '2023년',
+                    features: [
+                        { name: '코드 생성', icon: '💻', description: '강력한 코딩 능력' },
+                        { name: '수학/논리', icon: '🧮', description: '뛰어난 추론' },
+                        { name: '오픈소스', icon: '🔓', description: '모델 공개' },
+                        { name: '대화 생성', icon: '💬', description: '자연스러운 대화' },
+                        { name: '긴 컨텍스트', icon: '📚', description: '긴 문맥 이해' },
+                        { name: '무료 사용', icon: '🆓', description: '무료 제공' }
+                    ]
+                },
+                'deepseek': {
+                    name: 'DeepSeek',
+                    nameKo: 'DeepSeek',
+                    company: 'DeepSeek',
+                    url: 'https://chat.deepseek.com/',
+                    description: 'High-performance open-source AI model',
+                    founded: '2023',
+                    features: [
+                        { name: 'Code Generation', icon: '💻', description: 'Strong coding' },
+                        { name: 'Math/Logic', icon: '🧮', description: 'Excellent reasoning' },
+                        { name: 'Open Source', icon: '🔓', description: 'Open weights' },
+                        { name: 'Conversations', icon: '💬', description: 'Natural dialogue' },
+                        { name: 'Long Context', icon: '📚', description: 'Long context' },
+                        { name: 'Free Access', icon: '🆓', description: 'Free to use' }
+                    ]
                 }
             };
-            
+
             return aiServices[keyword] || null;
         }
 
@@ -3868,7 +4020,7 @@
                     ]
                 }
             };
-            
+
             return tools[keyword] || null;
         }
 
@@ -4493,98 +4645,107 @@
                     ]
                 }
             };
-            
+
             return services[keyword] || null;
         }
 
         // AI 서비스 데이터 생성
         function getAIServices() {
             const aiServices = [
-                { 
-                    rank: 1, 
-                    name: "Gemini", 
-                    company: "Google", 
+                {
+                    rank: 1,
+                    name: "Gemini",
+                    company: "Google",
                     url: "https://gemini.google.com/",
                     description: "구글의 최첨단 멀티모달 AI",
                     logo: "https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128",
                     color: "#4285f4"
                 },
-                { 
-                    rank: 2, 
-                    name: "ChatGPT", 
-                    company: "OpenAI", 
+                {
+                    rank: 2,
+                    name: "ChatGPT",
+                    company: "OpenAI",
                     url: "https://chat.openai.com/",
                     description: "가장 유명한 대화형 AI",
                     logo: "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
                     color: "#10a37f"
                 },
-                { 
-                    rank: 3, 
-                    name: "Claude", 
-                    company: "Anthropic", 
+                {
+                    rank: 3,
+                    name: "Claude",
+                    company: "Anthropic",
                     url: "https://claude.ai/",
                     description: "안전하고 정확한 AI 어시스턴트",
                     logo: "https://www.google.com/s2/favicons?domain=claude.ai&sz=128",
                     color: "#d97757"
                 },
-                { 
-                    rank: 4, 
-                    name: "Perplexity", 
-                    company: "Perplexity AI", 
+                {
+                    rank: 4,
+                    name: "Perplexity",
+                    company: "Perplexity AI",
                     url: "https://www.perplexity.ai/",
                     description: "AI 기반 검색 엔진",
                     logo: "https://www.google.com/s2/favicons?domain=perplexity.ai&sz=128",
                     color: "#20808d"
                 },
-                { 
-                    rank: 5, 
-                    name: "Copilot", 
-                    company: "Microsoft", 
+                {
+                    rank: 5,
+                    name: "Copilot",
+                    company: "Microsoft",
                     url: "https://copilot.microsoft.com/",
                     description: "Microsoft의 AI 어시스턴트",
                     logo: "https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=128",
                     color: "#0078d4"
                 },
-                { 
-                    rank: null, 
-                    name: "뤼튼", 
-                    company: "Wrtn Technologies", 
+                {
+                    rank: 6,
+                    name: "DeepSeek",
+                    company: "DeepSeek",
+                    url: "https://chat.deepseek.com/",
+                    description: "고성능 오픈소스 AI",
+                    logo: "https://www.google.com/s2/favicons?domain=deepseek.com&sz=128",
+                    color: "#4d6bfe"
+                },
+                {
+                    rank: null,
+                    name: "뤼튼",
+                    company: "Wrtn Technologies",
                     url: "https://wrtn.ai/",
                     description: "한국형 AI 플랫폼",
                     logo: "https://www.google.com/s2/favicons?domain=wrtn.ai&sz=128",
                     color: "#6c5ce7"
                 },
-                { 
-                    rank: null, 
-                    name: "마음AI", 
-                    company: "Scatter Lab", 
+                {
+                    rank: null,
+                    name: "마음AI",
+                    company: "Scatter Lab",
                     url: "https://maum.ai/",
                     description: "감성 대화 AI",
                     logo: "https://www.google.com/s2/favicons?domain=maum.ai&sz=128",
                     color: "#667eea"
                 },
-                { 
-                    rank: null, 
-                    name: "다글로", 
-                    company: "42Maru", 
+                {
+                    rank: null,
+                    name: "다글로",
+                    company: "42Maru",
                     url: "https://daglo.ai/",
                     description: "기업용 AI 솔루션",
                     logo: "https://www.google.com/s2/favicons?domain=daglo.ai&sz=128",
                     color: "#48bb78"
                 },
-                { 
-                    rank: null, 
-                    name: "Grok", 
-                    company: "xAI", 
+                {
+                    rank: null,
+                    name: "Grok",
+                    company: "xAI",
                     url: "https://grok.com/",
                     description: "X(트위터)의 AI",
                     logo: "https://www.google.com/s2/favicons?domain=grok.com&sz=128",
                     color: "#1da1f2"
                 },
-                { 
-                    rank: null, 
-                    name: "X.AI", 
-                    company: "xAI", 
+                {
+                    rank: null,
+                    name: "X.AI",
+                    company: "xAI",
                     url: "https://x.ai/",
                     description: "Elon Musk의 AI 회사",
                     logo: "https://www.google.com/s2/favicons?domain=x.ai&sz=128",
@@ -4703,11 +4864,11 @@
             const url = document.getElementById('shortcutUrl').value;
             const preview = document.getElementById('faviconPreview');
             const img = document.getElementById('faviconImg');
-            
+
             if (url) {
                 img.src = getFaviconUrl(url);
                 preview.style.display = 'flex';
-                
+
                 // 이름이 비어있으면 도메인으로 자동 채우기
                 const nameInput = document.getElementById('shortcutName');
                 if (!nameInput.value) {
@@ -4748,7 +4909,7 @@
                 }
                 return;
             }
-            
+
             if (shortcuts.length === 0) {
                 container.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; backdrop-filter: blur(20px); background: var(--surface); border: 2px dashed rgba(255, 255, 255, 0.1); border-radius: 16px;">
@@ -4759,15 +4920,15 @@
                 `;
                 return;
             }
-            
+
             container.innerHTML = shortcuts.map((shortcut, index) => {
                 const darkerColor = shortcut.color.replace(/[a-f0-9]{2}$/, (m) => {
                     const val = parseInt(m, 16);
                     return Math.max(0, val - 30).toString(16).padStart(2, '0');
                 });
-                
+
                 const faviconUrl = getFaviconUrl(shortcut.url);
-                
+
                 return `
                     <div class="shortcut-card" style="position: relative;">
                         <button onclick="deleteShortcut(${index})" class="delete-btn">×</button>
@@ -4780,15 +4941,15 @@
                     </div>
                 `;
             }).join('');
-            
+
             // 호버시 삭제 버튼 표시
             setTimeout(() => {
                 document.querySelectorAll('.shortcut-card').forEach(card => {
-                    card.addEventListener('mouseenter', function() {
+                    card.addEventListener('mouseenter', function () {
                         const btn = this.querySelector('.delete-btn');
                         if (btn) btn.style.opacity = '1';
                     });
-                    card.addEventListener('mouseleave', function() {
+                    card.addEventListener('mouseleave', function () {
                         const btn = this.querySelector('.delete-btn');
                         if (btn) btn.style.opacity = '0';
                     });
@@ -4841,22 +5002,22 @@
             const name = document.getElementById('shortcutName').value.trim();
             const url = document.getElementById('shortcutUrl').value.trim();
             const keyword = document.getElementById('shortcutKeyword').value.trim();
-            
+
             if (!name || !url) {
                 alert('이름과 URL을 입력해주세요!');
                 return;
             }
-            
+
             // URL이 http로 시작하지 않으면 https 추가
             const fullUrl = url.startsWith('http') ? url : 'https://' + url;
-            
+
             shortcuts.push({
                 name: name,
                 url: fullUrl,
                 keyword: keyword,
                 color: selectedColor
             });
-            
+
             saveShortcuts();
             closeAddShortcutModal();
             loadShortcuts();
@@ -4872,7 +5033,7 @@
         }
 
         // 페이지 로드시 바로가기 로드
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadShortcuts();
         });
 
@@ -4881,7 +5042,7 @@
 
             // URL 패턴 감지
             const urlPattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
-            
+
             if (urlPattern.test(query.trim())) {
                 // URL인 경우 직접 이동
                 let url = query.trim();
@@ -4889,7 +5050,7 @@
                     url = 'https://' + url;
                 }
                 window.open(url, '_blank');
-                
+
                 // 검색창 표시
                 content.innerHTML = `
                     <div style="text-align: center; padding: 60px 20px;">
@@ -4898,7 +5059,7 @@
                         <p style="color: var(--text-secondary);">${url}</p>
                     </div>
                 `;
-                
+
                 // 검색 기록에 추가
                 searchHistory.unshift({ query, timestamp: new Date() });
                 if (searchHistory.length > 10) searchHistory.pop();
@@ -4914,12 +5075,12 @@
 
             // 0.1초 ~ 2초 랜덤 로딩
             const randomDelay = Math.floor(Math.random() * 1900) + 100;
-            
+
             // 실제 검색을 위해 여러 소스 시뮬레이션
             setTimeout(() => {
                 const results = generateSearchResults(query);
                 displayResults(results, query);
-                
+
                 // 검색 기록에 추가
                 searchHistory.unshift({ query, timestamp: new Date() });
                 if (searchHistory.length > 10) searchHistory.pop();
@@ -4930,7 +5091,7 @@
             // 쿼리 정규화 (한 번만 선언)
             const lowerQuery = query.toLowerCase();
             const normalizedQuery = lowerQuery.replace(/\s+/g, '');
-            
+
             // 이스터 에그: 오석바이러스
             if (normalizedQuery.includes('오석바이러스') || normalizedQuery.includes('oseokbirus')) {
                 window.open('https://gangminseok.neocities.org/zxzx/ko-kr/windows-----60b01860-58f2-be66-7516-5c45a66ae3c6', '_blank');
@@ -4940,7 +5101,7 @@
                     snippet: '숨겨진 페이지로 이동했습니다...'
                 }];
             }
-            
+
             // 동영상 플랫폼 검색
             const videoKeywords = ['유튜브', 'youtube', '틱톡', 'tiktok', '트위치', 'twitch', '치지직', 'chzzk', '킥', 'kick', '숲', 'afreecatv', '아프리카', 'bilibili', 'ニコニコ', 'niconico', '릴스', 'reels'];
             for (const keyword of videoKeywords) {
@@ -4952,10 +5113,10 @@
                     }];
                 }
             }
-            
+
             // 메신저/채팅 플랫폼 검색
             const messengerKeywords = ['디스코드', 'discord', '카카오톡', 'kakaotalk', '카톡', '텔레그램', 'telegram', '슬랙', 'slack', '왓츠앱', 'whatsapp', '라인', 'line', '위챗', 'wechat', '시그널', 'signal', '메신저', 'messenger', '스카이프', 'skype', '팀즈', 'teams', '채팅', 'chat'];
-            
+
             const messengerMap = {
                 '디스코드': 'Discord',
                 'discord': 'Discord',
@@ -4983,7 +5144,7 @@
                 '채팅': null,
                 'chat': null
             };
-            
+
             for (const keyword of messengerKeywords) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     return [{
@@ -4993,10 +5154,10 @@
                     }];
                 }
             }
-            
+
             // 이메일 플랫폼 검색
             const emailKeywords = ['이메일', 'email', '지메일', 'gmail', '아웃룩', 'outlook', '네이버메일', 'navermail', '다음메일', 'daummail', '야후메일', 'yahoomail', '메일', 'mail'];
-            
+
             const emailMap = {
                 '이메일': 'Gmail',
                 'email': 'Gmail',
@@ -5012,7 +5173,7 @@
                 'yahoomail': 'Yahoo Mail',
                 '메일': 'Gmail'
             };
-            
+
             for (const keyword of emailKeywords) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     return [{
@@ -5022,10 +5183,10 @@
                     }];
                 }
             }
-            
+
             // 기업 검색
             const companyKeywords = ['삼성', 'samsung', '엘지', 'lg', '샤오미', 'xiaomi', '마이크로소프트', 'microsoft', '애플', 'apple', '구글', 'google', '아마존', 'amazon', '네이버', 'naver', '카카오', 'kakao'];
-            
+
             for (const keyword of companyKeywords) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     const companyData = getCompanyData(keyword);
@@ -5037,10 +5198,10 @@
                     }
                 }
             }
-            
+
             // 지도 검색
             const mapKeywords = ['지도', 'map', 'maps', '네이버지도', 'navermap', '카카오지도', 'kakaomap', '구글지도', 'googlemap'];
-            
+
             for (const keyword of mapKeywords) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     return [{
@@ -5049,10 +5210,10 @@
                     }];
                 }
             }
-            
+
             // 유튜브 인기 채널 검색
             const youtubeChannelKeywords = ['유튜브인기채널', 'youtube인기채널', '유튜버', 'youtuber', '인기유튜버'];
-            
+
             for (const keyword of youtubeChannelKeywords) {
                 if (normalizedQuery.includes(keyword.replace(/\s+/g, ''))) {
                     return [{
@@ -5061,10 +5222,10 @@
                     }];
                 }
             }
-            
+
             // AI 서비스 검색
-            const aiServiceKeywords = ['클로드', 'claude', '챗gpt', 'chatgpt', 'gpt', '제미나이', 'gemini', '코파일럿', 'copilot', '퍼플렉시티', 'perplexity', '미드저니', 'midjourney', '달리', 'dalle', '스테이블디퓨전', 'stablediffusion', '라마', 'llama', '그록', 'grok', '뤼튼', 'wrtn', '뤼튼테크놀로지스', 'wrtntech'];
-            
+            const aiServiceKeywords = ['클로드', 'claude', '챗gpt', 'chatgpt', 'gpt', '제미나이', 'gemini', '코파일럿', 'copilot', '퍼플렉시티', 'perplexity', '미드저니', 'midjourney', '달리', 'dalle', '스테이블디퓨전', 'stablediffusion', '라마', 'llama', '그록', 'grok', '뤼튼', 'wrtn', '뤼튼테크놀로지스', 'wrtntech', '딥시크', 'deepseek'];
+
             for (const keyword of aiServiceKeywords) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     const aiData = getAIServiceData(keyword);
@@ -5076,10 +5237,10 @@
                     }
                 }
             }
-            
+
             // 크리에이터 도구 검색
             const creatorToolKeywords = ['obs', '프리미어프로', 'premierepro', '캡컷', 'capcut', '포토샵', 'photoshop', '어도비', 'adobe', '일러스트레이터', 'illustrator', '파이널컷', 'finalcut', '다빈치리졸브', 'davinciresolve', '에프터이펙트', 'aftereffects', '오디션', 'audition', 'figma', '피그마', 'canva', '캔바', '스트림랩스', 'streamlabs', 'gimp', '김프'];
-            
+
             for (const keyword of creatorToolKeywords) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     const toolData = getCreatorToolData(keyword);
@@ -5091,10 +5252,10 @@
                     }
                 }
             }
-            
+
             // 스트리밍 서비스 검색
             const streamingServiceKeywords = ['넷플릭스', 'netflix', '디즈니플러스', 'disneyplus', '왓챠', 'watcha', '웨이브', 'wavve', '티빙', 'tving', '쿠팡플레이', 'coupangplay', '애플tv', 'appletv', '아마존프라임', 'amazonprime', 'hulu', '훌루', 'hbo', '맥스', 'max'];
-            
+
             for (const keyword of streamingServiceKeywords) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     const streamingData = getStreamingServiceData(keyword);
@@ -5106,13 +5267,13 @@
                     }
                 }
             }
-            
+
             // 개발자 플랫폼 검색
             const devPlatforms = {
                 '깃허브': { name: 'GitHub', url: 'https://github.com/', description: '코드 호스팅 및 협업 플랫폼' },
                 'github': { name: 'GitHub', url: 'https://github.com/', description: 'Code hosting and collaboration platform' }
             };
-            
+
             for (const keyword in devPlatforms) {
                 if (normalizedQuery === keyword.replace(/\s+/g, '')) {
                     return [{
@@ -5121,7 +5282,7 @@
                     }];
                 }
             }
-            
+
             // 게임 통합 검색
             const gameKeywords = ['게임', 'game', 'games'];
             for (const keyword of gameKeywords) {
@@ -5144,7 +5305,7 @@
                     }];
                 }
             }
-            
+
             // 맞춤법 검색 체크
             const spellcheckKeywords = ['맞춤법', 'spellcheck', '맞춤법검사', '문법'];
             for (const keyword of spellcheckKeywords) {
@@ -5154,7 +5315,7 @@
                     }];
                 }
             }
-            
+
             // 스팀 검색 체크
             const steamKeywords = ['스팀', 'steam'];
             for (const keyword of steamKeywords) {
@@ -5165,7 +5326,7 @@
                     }];
                 }
             }
-            
+
             // 에픽게임즈 검색 체크
             const epicKeywords = ['에픽게임즈', 'epicgames', 'epic'];
             for (const keyword of epicKeywords) {
@@ -5176,7 +5337,7 @@
                     }];
                 }
             }
-            
+
             // 번역 검색 체크 (오타 포함)
             const translateKeywords = ['번역', 'translate', '번역기', 'translator', '변역', '변역기'];
             for (const keyword of translateKeywords) {
@@ -5186,7 +5347,7 @@
                     }];
                 }
             }
-            
+
             // 마인크래프트 도구 검색 체크
             const mcToolsKeywords = ['마인크래프트도구', 'minecraft도구', 'minecrafttools', 'mc도구'];
             for (const keyword of mcToolsKeywords) {
@@ -5197,7 +5358,7 @@
                     }];
                 }
             }
-            
+
             // 로블록스 도구 검색 체크
             const robloxToolsKeywords = ['로블록스도구', 'roblox도구', 'robloxtools'];
             for (const keyword of robloxToolsKeywords) {
@@ -5208,7 +5369,7 @@
                     }];
                 }
             }
-            
+
             // AI 검색 체크
             const aiKeywords = ['ai', '인공지능', 'artificial intelligence', 'chatbot', '챗봇'];
             for (const keyword of aiKeywords) {
@@ -5219,10 +5380,10 @@
                     }];
                 }
             }
-            
+
             // 음악 검색 체크
             const musicKeywords = ['음악', 'music', '노래', 'song', '차트', 'chart'];
-            
+
             for (const keyword of musicKeywords) {
                 if (normalizedQuery.includes(keyword)) {
                     return [{
@@ -5231,7 +5392,7 @@
                     }];
                 }
             }
-            
+
             // 실제 검색 결과를 시뮬레이션하는 함수
             const searchKeywords = {
                 '마인크래프트': [
@@ -6057,16 +6218,16 @@
             // 키워드 매칭 (한글 및 영어 모두 지원)
             let results = [];
             // 이미 상단에서 선언된 lowerQuery와 normalizedQuery 사용
-            
+
             for (const [keyword, urls] of Object.entries(searchKeywords)) {
                 const normalizedKeyword = keyword.toLowerCase().replace(/\s+/g, '');
-                if (normalizedQuery.includes(normalizedKeyword) || 
+                if (normalizedQuery.includes(normalizedKeyword) ||
                     normalizedKeyword.includes(normalizedQuery)) {
                     results = urls;
                     break;
                 }
             }
-            
+
             // 영어 키워드 매칭
             const englishKeywords = {
                 'minecraft': '마인크래프트',
@@ -6126,7 +6287,7 @@
                 'playstation': '플레이스테이션',
                 'ps': '플레이스테이션'
             };
-            
+
             if (results.length === 0) {
                 for (const [engKeyword, korKeyword] of Object.entries(englishKeywords)) {
                     if (lowerQuery.includes(engKeyword)) {
@@ -6188,9 +6349,9 @@
 
             // 특별 타입 체크
             const specialType = results[0].special;
-            
+
             let resultsHTML = '';
-            
+
             if (specialType === 'gamestore') {
                 // 게임 스토어 특별 디자인
                 resultsHTML = results.map(result => `
@@ -6214,7 +6375,7 @@
                 // .io 게임 특별 디자인
                 const ioGames = results.filter(r => r.special === 'iogame');
                 const gamePortals = results.filter(r => r.special === 'gameportal');
-                
+
                 resultsHTML = `
                     <div style="margin-bottom: 20px;">
                         <h2 style="font-size: 1.5rem; color: var(--text); font-weight: 600; margin-bottom: 10px;">
@@ -6491,7 +6652,7 @@
                 const servers = getMinecraftServers();
                 const mods = getMinecraftMods();
                 const maps = getMinecraftMaps();
-                
+
                 resultsHTML = `
                     <div style="margin-bottom: 30px;">
                         <a href="https://www.minecraft.net/" target="_blank" style="display: block; padding: 30px; backdrop-filter: blur(30px); background: var(--surface); border: 2px solid var(--highlight); border-radius: 20px; text-decoration: none; transition: all 0.3s ease; margin-bottom: 30px;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
@@ -6627,81 +6788,81 @@
                         </h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: clamp(12px, 2vw, 20px);">
                             ${service.movies.map((movie, index) => {
-                                // 장르별 그라데이션 색상
-                                const genreColors = {
-                                    '드라마': 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-                                    '액션': 'linear-gradient(180deg, #2d1b69 0%, #6a1b4d 50%, #c94b4b 100%)',
-                                    '코미디': 'linear-gradient(180deg, #134e5e 0%, #71b280 100%)',
-                                    '로맨스': 'linear-gradient(180deg, #fc466b 0%, #3f5efb 100%)',
-                                    '공포': 'linear-gradient(180deg, #000000 0%, #434343 100%)',
-                                    '스릴러': 'linear-gradient(180deg, #283c86 0%, #45a247 100%)',
-                                    'SF': 'linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
-                                    '판타지': 'linear-gradient(180deg, #8e2de2 0%, #4a00e0 100%)',
-                                    '범죄': 'linear-gradient(180deg, #2c3e50 0%, #4ca1af 100%)',
-                                    '마블': 'linear-gradient(180deg, #e73c7e 0%, #23a6d5 50%, #23d5ab 100%)',
-                                    '스타워즈': 'linear-gradient(180deg, #000000 0%, #0f2027 50%, #203a43 100%)',
-                                    '픽사': 'linear-gradient(180deg, #56ab2f 0%, #a8e063 100%)',
-                                    '디즈니': 'linear-gradient(180deg, #ee9ca7 0%, #ffdde1 100%)',
-                                    '재난': 'linear-gradient(180deg, #536976 0%, #292e49 100%)',
-                                    '법정': 'linear-gradient(180deg, #373b44 0%, #4286f4 100%)',
-                                    '의학': 'linear-gradient(180deg, #00d2ff 0%, #3a47d5 100%)',
-                                    '시대극': 'linear-gradient(180deg, #d4a574 0%, #a67c52 50%, #6b4e31 100%)',
-                                    '예능': 'linear-gradient(180deg, #f83600 0%, #f9d423 100%)',
-                                    '스포츠': 'linear-gradient(180deg, #4776e6 0%, #8e54e9 100%)',
-                                    '전쟁': 'linear-gradient(180deg, #434343 0%, #000000 100%)',
-                                    '어드벤처': 'linear-gradient(180deg, #fa8bff 0%, #2bd2ff 50%, #2bff88 100%)',
-                                    '애니메이션': 'linear-gradient(180deg, #ffecd2 0%, #fcb69f 100%)',
-                                    '전기': 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
-                                    '미스터리': 'linear-gradient(180deg, #30cfd0 0%, #330867 100%)',
-                                    '다큐멘터리': 'linear-gradient(180deg, #ebc0fd 0%, #d9ded8 100%)',
-                                    '뮤지컬': 'linear-gradient(180deg, #f6d365 0%, #fda085 100%)',
-                                    '비즈니스': 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
-                                    '리얼리티': 'linear-gradient(180deg, #4facfe 0%, #00f2fe 100%)',
-                                    '사극': 'linear-gradient(180deg, #d4a574 0%, #a67c52 50%, #6b4e31 100%)'
-                                };
-                                const gradient = genreColors[movie.genre] || 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)';
-                                
-                                // OTT 플랫폼별 검색 URL 생성 - 구글 검색 사용
-                                let searchUrl = '';
-                                const encodedTitle = encodeURIComponent(movie.title);
-                                
-                                if (service.name === 'Netflix' || service.name === '넷플릭스') {
-                                    searchUrl = 'https://www.google.com/search?q=넷플릭스+' + encodedTitle;
-                                } else if (service.name === 'Disney+' || service.name === '디즈니 플러스') {
-                                    searchUrl = 'https://www.google.com/search?q=디즈니플러스+' + encodedTitle;
-                                } else if (service.name === 'WATCHA' || service.name === '왓챠') {
-                                    searchUrl = 'https://www.google.com/search?q=왓챠+' + encodedTitle;
-                                } else if (service.name === 'TVING' || service.name === '티빙') {
-                                    searchUrl = 'https://www.google.com/search?q=티빙+' + encodedTitle;
-                                }
-                                
-                                const genreEmoji = movie.genre === '마블' ? '🦸' : 
-                                                   movie.genre === '스타워즈' ? '⚔️' : 
-                                                   movie.genre === '픽사' || movie.genre === '디즈니' || movie.genre === '애니메이션' ? '🎨' : 
-                                                   movie.genre === '액션' ? '💥' : 
-                                                   movie.genre === '로맨스' ? '💕' : 
-                                                   movie.genre === '공포' ? '👻' : 
-                                                   movie.genre === '코미디' ? '😂' : 
-                                                   movie.genre === '범죄' || movie.genre === '스릴러' ? '🔪' : 
-                                                   movie.genre === 'SF' ? '🚀' : 
-                                                   movie.genre === '판타지' ? '🔮' : 
-                                                   movie.genre === '예능' ? '🎤' : 
-                                                   movie.genre === '스포츠' ? '⚽' : 
-                                                   movie.genre === '의학' ? '💊' : 
-                                                   movie.genre === '법정' ? '⚖️' : 
-                                                   movie.genre === '전쟁' ? '💣' : 
-                                                   movie.genre === '재난' ? '🌪️' : 
-                                                   movie.genre === '뮤지컬' ? '🎭' : 
-                                                   movie.genre === '전기' ? '📖' : 
-                                                   movie.genre === '다큐멘터리' ? '🎬' : 
-                                                   movie.genre === '비즈니스' ? '💼' : 
-                                                   movie.genre === '리얼리티' ? '📺' : 
-                                                   movie.genre === '사극' || movie.genre === '시대극' ? '👑' : '🎬';
-                                
-                                const rankBadge = movie.rank <= 3 ? '🏆' : '#';
-                                const rankBg = movie.rank <= 3 ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' : 'rgba(0, 0, 0, 0.8)';
-                                
-                                return `
+                    // 장르별 그라데이션 색상
+                    const genreColors = {
+                        '드라마': 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+                        '액션': 'linear-gradient(180deg, #2d1b69 0%, #6a1b4d 50%, #c94b4b 100%)',
+                        '코미디': 'linear-gradient(180deg, #134e5e 0%, #71b280 100%)',
+                        '로맨스': 'linear-gradient(180deg, #fc466b 0%, #3f5efb 100%)',
+                        '공포': 'linear-gradient(180deg, #000000 0%, #434343 100%)',
+                        '스릴러': 'linear-gradient(180deg, #283c86 0%, #45a247 100%)',
+                        'SF': 'linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
+                        '판타지': 'linear-gradient(180deg, #8e2de2 0%, #4a00e0 100%)',
+                        '범죄': 'linear-gradient(180deg, #2c3e50 0%, #4ca1af 100%)',
+                        '마블': 'linear-gradient(180deg, #e73c7e 0%, #23a6d5 50%, #23d5ab 100%)',
+                        '스타워즈': 'linear-gradient(180deg, #000000 0%, #0f2027 50%, #203a43 100%)',
+                        '픽사': 'linear-gradient(180deg, #56ab2f 0%, #a8e063 100%)',
+                        '디즈니': 'linear-gradient(180deg, #ee9ca7 0%, #ffdde1 100%)',
+                        '재난': 'linear-gradient(180deg, #536976 0%, #292e49 100%)',
+                        '법정': 'linear-gradient(180deg, #373b44 0%, #4286f4 100%)',
+                        '의학': 'linear-gradient(180deg, #00d2ff 0%, #3a47d5 100%)',
+                        '시대극': 'linear-gradient(180deg, #d4a574 0%, #a67c52 50%, #6b4e31 100%)',
+                        '예능': 'linear-gradient(180deg, #f83600 0%, #f9d423 100%)',
+                        '스포츠': 'linear-gradient(180deg, #4776e6 0%, #8e54e9 100%)',
+                        '전쟁': 'linear-gradient(180deg, #434343 0%, #000000 100%)',
+                        '어드벤처': 'linear-gradient(180deg, #fa8bff 0%, #2bd2ff 50%, #2bff88 100%)',
+                        '애니메이션': 'linear-gradient(180deg, #ffecd2 0%, #fcb69f 100%)',
+                        '전기': 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
+                        '미스터리': 'linear-gradient(180deg, #30cfd0 0%, #330867 100%)',
+                        '다큐멘터리': 'linear-gradient(180deg, #ebc0fd 0%, #d9ded8 100%)',
+                        '뮤지컬': 'linear-gradient(180deg, #f6d365 0%, #fda085 100%)',
+                        '비즈니스': 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
+                        '리얼리티': 'linear-gradient(180deg, #4facfe 0%, #00f2fe 100%)',
+                        '사극': 'linear-gradient(180deg, #d4a574 0%, #a67c52 50%, #6b4e31 100%)'
+                    };
+                    const gradient = genreColors[movie.genre] || 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)';
+
+                    // OTT 플랫폼별 검색 URL 생성 - 구글 검색 사용
+                    let searchUrl = '';
+                    const encodedTitle = encodeURIComponent(movie.title);
+
+                    if (service.name === 'Netflix' || service.name === '넷플릭스') {
+                        searchUrl = 'https://www.google.com/search?q=넷플릭스+' + encodedTitle;
+                    } else if (service.name === 'Disney+' || service.name === '디즈니 플러스') {
+                        searchUrl = 'https://www.google.com/search?q=디즈니플러스+' + encodedTitle;
+                    } else if (service.name === 'WATCHA' || service.name === '왓챠') {
+                        searchUrl = 'https://www.google.com/search?q=왓챠+' + encodedTitle;
+                    } else if (service.name === 'TVING' || service.name === '티빙') {
+                        searchUrl = 'https://www.google.com/search?q=티빙+' + encodedTitle;
+                    }
+
+                    const genreEmoji = movie.genre === '마블' ? '🦸' :
+                        movie.genre === '스타워즈' ? '⚔️' :
+                            movie.genre === '픽사' || movie.genre === '디즈니' || movie.genre === '애니메이션' ? '🎨' :
+                                movie.genre === '액션' ? '💥' :
+                                    movie.genre === '로맨스' ? '💕' :
+                                        movie.genre === '공포' ? '👻' :
+                                            movie.genre === '코미디' ? '😂' :
+                                                movie.genre === '범죄' || movie.genre === '스릴러' ? '🔪' :
+                                                    movie.genre === 'SF' ? '🚀' :
+                                                        movie.genre === '판타지' ? '🔮' :
+                                                            movie.genre === '예능' ? '🎤' :
+                                                                movie.genre === '스포츠' ? '⚽' :
+                                                                    movie.genre === '의학' ? '💊' :
+                                                                        movie.genre === '법정' ? '⚖️' :
+                                                                            movie.genre === '전쟁' ? '💣' :
+                                                                                movie.genre === '재난' ? '🌪️' :
+                                                                                    movie.genre === '뮤지컬' ? '🎭' :
+                                                                                        movie.genre === '전기' ? '📖' :
+                                                                                            movie.genre === '다큐멘터리' ? '🎬' :
+                                                                                                movie.genre === '비즈니스' ? '💼' :
+                                                                                                    movie.genre === '리얼리티' ? '📺' :
+                                                                                                        movie.genre === '사극' || movie.genre === '시대극' ? '👑' : '🎬';
+
+                    const rankBadge = movie.rank <= 3 ? '🏆' : '#';
+                    const rankBg = movie.rank <= 3 ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' : 'rgba(0, 0, 0, 0.8)';
+
+                    return `
                                 <div style="backdrop-filter: blur(20px); background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; overflow: hidden; transition: all 0.4s ease; animation: fadeIn 0.${Math.floor(index / 10) + 10}s ease; cursor: pointer;" 
                                      data-url="${searchUrl}"
                                      onclick="window.open(this.dataset.url, '_blank')"
@@ -6900,11 +7061,11 @@
                 // 이메일 플랫폼
                 const platforms = results[0].platforms;
                 const mainPlatformName = results[0].mainPlatform;
-                
+
                 // 메인 플랫폼 찾기
                 const mainPlatform = platforms.find(p => p.name === mainPlatformName);
                 const otherPlatforms = platforms.filter(p => p.name !== mainPlatformName);
-                
+
                 resultsHTML = `
                     <div style="margin-bottom: 30px;">
                         <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
@@ -6964,11 +7125,11 @@
                 // 메신저/채팅 플랫폼
                 const platforms = results[0].platforms;
                 const mainPlatformName = results[0].mainPlatform;
-                
+
                 // 메인 플랫폼 찾기
                 const mainPlatform = platforms.find(p => p.name === mainPlatformName);
                 const otherPlatforms = platforms.filter(p => p.name !== mainPlatformName);
-                
+
                 resultsHTML = `
                     <div style="margin-bottom: 30px;">
                         <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
@@ -7045,11 +7206,11 @@
                 // 동영상 플랫폼
                 const platforms = results[0].platforms;
                 const mainPlatform = results[0].mainPlatform;
-                
+
                 // 검색한 플랫폼 찾기
                 let mainPlatformData = null;
                 let mainPlatformName = '';
-                
+
                 // YouTube 계열인지 확인
                 const youtubeKeywords = ['유튜브', 'youtube'];
                 if (youtubeKeywords.includes(mainPlatform)) {
@@ -7075,11 +7236,11 @@
                         '릴스': 'Instagram Reels',
                         'reels': 'Instagram Reels'
                     };
-                    
+
                     mainPlatformName = platformMap[mainPlatform] || 'TikTok';
                     mainPlatformData = platforms.others.filter(p => p.name === mainPlatformName);
                 }
-                
+
                 resultsHTML = `
                     <div style="margin-bottom: 30px;">
                         <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
@@ -7133,11 +7294,11 @@
                     </h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
                         ${platforms.others.filter(p => p.name !== mainPlatformName).map(platform => {
-                            const borderColor = platform.warningType === 'korea' ? '#ff9800' : (platform.needsWarning ? '#ff6b6b' : 'rgba(255, 255, 255, 0.08)');
-                            const warningBadge = platform.warningType === 'korea' ? '⚠️ 서비스 중단' : '⚠️ 주의';
-                            const warningBgColor = platform.warningType === 'korea' ? '#ff9800' : '#ff6b6b';
-                            
-                            return `
+                    const borderColor = platform.warningType === 'korea' ? '#ff9800' : (platform.needsWarning ? '#ff6b6b' : 'rgba(255, 255, 255, 0.08)');
+                    const warningBadge = platform.warningType === 'korea' ? '⚠️ 서비스 중단' : '⚠️ 주의';
+                    const warningBgColor = platform.warningType === 'korea' ? '#ff9800' : '#ff6b6b';
+
+                    return `
                             <a ${platform.needsWarning ? `onclick="return showPrivacyWarning('${platform.name}', '${platform.url}', '${platform.warningType}')"` : `href="${platform.url}" target="_blank"`} style="padding: 20px; backdrop-filter: blur(20px); background: var(--surface); border: 1px solid ${borderColor}; border-radius: 12px; text-decoration: none; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; cursor: pointer; position: relative;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--highlight)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='${borderColor}'">
                                 ${platform.needsWarning ? `<div style="position: absolute; top: 10px; right: 10px; background: ${warningBgColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${warningBadge}</div>` : ''}
                                 <img src="https://www.google.com/s2/favicons?domain=${new URL(platform.url).hostname}&sz=128" alt="${platform.name}" style="width: 64px; height: 64px; border-radius: 12px;">
@@ -7159,7 +7320,7 @@
                 const stores = results[0].stores;
                 const ioGames = results[0].ioGames;
                 const topGames = results[0].topGames;
-                
+
                 resultsHTML = `
                     <div style="margin-bottom: 30px;">
                         <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
@@ -7258,7 +7419,7 @@
                 const services = results[0].services;
                 const topServices = services.filter(s => s.rank !== null);
                 const otherServices = services.filter(s => s.rank === null);
-                
+
                 resultsHTML = `
                     <div style="margin-bottom: 30px;">
                         <h2 style="font-size: 2rem; color: var(--text); font-weight: 700; margin-bottom: 15px;">
@@ -7275,12 +7436,12 @@
                         </h3>
                         <div class="ai-top-services">
                             ${topServices.map(service => {
-                                let badgeClass = '';
-                                if (service.rank === 1) badgeClass = 'gold';
-                                else if (service.rank === 2) badgeClass = 'silver';
-                                else if (service.rank === 3) badgeClass = 'bronze';
-                                
-                                return `
+                    let badgeClass = '';
+                    if (service.rank === 1) badgeClass = 'gold';
+                    else if (service.rank === 2) badgeClass = 'silver';
+                    else if (service.rank === 3) badgeClass = 'bronze';
+
+                    return `
                                 <a href="${service.url}" target="_blank" class="ai-service-card top-ranked" style="border-color: ${service.color}33;">
                                     <div class="ai-rank-badge ${badgeClass}">${service.rank}</div>
                                     <img src="${service.logo}" alt="${service.name}" style="width: 64px; height: 64px; border-radius: 12px; margin-bottom: 10px;">
@@ -7350,28 +7511,28 @@
                         </p>
                         <div class="chart-list">
                             ${chart.map(song => {
-                                // 순위에 따라 다른 색상 그라데이션 적용
-                                let gradient = '';
-                                let emoji = '🎵';
-                                
-                                if (song.rank <= 3) {
-                                    gradient = 'linear-gradient(135deg, #e94560 0%, #ff6b9d 100%)';
-                                    emoji = '🏆';
-                                } else if (song.rank <= 10) {
-                                    gradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                                    emoji = '⭐';
-                                } else if (song.rank <= 20) {
-                                    gradient = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
-                                    emoji = '🎤';
-                                } else if (song.rank <= 30) {
-                                    gradient = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
-                                    emoji = '🎧';
-                                } else {
-                                    gradient = 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)';
-                                    emoji = '🎶';
-                                }
-                                
-                                return `
+                    // 순위에 따라 다른 색상 그라데이션 적용
+                    let gradient = '';
+                    let emoji = '🎵';
+
+                    if (song.rank <= 3) {
+                        gradient = 'linear-gradient(135deg, #e94560 0%, #ff6b9d 100%)';
+                        emoji = '🏆';
+                    } else if (song.rank <= 10) {
+                        gradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                        emoji = '⭐';
+                    } else if (song.rank <= 20) {
+                        gradient = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+                        emoji = '🎤';
+                    } else if (song.rank <= 30) {
+                        gradient = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+                        emoji = '🎧';
+                    } else {
+                        gradient = 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)';
+                        emoji = '🎶';
+                    }
+
+                    return `
                                 <div class="chart-item" onclick="showMusicServiceMenu(event, '${song.title}', '${song.artist}')">
                                     <div class="chart-rank ${song.rank <= 3 ? 'top3' : ''}">${song.rank}</div>
                                     <div style="width: 50px; height: 50px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: ${gradient}; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); font-size: 1.5rem;">
@@ -7476,7 +7637,7 @@
                                 domain = '';
                             }
                             const faviconUrl = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : '';
-                            
+
                             return `
                             <div class="result-item">
                                 <div class="result-url" style="display: flex; align-items: center; gap: 8px;">
@@ -7503,7 +7664,7 @@
                             domain = '';
                         }
                         const faviconUrl = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : '';
-                        
+
                         return `
                         <div class="result-item">
                             <div class="result-url" style="display: flex; align-items: center; gap: 8px;">
@@ -7528,7 +7689,7 @@
             const perplexitySearchURL = `https://www.perplexity.ai/search?q=${encodeURIComponent(query)}`;
             const wikiSearchURL = `https://ko.wikipedia.org/wiki/${encodeURIComponent(query)}`;
             const duckduckgoSearchURL = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
-            
+
             content.innerHTML = `
                 <div class="results">
                     ${specialType !== 'iogame' && specialType !== 'gamestore' && specialType !== 'music' && specialType !== 'ai' && specialType !== 'translate' && specialType !== 'mctools' && specialType !== 'robloxtools' && specialType !== 'steam' && specialType !== 'epic' && specialType !== 'roblox' && specialType !== 'minecraft' && specialType !== 'spellcheck' && specialType !== 'games' && specialType !== 'video' && specialType !== 'platform' && specialType !== 'messenger' && specialType !== 'email' && specialType !== 'company' && specialType !== 'map' && specialType !== 'youtube-channels' && specialType !== 'ai-service' && specialType !== 'creator-tool' && specialType !== 'streaming-service' ? `
@@ -7608,7 +7769,7 @@
             '오버워치', '오버워치 영웅',
             '원신', '원신 캐릭터',
             '포트나이트', '포트나이트 스킨',
-            'ChatGPT', 'Claude', 'AI', 'AI 그림',
+            'ChatGPT', 'Claude', 'DeepSeek', 'AI', 'AI 그림',
             '날씨', '뉴스', '맛집', '영화', '음악',
             '번역', '번역기', '사전', '영어 사전',
             '쇼핑', '쿠팡', '알리익스프레스',
@@ -7622,7 +7783,7 @@
         function filterAutocomplete(query) {
             if (!query.trim()) return [];
             const lowerQuery = query.toLowerCase();
-            return autocompleteData.filter(item => 
+            return autocompleteData.filter(item =>
                 item.toLowerCase().startsWith(lowerQuery) && item.toLowerCase() !== lowerQuery
             ).slice(0, 8);
         }
@@ -7632,20 +7793,20 @@
             const query = searchInput.value;
             const dropdown = document.getElementById('autocompleteDropdown');
             const ghost = document.getElementById('autocompleteGhost');
-            
+
             currentSuggestions = filterAutocomplete(query);
             selectedAutocompleteIndex = -1;
-            
+
             if (currentSuggestions.length === 0 || !query.trim()) {
                 dropdown.classList.remove('show');
                 ghost.textContent = '';
                 return;
             }
-            
+
             // 고스트 텍스트 (첫 번째 추천어의 나머지 부분)
             const firstSuggestion = currentSuggestions[0];
             ghost.innerHTML = `<span style="color: transparent;">${query}</span>${firstSuggestion.slice(query.length)}`;
-            
+
             // 드롭다운 목록 생성
             dropdown.innerHTML = currentSuggestions.map((item, index) => {
                 const highlightedText = `<span class="highlight">${item.slice(0, query.length)}</span>${item.slice(query.length)}`;
@@ -7660,7 +7821,7 @@
                     <kbd>Tab</kbd> 자동완성 &nbsp;&nbsp; <kbd>↑↓</kbd> 선택 &nbsp;&nbsp; <kbd>Enter</kbd> 검색
                 </div>
             `;
-            
+
             dropdown.classList.add('show');
         }
 
@@ -7687,7 +7848,7 @@
 
         searchInput.addEventListener('keydown', (e) => {
             const dropdown = document.getElementById('autocompleteDropdown');
-            
+
             if (e.key === 'Tab' && currentSuggestions.length > 0) {
                 e.preventDefault();
                 const index = selectedAutocompleteIndex >= 0 ? selectedAutocompleteIndex : 0;
@@ -7729,7 +7890,7 @@
         // 검색 실행 (검색 엔진에 따라)
         function executeSearch(query) {
             if (!query.trim()) return;
-            
+
             // 자동완성 닫기
             document.getElementById('autocompleteDropdown').classList.remove('show');
             document.getElementById('autocompleteGhost').textContent = '';
@@ -7747,16 +7908,16 @@
 
         // 자동완성 기능 (선택사항)
         const popularSearches = [
-            'ai', '음악', '마인크래프트', '로블록스', '포트나이트', 
+            'ai', '음악', '마인크래프트', '로블록스', '포트나이트',
             '리그오브레전드', '오버워치', '발로란트', '원신',
             '스팀', '에픽게임즈', 'io', '네이버', 'YouTube'
         ];
-        
-        searchInput.addEventListener('focus', function() {
+
+        searchInput.addEventListener('focus', function () {
             this.placeholder = popularSearches[Math.floor(Math.random() * popularSearches.length)] + '...';
         });
 
-        searchInput.addEventListener('blur', function() {
+        searchInput.addEventListener('blur', function () {
             // 약간의 딜레이 후 placeholder 변경 (자동완성 클릭을 위해)
             setTimeout(() => {
                 this.placeholder = '검색어를 입력하세요...';
@@ -7772,13 +7933,13 @@
         function showMusicServiceMenu(event, title, artist) {
             event.stopPropagation();
             const searchQuery = `${title} ${artist}`;
-            
+
             // 기존 메뉴 제거
             const existingMenu = document.querySelector('.music-service-menu');
             if (existingMenu) {
                 existingMenu.remove();
             }
-            
+
             // 새 메뉴 생성
             const menu = document.createElement('div');
             menu.className = 'music-service-menu show';
@@ -7800,15 +7961,15 @@
                     <span>Apple Music</span>
                 </a>
             `;
-            
+
             // 위치 설정
             const rect = event.currentTarget.getBoundingClientRect();
             menu.style.position = 'fixed';
             menu.style.top = `${rect.bottom + 5}px`;
             menu.style.left = `${rect.left}px`;
-            
+
             document.body.appendChild(menu);
-            
+
             // 메뉴 외부 클릭 시 닫기
             setTimeout(() => {
                 document.addEventListener('click', function closeMenu() {
@@ -7824,26 +7985,26 @@
             const sourceLang = document.getElementById('sourceLang').value;
             const targetLang = document.getElementById('targetLang').value;
             const output = document.getElementById('translateOutput');
-            
+
             if (!input.trim()) {
                 output.value = '번역할 텍스트를 입력해주세요.';
                 return;
             }
-            
+
             output.value = '번역 중...';
-            
+
             try {
                 const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(input)}`;
                 const response = await fetch(url);
                 const data = await response.json();
-                
+
                 let translatedText = '';
                 data[0].forEach(item => {
                     if (item[0]) {
                         translatedText += item[0];
                     }
                 });
-                
+
                 output.value = translatedText;
             } catch (error) {
                 output.value = '번역 중 오류가 발생했습니다. 위의 전문 번역 서비스를 이용해주세요.';
@@ -7856,12 +8017,12 @@
             const targetLang = document.getElementById('targetLang');
             const input = document.getElementById('translateInput');
             const output = document.getElementById('translateOutput');
-            
+
             // 언어 교환
             const tempLang = sourceLang.value;
             sourceLang.value = targetLang.value;
             targetLang.value = tempLang;
-            
+
             // 텍스트 교환
             const tempText = input.value;
             input.value = output.value;
@@ -7872,20 +8033,20 @@
         function checkSpelling() {
             const input = document.getElementById('spellcheckInput').value;
             const result = document.getElementById('spellcheckResult');
-            
+
             if (!input.trim()) {
                 result.style.display = 'block';
                 result.innerHTML = '<p style="color: var(--text-secondary);">검사할 문장을 입력해주세요.</p>';
                 return;
             }
-            
+
             result.style.display = 'block';
             result.innerHTML = '<p style="color: var(--text-secondary);">검사 중...</p>';
-            
+
             // 간단한 맞춤법 검사 (기본적인 규칙만)
             let errors = [];
             const text = input;
-            
+
             // 기본적인 맞춤법 규칙
             const rules = [
                 { pattern: /되요(?![가-힣])/g, correct: '돼요', message: '"되요" → "돼요"' },
@@ -7894,13 +8055,13 @@
                 { pattern: /왠지/g, correct: '웬지', message: '"왠지" → "웬지"' },
                 { pattern: /했는데요/g, correct: '했는데요', message: '올바른 표현입니다' }
             ];
-            
+
             rules.forEach(rule => {
                 if (rule.pattern.test(text)) {
                     errors.push(rule.message);
                 }
             });
-            
+
             if (errors.length === 0) {
                 result.innerHTML = `
                     <p style="color: #4ade80; font-weight: 600; margin-bottom: 10px;">✅ 검사 완료</p>
@@ -7924,7 +8085,7 @@
         // 개인정보 수집 경고창
         function showPrivacyWarning(platformName, url, warningType) {
             let message = '';
-            
+
             if (warningType === 'korea') {
                 // 트위치 한국 서비스 중단 경고
                 message = `⚠️ 서비스 중단 안내\n\nTwitch는 2024년 2월 27일부로 한국에서 서비스가 중단되었습니다.\n\n접속은 가능하지만, 일부 기능이 제한될 수 있습니다.\n\n계속 진행하시겠습니까?`;
@@ -7932,7 +8093,7 @@
                 // 개인정보 수집 경고
                 message = `⚠️ 개인정보 수집 주의\n\n${platformName}는 사용자의 개인정보를 수집할 수 있습니다.\n\n계속 진행하시겠습니까?`;
             }
-            
+
             if (confirm(message)) {
                 window.open(url, '_blank');
             }
@@ -7963,22 +8124,26 @@
                 <button class="auth-close-btn" onclick="closeAuthModal()">&times;</button>
                 <h2 class="auth-modal-title">MLE</h2>
                 <div class="auth-error" id="loginError"></div>
-                
+
                 <!-- Google 로그인 버튼 -->
                 <button class="google-login-btn" onclick="googleLogin()">
                     <svg viewBox="0 0 24 24" width="20" height="20">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        <path fill="#4285F4"
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853"
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05"
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335"
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                     </svg>
                     <span>Google로 계속하기</span>
                 </button>
-                
+
                 <div class="auth-divider">
                     <span>또는</span>
                 </div>
-                
+
                 <div class="auth-input-group">
                     <label class="auth-input-label">이메일</label>
                     <input type="email" class="auth-input" id="loginEmail" placeholder="이메일을 입력하세요">
@@ -8005,22 +8170,26 @@
                 <h2 class="auth-modal-title">회원가입</h2>
                 <div class="auth-error" id="signupError"></div>
                 <div class="auth-success" id="signupSuccess"></div>
-                
+
                 <!-- Google 회원가입 버튼 -->
                 <button class="google-login-btn" onclick="googleLogin()">
                     <svg viewBox="0 0 24 24" width="20" height="20">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        <path fill="#4285F4"
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853"
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05"
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335"
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                     </svg>
                     <span>Google로 계속하기</span>
                 </button>
-                
+
                 <div class="auth-divider">
                     <span>또는</span>
                 </div>
-                
+
                 <div class="auth-input-group">
                     <label class="auth-input-label">이메일</label>
                     <input type="email" class="auth-input" id="signupEmail" placeholder="이메일을 입력하세요">
@@ -8090,7 +8259,7 @@
         window.firebaseAuth = auth;
 
         // Google 로그인
-        window.googleLogin = async function() {
+        window.googleLogin = async function () {
             try {
                 const result = await signInWithPopup(auth, googleProvider);
                 closeAuthModal();
@@ -8112,7 +8281,7 @@
         };
 
         // 로그인
-        window.loginUser = async function() {
+        window.loginUser = async function () {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             const errorDiv = document.getElementById('loginError');
@@ -8146,7 +8315,7 @@
         };
 
         // 회원가입
-        window.signupUser = async function() {
+        window.signupUser = async function () {
             const email = document.getElementById('signupEmail').value;
             const nickname = document.getElementById('signupNickname').value;
             const password = document.getElementById('signupPassword').value;
@@ -8201,7 +8370,7 @@
         };
 
         // 비밀번호 재설정
-        window.resetPassword = async function() {
+        window.resetPassword = async function () {
             const email = document.getElementById('resetEmail').value;
             const errorDiv = document.getElementById('resetError');
             const successDiv = document.getElementById('resetSuccess');
@@ -8229,7 +8398,7 @@
         };
 
         // 로그아웃
-        window.logoutUser = async function() {
+        window.logoutUser = async function () {
             try {
                 await signOut(auth);
                 document.getElementById('userDropdown').classList.remove('show');
@@ -8298,14 +8467,14 @@
         function showAuthModal(type, skipLoading = false) {
             closeAuthModal();
             document.getElementById('userDropdown').classList.remove('show');
-            
+
             if (skipLoading) {
                 // 로딩 없이 바로 모달 표시 (모달 간 전환 시)
                 showAuthModalContent(type);
             } else {
                 // 로딩 화면 표시
                 document.getElementById('authLoadingOverlay').classList.add('show');
-                
+
                 // 3초 후 로딩 숨기고 모달 표시
                 setTimeout(() => {
                     document.getElementById('authLoadingOverlay').classList.remove('show');
@@ -8320,12 +8489,12 @@
             document.getElementById('loginModal').classList.remove('show');
             document.getElementById('signupModal').classList.remove('show');
             document.getElementById('resetModal').classList.remove('show');
-            
+
             // 에러/성공 메시지 초기화
             document.querySelectorAll('.auth-error, .auth-success').forEach(el => {
                 el.classList.remove('show');
             });
-            
+
             // 입력 필드 초기화
             document.querySelectorAll('.auth-input').forEach(el => {
                 el.value = '';
@@ -8355,4 +8524,5 @@
         });
     </script>
 </body>
+
 </html>
