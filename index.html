@@ -2918,6 +2918,54 @@
                                 style="padding: 6px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; white-space: nowrap;">미니멀</button>
                         </div>
 
+                        <!-- 버그 제보 모달 -->
+                        <div id="bugReportModal" class="modal-overlay"
+                            style="display: none; align-items: center; justify-content: center; z-index: 10001;">
+                            <div class="modal-content"
+                                style="background: var(--secondary); width: 90%; max-width: 500px; border-radius: 16px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h2 style="margin: 0; font-size: 1.5rem; color: var(--text);"><i
+                                            class="fa-solid fa-bug"></i> 버그 제보 및 건의</h2>
+                                    <button onclick="closeBugReportModal()"
+                                        style="background: none; border: none; color: var(--text-secondary); font-size: 1.2rem; cursor: pointer;">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <label
+                                        style="display: block; color: var(--text-secondary); margin-bottom: 8px;">유형</label>
+                                    <select id="bugType"
+                                        style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text);">
+                                        <option value="bug">🐛 버그/오류</option>
+                                        <option value="feature">💡 기능 제안</option>
+                                        <option value="other">📝 기타</option>
+                                    </select>
+                                </div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <label
+                                        style="display: block; color: var(--text-secondary); margin-bottom: 8px;">내용</label>
+                                    <textarea id="bugContent" placeholder="발생한 오류나 제안하고 싶은 내용을 자세히 적어주세요."
+                                        style="width: 100%; height: 150px; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); resize: none;"></textarea>
+                                </div>
+
+                                <button onclick="submitBugReport()"
+                                    style="width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+                                    제보하기
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 버그 제보 버튼 (플로팅) -->
+                        <button onclick="openBugReportModal()"
+                            style="position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: #ff6b6b; color: white; border: none; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4); cursor: pointer; z-index: 9990; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: transform 0.2s;"
+                            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"
+                            title="버그 제보">
+                            <i class="fa-solid fa-bug"></i>
+                        </button>
+
                         <div id="wallpaperGrid"
                             style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-height: 200px; overflow-y: auto; padding-right: 5px;">
                             <!-- 기본 -->
@@ -6480,8 +6528,28 @@
                 const currentTheme = localStorage.getItem('userWallpaper') ? 'Custom' : 'Default';
                 const announcement = localStorage.getItem('admin_announcement') || '없음';
 
+                // 버그 제보 로드
+                const reports = JSON.parse(localStorage.getItem('bug_reports') || '[]');
+                const reportsHtml = reports.length > 0 ? reports.map((r, index) => `
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid ${r.type === 'bug' ? '#ff6b6b' : '#4facfe'};">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.8rem; color: var(--text-secondary);">${new Date(r.timestamp).toLocaleString()}</span>
+                            <span style="font-size: 0.8rem; color: var(--highlight);">${r.user}</span>
+                        </div>
+                        <div style="font-weight: 600; margin-bottom: 5px; color: ${r.type === 'bug' ? '#ff6b6b' : '#4facfe'};">
+                            ${r.type === 'bug' ? '🐛 버그' : r.type === 'feature' ? '💡 제안' : '📝 기타'}
+                        </div>
+                        <div style="color: var(--text); font-size: 0.95rem; white-space: pre-wrap;">${r.content}</div>
+                        <button onclick="deleteReport(${index})" style="margin-top: 10px; padding: 5px 10px; background: rgba(255,255,255,0.1); border: none; border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 0.8rem;">삭제</button>
+                    </div>
+                `).join('') : '<p style="color: var(--text-secondary); text-align: center;">접수된 제보가 없습니다.</p>';
+
+                // 사용자 관리 (현재 로컬 사용자 시뮬레이션)
+                const currentUser = window.firebaseAuth && window.firebaseAuth.currentUser ? window.firebaseAuth.currentUser : { email: 'Local User', uid: 'local' };
+                const userStatus = '🟢 온라인'; // 현재 접속 중이므로
+
                 content.innerHTML = `
-                    <div style="padding: 40px; max-width: 1000px; margin: 0 auto; animation: fadeIn 0.5s ease;">
+                    <div style="padding: 40px; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.5s ease;">
                         <div style="background: var(--secondary); border-radius: 20px; padding: 40px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;">
                                 <div style="display: flex; align-items: center; gap: 15px;">
@@ -6496,48 +6564,42 @@
                                 </button>
                             </div>
                             
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px;">
                                 <!-- 공지사항 관리 -->
                                 <div style="background: rgba(255,255,255,0.03); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
                                     <h3 style="margin: 0 0 15px 0; font-size: 1.2rem; color: #4facfe;"><i class="fa-solid fa-bullhorn"></i> 공지사항 관리</h3>
                                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">현재 공지: <span style="color: var(--text);">${announcement}</span></p>
-                                    <textarea id="adminAnnouncementInput" placeholder="새로운 공지사항을 입력하세요..." style="width: 100%; height: 100px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; color: var(--text); margin-bottom: 10px; resize: none;"></textarea>
+                                    <textarea id="adminAnnouncementInput" placeholder="새로운 공지사항을 입력하세요..." style="width: 100%; height: 80px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; color: var(--text); margin-bottom: 10px; resize: none;"></textarea>
                                     <div style="display: flex; gap: 10px;">
                                         <button onclick="postAnnouncement()" style="flex: 1; padding: 10px; background: #4facfe; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">등록</button>
                                         <button onclick="clearAnnouncement()" style="padding: 10px 15px; background: rgba(255,255,255,0.1); color: var(--text); border: none; border-radius: 8px; cursor: pointer;">삭제</button>
                                     </div>
                                 </div>
 
-                                <!-- 시스템 통계 -->
+                                <!-- 사용자 관리 -->
                                 <div style="background: rgba(255,255,255,0.03); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
-                                    <h3 style="margin: 0 0 20px 0; font-size: 1.2rem; color: #00f2fe;"><i class="fa-solid fa-chart-simple"></i> 시스템 통계</h3>
-                                    <div style="display: flex; flex-direction: column; gap: 15px;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                            <span style="color: var(--text-secondary);">등록된 바로가기</span>
-                                            <span style="font-size: 1.2rem; font-weight: 700;">${shortcutCount}개</span>
+                                    <h3 style="margin: 0 0 20px 0; font-size: 1.2rem; color: #00f2fe;"><i class="fa-solid fa-users-gear"></i> 사용자 관리</h3>
+                                    <div style="max-height: 300px; overflow-y: auto;">
+                                        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                                <span style="font-weight: 600; color: var(--text);">${currentUser.email || 'Local User'}</span>
+                                                <span style="font-size: 0.8rem; color: #00ff88;">${userStatus}</span>
+                                            </div>
+                                            <div style="display: flex; gap: 5px;">
+                                                <button onclick="adminDeleteHistory()" style="flex: 1; padding: 8px; background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); color: #ff6b6b; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">기록 삭제</button>
+                                                <button onclick="adminDeleteShortcuts()" style="flex: 1; padding: 8px; background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); color: #ff6b6b; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">바로가기 삭제</button>
+                                            </div>
                                         </div>
-                                        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                            <span style="color: var(--text-secondary);">검색 기록</span>
-                                            <span style="font-size: 1.2rem; font-weight: 700;">${historyCount}건</span>
-                                        </div>
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="color: var(--text-secondary);">현재 테마</span>
-                                            <span style="font-size: 1.1rem; color: var(--highlight);">${currentTheme}</span>
-                                        </div>
+                                        <!-- 실제 DB 연동 시 여기에 다른 사용자 목록 추가 -->
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-top: 10px;">* 로컬 환경에서는 현재 사용자만 표시됩니다.</p>
                                     </div>
                                 </div>
 
-                                <!-- 데이터 관리 -->
-                                <div style="background: rgba(255,255,255,0.03); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
-                                    <h3 style="margin: 0 0 15px 0; font-size: 1.2rem; color: #ff9a9e;"><i class="fa-solid fa-database"></i> 데이터 관리</h3>
-                                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">시스템 데이터를 초기화하거나 관리합니다.</p>
-                                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                                        <button onclick="clearCache()" style="padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text); border-radius: 8px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 10px; transition: all 0.2s;">
-                                            <i class="fa-solid fa-broom"></i> 캐시 정리 (새로고침)
-                                        </button>
-                                        <button onclick="factoryReset()" style="padding: 12px; background: rgba(233, 69, 96, 0.1); border: 1px solid rgba(233, 69, 96, 0.3); color: #ff6b6b; border-radius: 8px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 10px; transition: all 0.2s;">
-                                            <i class="fa-solid fa-triangle-exclamation"></i> 공장 초기화 (전체 삭제)
-                                        </button>
+                                <!-- 버그 제보 목록 -->
+                                <div style="background: rgba(255,255,255,0.03); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); grid-column: span 1 / -1;">
+                                    <h3 style="margin: 0 0 15px 0; font-size: 1.2rem; color: #ff9a9e;"><i class="fa-solid fa-bug"></i> 버그 제보 및 건의함</h3>
+                                    <div style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
+                                        ${reportsHtml}
                                     </div>
                                 </div>
                             </div>
@@ -6547,6 +6609,31 @@
             }
 
             // 관리자 기능 함수들
+            function deleteReport(index) {
+                if (confirm('이 제보를 삭제하시겠습니까?')) {
+                    const reports = JSON.parse(localStorage.getItem('bug_reports') || '[]');
+                    reports.splice(index, 1);
+                    localStorage.setItem('bug_reports', JSON.stringify(reports));
+                    showAdminPage();
+                }
+            }
+
+            function adminDeleteHistory() {
+                if (confirm('해당 사용자의 검색 기록을 모두 삭제하시겠습니까?')) {
+                    searchHistory = [];
+                    saveSearchHistory(''); // 빈 값으로 저장하여 초기화
+                    alert('검색 기록이 삭제되었습니다.');
+                }
+            }
+
+            function adminDeleteShortcuts() {
+                if (confirm('해당 사용자의 바로가기를 모두 삭제하시겠습니까?')) {
+                    shortcuts = [];
+                    saveShortcuts();
+                    alert('바로가기가 삭제되었습니다.');
+                }
+            }
+
             function postAnnouncement() {
                 const text = document.getElementById('adminAnnouncementInput').value;
                 if (text.trim()) {
@@ -10183,6 +10270,50 @@
                 history = history.filter(item => item.timestamp > sixMonthsAgo);
 
                 localStorage.setItem('searchHistory', JSON.stringify(history));
+            }
+
+            function openDancingLineDownloadModal() {
+                document.getElementById('dancingLineDownloadModal').style.display = 'flex';
+            }
+
+            function closeDancingLineDownloadModal() {
+                document.getElementById('dancingLineDownloadModal').style.display = 'none';
+            }
+
+            // 버그 제보 관련 함수
+            function openBugReportModal() {
+                document.getElementById('bugReportModal').style.display = 'flex';
+            }
+
+            function closeBugReportModal() {
+                document.getElementById('bugReportModal').style.display = 'none';
+                document.getElementById('bugContent').value = ''; // 초기화
+            }
+
+            function submitBugReport() {
+                const type = document.getElementById('bugType').value;
+                const content = document.getElementById('bugContent').value.trim();
+
+                if (!content) {
+                    alert('내용을 입력해주세요.');
+                    return;
+                }
+
+                const report = {
+                    id: Date.now(),
+                    type: type,
+                    content: content,
+                    timestamp: new Date().toISOString(),
+                    user: window.firebaseAuth && window.firebaseAuth.currentUser ? window.firebaseAuth.currentUser.email : 'Anonymous'
+                };
+
+                // 로컬 스토리지에 저장 (실제 DB가 없으므로)
+                const reports = JSON.parse(localStorage.getItem('bug_reports') || '[]');
+                reports.push(report);
+                localStorage.setItem('bug_reports', JSON.stringify(reports));
+
+                alert('제보가 성공적으로 전송되었습니다. 감사합니다!');
+                closeBugReportModal();
             }
 
             function openHistoryModal() {
