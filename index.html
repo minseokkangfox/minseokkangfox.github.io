@@ -9,6 +9,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Outfit:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <!-- Firebase SDKs (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <style>
         :root {
             --primary: #232342;
@@ -2635,15 +2641,7 @@
         </div>
 
         <!-- 바로가기 우클릭 메뉴 -->
-        <div id="shortcutContextMenu"
-            style="display: none; position: fixed; z-index: 10000; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); backdrop-filter: blur(10px);">
-            <div onclick="createFolder()"
-                style="padding: 8px 12px; cursor: pointer; color: var(--text); font-size: 0.9rem; border-radius: 4px; transition: background 0.2s;"
-                onmouseover="this.style.background='rgba(255,255,255,0.1)'"
-                onmouseout="this.style.background='transparent'">
-                <i class="fa-solid fa-folder-plus" style="margin-right: 8px;"></i> 파일 생성
-            </div>
-        </div>
+
 
         <!-- 바로가기 추가 모달 -->
         <div id="addShortcutModal" onclick="if(event.target === this) closeAddShortcutModal()"
@@ -2784,7 +2782,7 @@
         <div id="folderModal" onclick="if(event.target === this) closeFolder()"
             style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: transparent; z-index: 1500; align-items: center; justify-content: center;">
             <div
-                style="background: rgba(22, 33, 62, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; width: fit-content; min-width: 300px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); animation: slideIn 0.3s ease; max-height: 80vh; display: flex; flex-direction: column;">
+                style="background: rgba(22, 33, 62, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 25px; width: fit-content; min-width: 300px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); animation: slideIn 0.3s ease; max-height: 80vh; display: flex; flex-direction: column;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3 id="folderModalTitle"
                         style="font-size: 1.8rem; color: var(--text); font-weight: 700; margin: 0;">폴더 이름</h3>
@@ -5669,9 +5667,8 @@
 
             // 홈 화면 표시
             function showHome() {
-                const homeShortcuts = document.getElementById('home-shortcuts');
-                if (homeShortcuts) {
-                    content.innerHTML = homeShortcuts.outerHTML;
+                if (initialHomeHTML) {
+                    content.innerHTML = initialHomeHTML;
                 }
                 loadShortcuts();
                 searchInput.value = '';
@@ -5685,6 +5682,7 @@
 
             // 바로가기 데이터 관리
             let shortcuts = [];
+            let initialHomeHTML = '';
             let selectedColor = '#00c73c';
             let draggedItemIndex = null;
             let editingShortcutIndex = null;
@@ -5782,8 +5780,7 @@
                         <button onclick="openAddShortcutModal()" style="padding: 12px 24px; background: linear-gradient(135deg, var(--highlight) 0%, #ff6b9d 100%); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">첫 바로가기 추가하기</button>
                     </div>
                 `;
-                    // 컨텍스트 메뉴 이벤트 리스너 추가
-                    container.oncontextmenu = handleContextMenu;
+
                     return;
                 }
 
@@ -5823,6 +5820,9 @@
                     div.ondragenter = handleDragEnter;
                     div.ondragleave = handleDragLeave;
                     div.ondragend = handleDragEnd;
+
+                    // 컨텍스트 메뉴 이벤트
+
 
                     // 아이콘 결정
                     let iconHtml;
@@ -5886,10 +5886,17 @@
                         div.onclick = (e) => handleShortcutClick(e, shortcut);
                     }
 
+                    // 컨텍스트 메뉴: setAttribute로 강제 할당 (이벤트 버블링 문제 해결 시도)
+                    // 컨텍스트 메뉴 이벤트
+                    div.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showContextMenu(e, index);
+                    });
+
                     container.appendChild(div);
                 });
-                // 컨텍스트 메뉴 이벤트 리스너 추가
-                container.oncontextmenu = handleContextMenu;
+
             }
 
             // 폴더 열기 (팝오버)
@@ -5965,6 +5972,7 @@
                 folder.items.forEach((shortcut, index) => {
                     const div = document.createElement('div');
                     div.className = 'shortcut-card';
+                    div.dataset.index = index;
                     // 폴더 내 드래그는 일단 미지원 또는 추후 구현
 
                     // 아이콘 결정
@@ -5989,34 +5997,32 @@
                     </div>
                 `;
 
+                    // 컨텍스트 메뉴: setAttribute로 강제 할당
+                    // 컨텍스트 메뉴 이벤트
+                    div.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showContextMenu(e, index, true, currentFolderIndex);
+                    });
                     div.onclick = (e) => handleShortcutClick(e, shortcut);
+
                     container.appendChild(div);
                 });
+
+
             }
 
             // 컨텍스트 메뉴 핸들러
-            function handleContextMenu(e) {
-                e.preventDefault();
-                const menu = document.getElementById('shortcutContextMenu');
-                menu.style.display = 'block';
-                menu.style.left = e.pageX + 'px';
-                menu.style.top = e.pageY + 'px';
 
-                // 메뉴 외부 클릭시 닫기
-                document.addEventListener('click', function closeMenu() {
-                    menu.style.display = 'none';
-                    document.removeEventListener('click', closeMenu);
-                });
-            }
 
             // 폴더 생성
             function createFolder() {
-                // "파일 N" 이름 생성
+                // "새 폴더 N" 이름 생성
                 let count = 1;
-                let name = `파일 ${count}`;
+                let name = `새 폴더 ${count}`;
                 while (shortcuts.some(s => s.name === name)) {
                     count++;
-                    name = `파일 ${count}`;
+                    name = `새 폴더 ${count}`;
                 }
 
                 const newFolder = {
@@ -6440,6 +6446,10 @@
 
             // 페이지 로드시 바로가기 및 설정 로드
             document.addEventListener('DOMContentLoaded', function () {
+                const homeShortcuts = document.getElementById('home-shortcuts');
+                if (homeShortcuts) {
+                    initialHomeHTML = homeShortcuts.outerHTML;
+                }
                 loadShortcuts();
                 loadWallpaper();
 
@@ -6722,13 +6732,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 사용자 관리 (Firebase Realtime) -->
-                                <div style="background: rgba(255,255,255,0.03); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
-                                    <h3 style="margin: 0 0 20px 0; font-size: 1.2rem; color: #00f2fe;"><i class="fa-solid fa-users-gear"></i> 사용자 관리 (실시간)</h3>
-                                    <div id="adminUserList" style="max-height: 300px; overflow-y: auto;">
-                                        <p style="text-align: center; color: var(--text-secondary);">데이터 로딩 중...</p>
-                                    </div>
-                                </div>
+
 
                                 <!-- 버그 제보 목록 (Firestore Realtime) -->
                                 <div style="background: rgba(255,255,255,0.03); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); grid-column: span 1 / -1;">
@@ -10099,13 +10103,8 @@
             </div>
         </div>
 
-        <!-- Firebase SDK -->
-        <script type="module">
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-            import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-            import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-            import { getDatabase, ref, set, onDisconnect, onValue, serverTimestamp as rtdbServerTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
+        <!-- Firebase SDK (Compat Init) -->
+        <script>
             // Firebase 설정
             const firebaseConfig = {
                 apiKey: "AIzaSyBE4uWboxXuAEBMUGAL9LdTWETKhUmB1B8",
@@ -10119,13 +10118,16 @@
             };
 
             // Firebase 초기화
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-            const rtdb = getDatabase(app);
-            const googleProvider = new GoogleAuthProvider();
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
 
-            // 전역 객체로 노출
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+            const rtdb = firebase.database();
+            const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+            // 전역 객체로 노출 (필요한 경우)
             window.firebaseAuth = auth;
             window.firebaseDb = db;
             window.firebaseRtdb = rtdb;
@@ -10134,12 +10136,12 @@
             window.submitBugReportToFirebase = async function (type, content) {
                 try {
                     const user = auth.currentUser;
-                    await addDoc(collection(db, "bug_reports"), {
+                    await db.collection("bug_reports").add({
                         type: type,
                         content: content,
                         user: user ? user.email : "Anonymous",
                         uid: user ? user.uid : null,
-                        timestamp: serverTimestamp()
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     return true;
                 } catch (e) {
@@ -10151,8 +10153,7 @@
             // 관리자 페이지 리스너 초기화 (전역 노출)
             window.initAdminListeners = function () {
                 // 버그 제보 리스너
-                const q = query(collection(db, "bug_reports"), orderBy("timestamp", "desc"));
-                const unsubscribeBugs = onSnapshot(q, (snapshot) => {
+                db.collection("bug_reports").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
                     const container = document.getElementById('adminBugReports');
                     if (!container) return;
 
@@ -10174,42 +10175,18 @@
                                 ${r.type === 'bug' ? '🐛 버그' : r.type === 'feature' ? '💡 제안' : '📝 기타'}
                             </div>
                             <div style="color: var(--text); font-size: 0.95rem; white-space: pre-wrap;">${r.content}</div>
-                            <button onclick="deleteReport('${doc.id}')" style="margin-top: 10px; padding: 5px 10px; background: rgba(255,255,255,0.1); border: none; border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 0.8rem;">삭제</button>
+                            <button onclick="deleteReportFromFirebase('${doc.id}')" style="margin-top: 10px; padding: 5px 10px; background: rgba(255,255,255,0.1); border: none; border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 0.8rem;">삭제</button>
                         </div>
                     `}).join('');
                 });
 
-                // 사용자 상태 리스너
-                const unsubscribeUsers = onValue(ref(rtdb, 'status'), (snapshot) => {
-                    const container = document.getElementById('adminUserList');
-                    if (!container) return;
 
-                    const users = snapshot.val();
-                    if (!users) {
-                        container.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">접속 기록이 없습니다.</p>';
-                        return;
-                    }
-
-                    container.innerHTML = Object.entries(users).map(([uid, data]) => `
-                        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-weight: 600; color: var(--text);">${data.email || 'Anonymous'}</span>
-                                <span style="font-size: 0.8rem; color: ${data.state === 'online' ? '#00ff88' : '#666'};">
-                                    ${data.state === 'online' ? '🟢 온라인' : '⚫ 오프라인'}
-                                </span>
-                            </div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                                마지막 활동: ${data.last_changed ? new Date(data.last_changed).toLocaleString() : '알 수 없음'}
-                            </div>
-                        </div>
-                    `).join('');
-                });
             };
 
             // 리포트 삭제 함수 (전역 노출)
             window.deleteReportFromFirebase = async function (docId) {
                 try {
-                    await deleteDoc(doc(db, "bug_reports", docId));
+                    await db.collection("bug_reports").doc(docId).delete();
                     return true;
                 } catch (e) {
                     console.error("Error removing document: ", e);
@@ -10218,35 +10195,12 @@
             };
 
             // 온라인 상태 관리 (Presence)
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    const userStatusDatabaseRef = ref(rtdb, '/status/' + user.uid);
-                    const isOfflineForDatabase = {
-                        state: 'offline',
-                        last_changed: rtdbServerTimestamp(),
-                        email: user.email
-                    };
-                    const isOnlineForDatabase = {
-                        state: 'online',
-                        last_changed: rtdbServerTimestamp(),
-                        email: user.email
-                    };
 
-                    onValue(ref(rtdb, '.info/connected'), (snapshot) => {
-                        if (snapshot.val() == false) {
-                            return;
-                        }
-                        onDisconnect(userStatusDatabaseRef).set(isOfflineForDatabase).then(() => {
-                            set(userStatusDatabaseRef, isOnlineForDatabase);
-                        });
-                    });
-                }
-            });
 
             // Google 로그인
             window.googleLogin = async function () {
                 try {
-                    const result = await signInWithPopup(auth, googleProvider);
+                    const result = await auth.signInWithPopup(googleProvider);
                     closeAuthModal();
                 } catch (error) {
                     console.error('Google 로그인 실패:', error);
@@ -10283,14 +10237,15 @@
                 errorDiv.classList.remove('show');
 
                 try {
-                    await signInWithEmailAndPassword(auth, email, password);
+                    await auth.signInWithEmailAndPassword(email, password);
                     closeAuthModal();
                 } catch (error) {
                     let message = '로그인에 실패했습니다.';
-                    if (error.code === 'auth/user-not-found') message = '등록되지 않은 이메일입니다.';
-                    else if (error.code === 'auth/wrong-password') message = '비밀번호가 올바르지 않습니다.';
-                    else if (error.code === 'auth/invalid-email') message = '유효하지 않은 이메일 형식입니다.';
-                    else if (error.code === 'auth/invalid-credential') message = '이메일 또는 비밀번호가 올바르지 않습니다.';
+                    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                        message = '이메일 또는 비밀번호가 올바르지 않습니다.';
+                    } else if (error.code === 'auth/invalid-email') {
+                        message = '유효하지 않은 이메일 형식입니다.';
+                    } else if (error.code === 'auth/invalid-credential') message = '이메일 또는 비밀번호가 올바르지 않습니다.'; // Keep original specific message if it's different
                     errorDiv.textContent = message;
                     errorDiv.classList.add('show');
                 } finally {
@@ -10302,7 +10257,7 @@
             // 회원가입
             window.signupUser = async function () {
                 const email = document.getElementById('signupEmail').value;
-                const nickname = document.getElementById('signupNickname').value;
+                const nickname = document.getElementById('signupNickname').value; // Keep nickname from original
                 const password = document.getElementById('signupPassword').value;
                 const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
                 const errorDiv = document.getElementById('signupError');
@@ -10312,7 +10267,7 @@
                 errorDiv.classList.remove('show');
                 successDiv.classList.remove('show');
 
-                if (!email || !nickname || !password || !passwordConfirm) {
+                if (!email || !nickname || !password || !passwordConfirm) { // Check nickname
                     errorDiv.textContent = '모든 필드를 입력해주세요.';
                     errorDiv.classList.add('show');
                     return;
@@ -10334,8 +10289,8 @@
                 btn.textContent = '가입 중...';
 
                 try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    await updateProfile(userCredential.user, { displayName: nickname });
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    await userCredential.user.updateProfile({ displayName: nickname }); // Update profile with nickname
                     successDiv.textContent = '회원가입이 완료되었습니다!';
                     successDiv.classList.add('show');
                     setTimeout(() => {
@@ -10374,7 +10329,7 @@
                 }
 
                 try {
-                    await sendPasswordResetEmail(auth, email);
+                    await auth.sendPasswordResetEmail(email);
                     successDiv.textContent = '비밀번호 재설정 이메일을 보냈습니다. 이메일을 확인해주세요.';
                     successDiv.classList.add('show');
                 } catch (error) {
@@ -10389,15 +10344,15 @@
             // 로그아웃
             window.logoutUser = async function () {
                 try {
-                    await signOut(auth);
-                    document.getElementById('userDropdown').classList.remove('show');
+                    await auth.signOut();
+                    document.getElementById('userDropdown').classList.remove('show'); // Keep original behavior
                 } catch (error) {
                     console.error('로그아웃 실패:', error);
                 }
             };
 
             // 인증 상태 변화 감지
-            onAuthStateChanged(auth, (user) => {
+            auth.onAuthStateChanged((user) => {
                 const profileBtn = document.getElementById('userProfileBtn');
                 const displayName = document.getElementById('userDisplayName');
                 const loginMenuItem = document.getElementById('loginMenuItem');
@@ -10549,7 +10504,7 @@
                 document.getElementById('bugContent').value = ''; // 초기화
             }
 
-            function submitBugReport() {
+            async function submitBugReport() {
                 const type = document.getElementById('bugType').value;
                 const content = document.getElementById('bugContent').value.trim();
 
@@ -10558,21 +10513,26 @@
                     return;
                 }
 
-                const report = {
-                    id: Date.now(),
-                    type: type,
-                    content: content,
-                    timestamp: new Date().toISOString(),
-                    user: window.firebaseAuth && window.firebaseAuth.currentUser ? window.firebaseAuth.currentUser.email : 'Anonymous'
-                };
+                const submitBtn = document.querySelector('#bugReportModal button[onclick="submitBugReport()"]');
+                const originalText = submitBtn.innerText;
+                submitBtn.disabled = true;
+                submitBtn.innerText = "전송 중...";
 
-                // 로컬 스토리지에 저장 (실제 DB가 없으므로)
-                const reports = JSON.parse(localStorage.getItem('bug_reports') || '[]');
-                reports.push(report);
-                localStorage.setItem('bug_reports', JSON.stringify(reports));
-
-                alert('제보가 성공적으로 전송되었습니다. 감사합니다!');
-                closeBugReportModal();
+                try {
+                    if (window.submitBugReportToFirebase) {
+                        await window.submitBugReportToFirebase(type, content);
+                        alert('제보가 성공적으로 전송되었습니다. 감사합니다!');
+                        closeBugReportModal();
+                    } else {
+                        throw new Error("Firebase function not found");
+                    }
+                } catch (e) {
+                    console.error("Bug report error:", e);
+                    alert('전송에 실패했습니다. 잠시 후 다시 시도해주세요.\n' + e.message);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalText;
+                }
             }
 
             function openHistoryModal() {
@@ -10808,6 +10768,280 @@
                 modal.style.display = 'none';
             }
 
+        </script>
+        <!-- 바로가기 컨텍스트 메뉴 -->
+        <div id="shortcutContextMenu" class="context-menu" style="display: none;">
+            <!-- 아이템 메뉴 -->
+            <div class="menu-group-item">
+                <div class="context-menu-item" onclick="handleContextMenuAction('rename')">
+                    <i class="fa-solid fa-pen"></i> 이름 변경
+                </div>
+                <div class="context-menu-item" onclick="handleContextMenuAction('edit')">
+                    <i class="fa-solid fa-link"></i> 기능 수정
+                </div>
+                <div class="context-menu-item" onclick="handleContextMenuAction('icon')">
+                    <i class="fa-solid fa-image"></i> 아이콘 변경
+                </div>
+                <div class="context-menu-divider"></div>
+                <div class="context-menu-item" onclick="handleContextMenuAction('copy')">
+                    <i class="fa-solid fa-copy"></i> 복사
+                </div>
+                <div class="context-menu-divider"></div>
+                <div class="context-menu-item delete" onclick="handleContextMenuAction('delete')">
+                    <i class="fa-solid fa-trash"></i> 삭제
+                </div>
+            </div>
+
+            <!-- 배경 메뉴 -->
+            <div class="menu-group-bg" style="display: none;">
+                <div class="context-menu-item" onclick="handleContextMenuAction('add')">
+                    <i class="fa-solid fa-plus"></i> 바로가기 추가
+                </div>
+                <div class="context-menu-item" onclick="handleContextMenuAction('create_folder')">
+                    <i class="fa-solid fa-folder-plus"></i> 새 폴더
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .context-menu {
+                position: fixed;
+                background: rgba(30, 30, 40, 0.4);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 5px 0;
+                min-width: 180px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                z-index: 10000;
+                animation: fadeIn 0.1s ease;
+            }
+
+            .context-menu-item {
+                padding: 8px 15px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: var(--text);
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+            .context-menu-item:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .context-menu-item i {
+                width: 16px;
+                text-align: center;
+                color: var(--text-secondary);
+            }
+
+            .context-menu-item.delete:hover {
+                background: rgba(255, 107, 107, 0.2);
+                color: #ff6b6b;
+            }
+
+            .context-menu-item.delete:hover i {
+                color: #ff6b6b;
+            }
+
+            .context-menu-divider {
+                height: 1px;
+                background: rgba(255, 255, 255, 0.1);
+                margin: 5px 0;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        </style>
+
+        <script>
+            let contextMenuTargetIndex = null;
+            let contextMenuTargetIsFolderItem = false;
+            let contextMenuFolderIndex = null; // 폴더 내부 아이템일 경우 폴더 인덱스
+
+            // 컨텍스트 메뉴 이벤트 리스너 (전역 클릭시 닫기)
+            document.addEventListener('click', (e) => {
+                const menu = document.getElementById('shortcutContextMenu');
+                if (menu && menu.style.display === 'block') {
+                    menu.style.display = 'none';
+                }
+            });
+
+            // 전역 우클릭 리스너 (배경 클릭 처리)
+            document.addEventListener('contextmenu', (e) => {
+                // 이미 처리된 이벤트(예: 아이템 클릭)는 무시
+                if (e.defaultPrevented) return;
+
+                // 나의 바로가기 영역 또는 폴더 모달 내부에서만 커스텀 메뉴 표시
+                if (e.target.closest('#home-shortcuts') || e.target.closest('#folderModal')) {
+                    showContextMenu(e, null);
+                }
+            });
+
+            function showContextMenu(e, index, isFolderItem = false, folderIndex = null) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Fallback: If index is null (global listener caught it), check if we clicked on a card
+                if (index === null) {
+                    const card = e.target.closest('.shortcut-card');
+                    if (card && card.dataset.index !== undefined) {
+                        index = parseInt(card.dataset.index);
+
+                        // Check if it's inside a folder modal
+                        const folderContainer = card.closest('#folderShortcutsContainer');
+                        if (folderContainer) {
+                            isFolderItem = true;
+                            if (typeof currentFolderIndex !== 'undefined') {
+                                folderIndex = currentFolderIndex;
+                            }
+                        } else {
+                            isFolderItem = false;
+                            folderIndex = null;
+                        }
+                    }
+                }
+
+                contextMenuTargetIndex = index;
+                contextMenuTargetIsFolderItem = isFolderItem;
+                contextMenuFolderIndex = folderIndex;
+
+                const menu = document.getElementById('shortcutContextMenu');
+                if (!menu) {
+                    alert('Error: Context Menu Element not found!');
+                    return;
+                }
+
+                const itemGroup = menu.querySelector('.menu-group-item');
+                const bgGroup = menu.querySelector('.menu-group-bg');
+
+                if (itemGroup && bgGroup) {
+                    if (index === null) {
+                        // 배경 클릭
+                        itemGroup.style.display = 'none';
+                        bgGroup.style.display = 'block';
+                    } else {
+                        // 아이템 클릭
+                        itemGroup.style.display = 'block';
+                        bgGroup.style.display = 'none';
+                    }
+                }
+
+                // 메뉴 위치 계산
+                let x = e.clientX;
+                let y = e.clientY;
+
+                menu.style.display = 'block';
+
+                // 렌더링 후 크기 계산을 위해 잠시 대기하지 않고 바로 계산 (display: block 직후)
+                const rect = menu.getBoundingClientRect();
+                const winWidth = window.innerWidth;
+                const winHeight = window.innerHeight;
+
+                if (x + rect.width > winWidth) x = winWidth - rect.width - 10;
+                if (y + rect.height > winHeight) y = winHeight - rect.height - 10;
+
+                menu.style.left = `${x}px`;
+                menu.style.top = `${y}px`;
+            }
+
+            function handleContextMenuAction(action) {
+                const menu = document.getElementById('shortcutContextMenu');
+                menu.style.display = 'none';
+
+                // 배경 액션
+                if (action === 'add') {
+                    openAddShortcutModal();
+                    return;
+                }
+                if (action === 'create_folder') {
+                    createFolder();
+                    return;
+                }
+
+                // 아이템 액션
+                let targetList = shortcuts;
+                let targetItem;
+
+                if (contextMenuTargetIsFolderItem && contextMenuFolderIndex !== null) {
+                    targetList = shortcuts[contextMenuFolderIndex].items;
+                }
+
+                targetItem = targetList[contextMenuTargetIndex];
+
+                if (!targetItem) return;
+
+                switch (action) {
+                    case 'rename':
+                        const newName = prompt('새 이름을 입력하세요:', targetItem.name);
+                        if (newName) {
+                            targetItem.name = newName;
+                            saveShortcuts();
+                            renderShortcuts();
+                            if (contextMenuTargetIsFolderItem) renderFolderItems();
+                        }
+                        break;
+
+                    case 'edit':
+                        if (targetItem.type === 'folder') {
+                            alert('폴더의 기능은 수정할 수 없습니다. 내용을 수정하려면 폴더를 클릭하세요.');
+                        } else {
+                            const newUrl = prompt('새 URL 또는 파일 경로를 입력하세요:', targetItem.url);
+                            if (newUrl) {
+                                targetItem.url = newUrl;
+                                saveShortcuts();
+                                renderShortcuts();
+                                if (contextMenuTargetIsFolderItem) renderFolderItems();
+                            }
+                        }
+                        break;
+
+                    case 'icon':
+                        const newIcon = prompt('새 아이콘 이미지 URL을 입력하세요 (비워두면 기본값):', targetItem.customIcon || '');
+                        if (newIcon !== null) {
+                            targetItem.customIcon = newIcon;
+                            saveShortcuts();
+                            renderShortcuts();
+                            if (contextMenuTargetIsFolderItem) renderFolderItems();
+                        }
+                        break;
+
+                    case 'copy':
+                        if (targetItem.type === 'folder') {
+                            const newFolder = JSON.parse(JSON.stringify(targetItem));
+                            newFolder.name += ' (복사본)';
+                            shortcuts.splice(contextMenuTargetIndex + 1, 0, newFolder);
+                        } else {
+                            const newItem = { ...targetItem, name: targetItem.name + ' (복사본)' };
+                            targetList.splice(contextMenuTargetIndex + 1, 0, newItem);
+                        }
+                        saveShortcuts();
+                        renderShortcuts();
+                        if (contextMenuTargetIsFolderItem) renderFolderItems();
+                        break;
+
+                    case 'delete':
+                        if (confirm(`'${targetItem.name}'을(를) 삭제하시겠습니까?`)) {
+                            targetList.splice(contextMenuTargetIndex, 1);
+                            saveShortcuts();
+                            renderShortcuts();
+                            if (contextMenuTargetIsFolderItem) renderFolderItems();
+                        }
+                        break;
+                }
+            }
         </script>
 </body>
 
